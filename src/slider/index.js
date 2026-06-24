@@ -1,5 +1,5 @@
 const SWIPE_THRESHOLD_PX = 50;
-const DEFAULT_SLIDE_SECONDS = 4;
+const DEFAULT_SLIDE_SECONDS = 5;
 const SECONDS_TO_MS = 1000;
 const DEFAULT_ANIM_DURATION = 0.7;
 const DEFAULT_ANIM_DELAY = 0;
@@ -10,6 +10,9 @@ const root = document.querySelector('#iw-slider');
 const track = document.querySelector('#iw-track');
 const prevBtn = document.querySelector('#iw-nav-prev');
 const nextBtn = document.querySelector('#iw-nav-next');
+const playBtn = document.querySelector('#iw-play');
+const counterCur = document.querySelector('#iw-counter-cur');
+const counterTotal = document.querySelector('#iw-counter-total');
 
 // --- 기간 노출 파싱 ---
 
@@ -68,15 +71,11 @@ const isOutsidePeriod = (slide, now) => {
 const filterPeriodSlides = () => {
   const now = new Date();
   const slideEls = document.querySelectorAll('.iw-slide');
-  const dotEls = document.querySelectorAll('.iw-pagination .iw-dot');
 
   for (let i = slideEls.length - 1; i >= 0; i--) {
     if (!isOutsidePeriod(slideEls[i], now)) continue;
     if (slideEls[i].parentNode) {
       slideEls[i].parentNode.removeChild(slideEls[i]);
-    }
-    if (dotEls[i] && dotEls[i].parentNode) {
-      dotEls[i].parentNode.removeChild(dotEls[i]);
     }
   }
 };
@@ -86,7 +85,6 @@ filterPeriodSlides();
 // --- 슬라이더 상태 ---
 
 const slides = Array.from(document.querySelectorAll('.iw-slide'));
-const dots = Array.from(document.querySelectorAll('.iw-pagination .iw-dot'));
 const total = slides.length;
 
 const readSlideDurationMs = () => {
@@ -99,6 +97,7 @@ const slideDur = readSlideDurationMs();
 let currentIdx = 0;
 let touchX = 0;
 let autoTimerId = null;
+let isPaused = false;
 
 // --- DOM 갱신 ---
 
@@ -118,24 +117,15 @@ const setActiveSlide = (index) => {
   }
 };
 
-const setActiveDot = (index) => {
-  for (let i = 0; i < dots.length; i++) {
-    const dot = dots[i];
-    dot.removeAttribute('data-state');
-    if (i < index) {
-      dot.setAttribute('data-state', 'completed');
-    } else if (i === index) {
-      void dot.offsetWidth;
-      dot.setAttribute('data-state', 'active');
-    }
-  }
+const setCounter = (index) => {
+  if (counterCur) counterCur.textContent = String(index + 1);
 };
 
 const renderSlide = () => {
   if (!track) return;
   setTrackPosition(currentIdx);
   setActiveSlide(currentIdx);
-  setActiveDot(currentIdx);
+  setCounter(currentIdx);
 };
 
 // --- 인덱스 전환 ---
@@ -152,11 +142,6 @@ const prevSlide = () => {
   renderSlide();
 };
 
-const goToSlide = (index) => {
-  currentIdx = index;
-  renderSlide();
-};
-
 // --- 자동 재생 ---
 
 const stopAuto = () => {
@@ -166,7 +151,7 @@ const stopAuto = () => {
 };
 
 const startAuto = () => {
-  if (total < 2) return;
+  if (total < 2 || isPaused) return;
   stopAuto();
 
   const tick = () => {
@@ -187,7 +172,23 @@ const restartAutoWith = (action) => {
 
 const handlePrev = () => restartAutoWith(prevSlide);
 const handleNext = () => restartAutoWith(nextSlide);
-const handleDotClick = (index) => () => restartAutoWith(() => goToSlide(index));
+
+const togglePlay = () => {
+  isPaused = !isPaused;
+  if (isPaused) {
+    stopAuto();
+    if (playBtn) {
+      playBtn.setAttribute('data-state', 'paused');
+      playBtn.setAttribute('aria-label', '재생');
+    }
+    return;
+  }
+  if (playBtn) {
+    playBtn.setAttribute('data-state', 'playing');
+    playBtn.setAttribute('aria-label', '일시정지');
+  }
+  startAuto();
+};
 
 const handleTouchStart = (e) => {
   if (!e.changedTouches || e.changedTouches.length === 0) return;
@@ -220,11 +221,7 @@ const handleKeydown = (e) => {
 
 if (prevBtn) prevBtn.addEventListener('click', handlePrev);
 if (nextBtn) nextBtn.addEventListener('click', handleNext);
-
-for (let i = 0; i < dots.length; i++) {
-  const dot = dots[i];
-  dot.addEventListener('click', handleDotClick(i));
-}
+if (playBtn) playBtn.addEventListener('click', togglePlay);
 
 if (track) {
   track.addEventListener('touchstart', handleTouchStart);
@@ -234,6 +231,8 @@ if (track) {
 if (root) {
   root.addEventListener('keydown', handleKeydown);
 }
+
+if (counterTotal) counterTotal.textContent = String(total);
 
 // --- 인트로 애니메이션 ---
 
