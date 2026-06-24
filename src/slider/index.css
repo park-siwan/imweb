@@ -96,6 +96,16 @@
 @media (max-width: 960px) {
   .iw-slide-bg-img[data-image="pc"] { display: none; }
   .iw-slide-bg-img[data-image="mobile"] { display: block; }
+  .iw-slide-bg::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    pointer-events: none;
+  }
 }
 
 [data-zoom="true"] .iw-slide:hover .iw-slide-bg-img { transform: scale(1.05); }
@@ -110,7 +120,7 @@
 .iw-content .iw-btn { pointer-events: auto; }
 
 @media (max-width: 960px) {
-  .iw-content { padding: var(--content-top) 24px 56px; }
+  .iw-content { padding: var(--content-top) 24px 44px; }
   [data-pc-pos^="left-"] .iw-content { padding-left: 24px; }
 }
 
@@ -169,10 +179,25 @@
 .iw-slide[data-state="active"] .iw-btn     { animation: fadeUp 0.7s 0.70s ease forwards; }
 
 @media (max-width: 960px) {
-  .iw-brand { font-size: min(var(--brand-size), 16px); }
-  .iw-title { font-size: min(var(--title-size), 18px); margin-bottom: 18px; }
-  .iw-subtext { font-size: min(var(--subtext-size), 14px); margin-bottom: 20px; }
-  .iw-btn { font-size: min(var(--btn-size), 16px); }
+  /* 본문 한 줄 차지, 그 아래 브랜드+혜택을 같은 크기로 가로 나열 */
+  .iw-content-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    column-gap: 4px;
+    row-gap: 6px;
+  }
+  .iw-brand-line { display: none; }
+  .iw-title   { order: 1; flex-basis: 100%; font-size: min(var(--title-size), 18px); margin-bottom: 0; color: #fff; }
+  .iw-brand   { order: 2; font-size: 13px; font-weight: 400; line-height: 1.4; margin-bottom: 0; color: #fff; }
+  .iw-subtext { order: 3; font-size: 13px; font-weight: 400; line-height: 1.4; margin-bottom: 0; color: #fff; }
+  .iw-btn     { order: 4; flex-basis: 100%; margin-top: 8px; font-size: min(var(--btn-size), 16px); }
+
+  /* 본문 먼저, 브랜드+혜택(한 줄)을 함께 등장 */
+  .iw-slide[data-state="active"] .iw-title   { animation-delay: 0.10s; }
+  .iw-slide[data-state="active"] .iw-brand   { animation-delay: 0.30s; }
+  .iw-slide[data-state="active"] .iw-subtext { animation-delay: 0.30s; }
 }
 
 /* --- 좌하단 컨트롤 클러스터 --- */
@@ -190,7 +215,7 @@
   width: 33px;
   height: 33px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--pagination-color) 14%, transparent);
+  background: color-mix(in srgb, var(--title-color) 14%, transparent);
   border: none;
   cursor: pointer;
   display: flex;
@@ -199,7 +224,7 @@
   transition: background 0.3s ease;
 }
 
-.iw-ctrl:hover { background: color-mix(in srgb, var(--pagination-color) 26%, transparent); }
+.iw-ctrl:hover { background: color-mix(in srgb, var(--title-color) 26%, transparent); }
 
 .iw-counter {
   font-size: 12px;
@@ -235,7 +260,7 @@
 @media (max-width: 960px) {
   .iw-controls { left: 50%; transform: translateX(-50%); bottom: 20px; gap: 0; }
   .iw-ctrl { display: none; }
-  .iw-counter { font-size: 14px; min-width: 0; }
+  .iw-counter { font-size: 14px; min-width: 0; color: #fff; }
 }
 
 .iw-slider:is([data-anim="fade"],[data-anim="slide-up"],[data-anim="slide-down"],[data-anim="slide-left"],[data-anim="slide-right"],[data-anim="zoom-in"]) { opacity: 0; }
