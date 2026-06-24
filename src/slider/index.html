@@ -1,13 +1,11 @@
 {{!-- 콘텐츠 레이아웃 --}}
-{{!-- @name select-pc-position @type select @label "PC 콘텐츠 위치" @default "left-center" @values left-top,left-center,left-bottom,center-top,center-center,center-bottom,right-top,right-center,right-bottom @valueNames "왼쪽 상단","왼쪽 중앙","왼쪽 하단","중앙 상단","정 중앙","중앙 하단","오른쪽 상단","오른쪽 중앙","오른쪽 하단" --}}
-{{!-- @name select-mobile-position @type select @label "모바일 콘텐츠 위치" @default "center-center" @values left-top,left-center,left-bottom,center-top,center-center,center-bottom,right-top,right-center,right-bottom @valueNames "왼쪽 상단","왼쪽 중앙","왼쪽 하단","중앙 상단","정 중앙","중앙 하단","오른쪽 상단","오른쪽 중앙","오른쪽 하단" --}}
+{{!-- @name select-pc-position @type select @label "PC 콘텐츠 위치" @default "left-top" @values left-top,left-center,left-bottom,center-top,center-center,center-bottom,right-top,right-center,right-bottom @valueNames "왼쪽 상단","왼쪽 중앙","왼쪽 하단","중앙 상단","정 중앙","중앙 하단","오른쪽 상단","오른쪽 중앙","오른쪽 하단" --}}
+{{!-- @name select-mobile-position @type select @label "모바일 콘텐츠 위치" @default "center-bottom" @values left-top,left-center,left-bottom,center-top,center-center,center-bottom,right-top,right-center,right-bottom @valueNames "왼쪽 상단","왼쪽 중앙","왼쪽 하단","중앙 상단","정 중앙","중앙 하단","오른쪽 상단","오른쪽 중앙","오른쪽 하단" --}}
 
-{{!-- 슬라이드 레이아웃 --}}
-{{!-- @name switch-pagination   @type switch    @default true  @label "페이지네이션 표시" --}}
-
-{{!-- 슬라이드 좌우버튼 --}}
-{{!-- @name segment-arrow-style @type segment @label "화살표 형태" @default "line" @values line,angle @valueNames →,> --}}
-{{!-- @name switch-arrows @type switch @label "좌우 버튼 표시" @default true --}}
+{{!-- 슬라이드 컨트롤 --}}
+{{!-- @name switch-pagination   @type switch    @default true  @label "번호 카운터 표시" --}}
+{{!-- @name segment-arrow-style @type segment @label "화살표 형태" @default "angle" @values line,angle @valueNames →,> --}}
+{{!-- @name switch-arrows @type switch @label "이전/다음 버튼 표시" @default true --}}
 
 {{!-- 슬라이드 애니메이션 --}}
 {{!-- @name switch-zoom @type switch @label "오버 시 이미지 확대" @default false --}}
@@ -36,10 +34,11 @@
     {{#each item-slides}}
     {{!-- @name image-bg         @type image       @label "PC 이미지" --}}
     {{!-- @name image-bg-mobile  @type image       @label "모바일 이미지" --}}
-    {{!-- @name editor-subtext   @type text-editor @default "<p>피부 위 한 겹의 균형</p>" @label "텍스트 1" --}}
-    {{!-- @name editor-title     @type text-editor @default "<p>피부결을 자연스럽게,<br>오늘을 나답게 완성해 줘요</p>" @label "텍스트 2" --}}
-    {{!-- @name text-btn         @type textfield   @default "자세히보기" @label "버튼 텍스트" @placeholder "버튼 문구 입력" --}}
-    {{!-- @name text-link        @type textfield   @default "https://" @label "링크" @placeholder "https://" --}}
+    {{!-- @name editor-brand     @type text-editor @default "<p>아누아</p>" @label "브랜드명" --}}
+    {{!-- @name editor-title     @type text-editor @default "<p>수분광채 가득<br>수지가 선택한<br>PDRN 세럼</p>" @label "본문" --}}
+    {{!-- @name editor-subtext   @type text-editor @default "<p>올리브영 한정 기획 출시</p>" @label "혜택·액션" --}}
+    {{!-- @name text-btn         @type textfield   @default "" @label "버튼 텍스트(선택)" @placeholder "버튼 문구 입력" --}}
+    {{!-- @name text-link        @type textfield   @default "" @label "링크(선택)" @placeholder "https://" --}}
     {{!-- @name switch-new-tab   @type switch      @default false @label "새창으로 이동" --}}
     {{!-- @name date-start       @type date        @default "2000.01.01" @label "노출 시작일" --}}
     {{!-- @name time-start       @type time        @label "노출 시작 시간" --}}
@@ -64,8 +63,10 @@
         {{/unless}}
         <div class="iw-content">
           <div class="iw-content-inner">
-            <div class="iw-subtext">{{editor-subtext}}</div>
+            <div class="iw-brand">{{editor-brand}}</div>
+            <span class="iw-brand-line" aria-hidden="true"></span>
             <div class="iw-title">{{editor-title}}</div>
+            <div class="iw-subtext">{{editor-subtext}}</div>
             {{#if text-btn}}
               <a href="{{text-link}}" class="iw-btn"
                 {{#if switch-new-tab}}target="_blank" rel="noopener noreferrer"{{/if}}>{{text-btn}}</a>
@@ -75,11 +76,10 @@
       </div>
     {{/each}}
   </div>
-  <button class="iw-nav" id="iw-nav-prev" data-nav="prev" aria-label="이전"><span class="iw-arrow" aria-hidden="true"></span></button>
-  <button class="iw-nav" id="iw-nav-next" data-nav="next" aria-label="다음"><span class="iw-arrow" aria-hidden="true"></span></button>
-  <div class="iw-pagination" id="iw-pagination">
-    {{#each item-slides}}
-      <span class="iw-dot"><span class="iw-dot-progress"></span></span>
-    {{/each}}
+  <div class="iw-controls" id="iw-controls">
+    <button class="iw-ctrl" id="iw-nav-prev" data-nav="prev" aria-label="이전"><span class="iw-arrow" aria-hidden="true"></span></button>
+    <span class="iw-counter" aria-hidden="true"><span id="iw-counter-cur">1</span><span class="iw-counter-sep">/</span><span id="iw-counter-total">1</span></span>
+    <button class="iw-ctrl" id="iw-nav-next" data-nav="next" aria-label="다음"><span class="iw-arrow" aria-hidden="true"></span></button>
+    <button class="iw-ctrl" id="iw-play" data-play data-state="playing" aria-label="일시정지"><span class="iw-icon-play" aria-hidden="true"></span></button>
   </div>
 </section>

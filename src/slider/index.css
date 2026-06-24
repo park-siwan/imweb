@@ -1,13 +1,15 @@
 {{!-- 텍스트 --}}
-{{!-- @name text-subtext-size @type textfield @label "텍스트 1 크기" @default "16" --}}
-{{!-- @name color-subtext @type color @label "텍스트 1 컬러" @default #3D2F2799 --}}
-{{!-- @name text-title-size @type textfield @label "텍스트 2 크기" @default "32" --}}
-{{!-- @name color-title @type color @label "텍스트 2 컬러" @default #3D2F27FF --}}
+{{!-- @name color-brand @type color @label "브랜드명 컬러" @default #1A1A1AFF --}}
+{{!-- @name text-brand-size @type textfield @label "브랜드명 크기" @default "18" --}}
+{{!-- @name text-title-size @type textfield @label "본문 크기" @default "48" --}}
+{{!-- @name color-title @type color @label "본문 컬러" @default #1A1A1AFF --}}
+{{!-- @name text-subtext-size @type textfield @label "혜택·액션 크기" @default "18" --}}
+{{!-- @name color-subtext @type color @label "혜택·액션 컬러" @default #1A1A1A99 --}}
 
 {{!-- 버튼 --}}
 {{!-- @name text-btn-size @type textfield @label "텍스트 크기" @default "16" --}}
 {{!-- @name color-btn-text @type color @label "텍스트 컬러" @default #FFFFFFFF --}}
-{{!-- @name color-btn-bg @type color @label "배경 컬러" @default #3D2F27FF --}}
+{{!-- @name color-btn-bg @type color @label "배경 컬러" @default #1A1A1AFF --}}
 {{!-- @name color-btn-border @type color @label "테두리 컬러" @default #FFFFFFFF --}}
 {{!-- @name text-btn-border-width @type textfield @label "테두리 두께" @default "0" --}}
 {{!-- @name text-btn-px @type textfield @label "내부 좌우 여백" @default "18" --}}
@@ -15,21 +17,23 @@
 {{!-- @name text-btn-radius @type textfield @label "모서리 둥글기" @default "0" --}}
 
 {{!-- 콘텐츠 레이아웃 --}}
-{{!-- @name text-subtext-mb @type textfield @label "텍스트 사이 간격" @default "8" --}}
-{{!-- @name text-title-mb @type textfield @label "텍스트·버튼 사이 간격" @default "24" --}}
+{{!-- @name text-brand-mb @type textfield @label "브랜드·본문 사이 간격" @default "20" --}}
+{{!-- @name text-title-mb @type textfield @label "본문·혜택 사이 간격" @default "4" --}}
+{{!-- @name text-subtext-mb @type textfield @label "혜택·버튼 사이 간격" @default "24" --}}
 
 {{!-- 슬라이드 레이아웃 --}}
-{{!-- @name text-pc-max-height @type textfield @label "PC 최대 높이" @default "700" --}}
+{{!-- @name text-pc-max-height @type textfield @label "PC 높이" @default "450" --}}
 {{!-- @name text-mobile-max-height @type textfield @label "모바일 최대 높이" @default "600" --}}
 {{!-- @name text-max-content @type textfield @label "콘텐츠 최대 너비" @default "1200" --}}
-{{!-- @name text-content-top @type textfield @label "내부 상하 여백" @default "24" --}}
-{{!-- @name color-pagination @type color @label "페이지네이션 컬러" @default #3D2F27FF --}}
+{{!-- @name text-menu-reserve @type textfield @label "좌측 메뉴 예약폭" @default "210" --}}
+{{!-- @name text-content-top @type textfield @label "내부 상하 여백" @default "60" --}}
+{{!-- @name color-pagination @type color @label "컨트롤(번호·화살표) 컬러" @default #FFFFFF --}}
 
 {{!-- 슬라이드 좌우버튼 --}}
-{{!-- @name color-arrow @type color @label "화살표 컬러" @default #3D2F27FF --}}
+{{!-- @name color-arrow @type color @label "화살표 컬러" @default  #FFFFFF --}}
 
 {{!-- 슬라이드 애니메이션 --}}
-{{!-- @name text-duration @type textfield @label "자동 재생 간격" @default "5" --}}
+{{!-- text-duration annotation 은 HTML 탭에 선언됨 (중복 금지). CSS 는 토큰만 사용 --}}
 {{!-- @name text-transition-speed @type textfield @label "전환 속도" @default "500" --}}
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,6 +46,11 @@
   --max-content: {{text-max-content}}px;
   --content-top: {{text-content-top}}px;
   --content-side: max(100px, (100% - var(--max-content)) / 2);
+  --menu-reserve: {{text-menu-reserve}}px;
+
+  --brand-size: {{text-brand-size}}px;
+  --brand-color: {{color-brand}};
+  --brand-mb: {{text-brand-mb}}px;
 
   --subtext-size: {{text-subtext-size}}px;
   --subtext-color: {{color-subtext}};
@@ -75,7 +84,7 @@
 .iw-slide { min-width: 100%; position: relative; aspect-ratio: 12 / 5; max-height: var(--pc-max-height); overflow: hidden; }
 
 @media (max-width: 960px) {
-  .iw-slide { aspect-ratio: 4 / 5; height: var(--mobile-max-height); }
+  .iw-slide { aspect-ratio: 4 / 5; max-height: var(--mobile-max-height); }
 }
 
 .iw-slide-bg { position: absolute; inset: 0; overflow: hidden; }
@@ -85,6 +94,7 @@
 .iw-slide-bg-img[data-image="mobile"] { display: none; }
 
 @media (max-width: 960px) {
+  .iw-slide-bg-img[data-image="pc"] { display: none; }
   .iw-slide-bg-img[data-image="mobile"] { display: block; }
 }
 
@@ -94,10 +104,14 @@
 
 .iw-content { position: absolute; inset: 0; display: flex; flex-direction: column; padding: var(--content-top) var(--content-side); z-index: 4; pointer-events: none; }
 
+/* 좌측 정렬 콘텐츠일 때만 메뉴 자리만큼 글자 칼럼을 오른쪽으로 밀어 여유공간 확보 */
+[data-pc-pos^="left-"] .iw-content { padding-left: calc(var(--content-side) + var(--menu-reserve)); }
+
 .iw-content .iw-btn { pointer-events: auto; }
 
 @media (max-width: 960px) {
-  .iw-content { padding: var(--content-top) 24px; }
+  .iw-content { padding: var(--content-top) 24px 56px; }
+  [data-pc-pos^="left-"] .iw-content { padding-left: 24px; }
 }
 
 [data-pc-pos$="-top"]    .iw-content { justify-content: flex-start; }
@@ -124,19 +138,24 @@
   [data-mobile-pos^="right-"]  .iw-content-inner { text-align: right; }
 }
 
+.iw-brand { font-size: var(--brand-size); font-weight: 500; color: var(--brand-color); line-height: 1.3; }
+
+.iw-brand-line { display: inline-block; width: 28px; height: 1px; background: var(--brand-color); margin-top: 14px; margin-bottom: var(--brand-mb); }
+
+.iw-title { font-size: var(--title-size); font-weight: 500; margin-bottom: var(--title-mb); color: var(--title-color); line-height: 1.25; }
+
 .iw-subtext { font-size: var(--subtext-size); color: var(--subtext-color); margin-bottom: var(--subtext-mb); line-height: 1.4; }
 
-.iw-title { font-size: var(--title-size); font-weight: 700; margin-bottom: var(--title-mb); color: var(--title-color); line-height: 1.25; }
-
-.iw-content :is(.iw-subtext,.iw-title) :is(p,span,b,strong) { margin: 0; padding: 0; display: inline; }
-.iw-content :is(.iw-subtext,.iw-title) p { display: block; }
+.iw-content :is(.iw-brand,.iw-subtext,.iw-title) :is(p,span,b,strong) { margin: 0; padding: 0; display: inline; color: inherit; }
+.iw-content :is(.iw-brand,.iw-subtext,.iw-title) p { display: block; }
 
 .iw-btn { display: inline-block; padding: var(--btn-py) var(--btn-px); border: var(--btn-border-width) solid var(--btn-border-color); color: var(--btn-text-color); background: var(--btn-bg); font-size: var(--btn-size); border-radius: var(--btn-radius); text-decoration: none; letter-spacing: 0.02em; cursor: pointer; transition: opacity 0.3s ease; }
 
 .iw-btn:hover { opacity: 0.8; }
 
-.iw-subtext,
+.iw-brand,
 .iw-title,
+.iw-subtext,
 .iw-btn { opacity: 0; transform: translateY(30px); will-change: opacity, transform; }
 
 @keyframes fadeUp {
@@ -144,57 +163,79 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.iw-slide[data-state="active"] .iw-subtext { animation: fadeUp 0.7s 0.15s ease forwards; }
-.iw-slide[data-state="active"] .iw-title   { animation: fadeUp 0.7s 0.35s ease forwards; }
-.iw-slide[data-state="active"] .iw-btn     { animation: fadeUp 0.7s 0.55s ease forwards; }
+.iw-slide[data-state="active"] .iw-brand   { animation: fadeUp 0.7s 0.10s ease forwards; }
+.iw-slide[data-state="active"] .iw-title   { animation: fadeUp 0.7s 0.30s ease forwards; }
+.iw-slide[data-state="active"] .iw-subtext { animation: fadeUp 0.7s 0.50s ease forwards; }
+.iw-slide[data-state="active"] .iw-btn     { animation: fadeUp 0.7s 0.70s ease forwards; }
 
 @media (max-width: 960px) {
-  .iw-subtext { font-size: 15px; margin-bottom: 12px; }
-  .iw-title { font-size: 24px; margin-bottom: 26px; }
+  .iw-brand { font-size: min(var(--brand-size), 16px); }
+  .iw-title { font-size: min(var(--title-size), 18px); margin-bottom: 18px; }
+  .iw-subtext { font-size: min(var(--subtext-size), 14px); margin-bottom: 20px; }
   .iw-btn { font-size: min(var(--btn-size), 16px); }
 }
 
-.iw-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 60px; height: 60px; background: transparent; border: none; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
-
-.iw-nav[data-nav="prev"] { left: calc(var(--content-side) - 80px); }
-.iw-nav[data-nav="next"] { right: calc(var(--content-side) - 80px); }
-
-.iw-arrow { position: relative; width: 30px; height: 2px; background: var(--arrow-color); transition: width 0.3s ease; }
-
-.iw-nav:hover .iw-arrow { width: 38px; }
-
-[data-arrow="angle"] .iw-arrow { background: transparent; width: 18px; }
-[data-arrow="angle"] .iw-nav:hover .iw-arrow { width: 22px; }
-
-.iw-arrow::before,
-.iw-arrow::after { content: ''; position: absolute; width: 12px; height: 2px; background: var(--arrow-color); }
-
-.iw-nav[data-nav="prev"] .iw-arrow::before { left: -1px; transform: rotate(-45deg); transform-origin: left center; }
-.iw-nav[data-nav="prev"] .iw-arrow::after  { left: -1px; transform: rotate(45deg);  transform-origin: left center; }
-.iw-nav[data-nav="next"] .iw-arrow::before { right: -1px; transform: rotate(45deg);  transform-origin: right center; }
-.iw-nav[data-nav="next"] .iw-arrow::after  { right: -1px; transform: rotate(-45deg); transform-origin: right center; }
-
-[data-arrows="false"]     .iw-nav        { display: none; }
-[data-pagination="false"] .iw-pagination { display: none; }
-
-@media (max-width: 960px) {
-  .iw-nav { display: none; }
-  .iw-pagination { bottom: 20px; }
+/* --- 좌하단 컨트롤 클러스터 --- */
+.iw-controls {
+  position: absolute;
+  bottom: 30px;
+  left: calc(var(--content-side) + var(--menu-reserve));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10;
 }
 
-.iw-pagination { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 10; }
+.iw-ctrl {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--pagination-color) 14%, transparent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
 
-.iw-dot { width: 5px; height: 5px; background: color-mix(in srgb, var(--pagination-color) 30%, transparent); cursor: pointer; position: relative; overflow: hidden; transition: width 0.3s ease; border-radius: 5px; }
+.iw-ctrl:hover { background: color-mix(in srgb, var(--pagination-color) 26%, transparent); }
 
-.iw-dot[data-state="active"] { width: 30px; }
+.iw-counter {
+  font-size: 12px;
+  color: var(--subtext-color);
+  min-width: 20px;
+  text-align: center;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
 
-.iw-dot-progress { position: absolute; top: 0; left: 0; height: 100%; width: 0; background: var(--pagination-color); border-radius: 5px; }
+.iw-counter-sep { margin: 0 2px; opacity: 0.5; }
 
-.iw-dot[data-state="active"] .iw-dot-progress { animation: progressFill var(--duration) linear forwards; }
+.iw-arrow { position: relative;  width: 8px; height: 2px; background: var(--arrow-color); }
 
-@keyframes progressFill {
-  from { width: 0; }
-  to   { width: 100%; }
+[data-arrow="angle"] .iw-arrow { background: transparent; width: 6px; }
+
+.iw-arrow::before,
+.iw-arrow::after { content: ''; position: absolute; width: 9px; height: 2px; background: var(--arrow-color); }
+
+.iw-ctrl[data-nav="prev"] .iw-arrow::before { left: -1px; transform: rotate(-45deg); transform-origin: left center; }
+.iw-ctrl[data-nav="prev"] .iw-arrow::after  { left: -1px; transform: rotate(45deg);  transform-origin: left center; }
+.iw-ctrl[data-nav="next"] .iw-arrow::before { right: -1px; transform: rotate(45deg);  transform-origin: right center; }
+.iw-ctrl[data-nav="next"] .iw-arrow::after  { right: -1px; transform: rotate(-45deg); transform-origin: right center; }
+
+/* 재생/일시정지 아이콘 */
+.iw-icon-play { display: inline-block; box-sizing: content-box; }
+[data-play][data-state="playing"] .iw-icon-play { width: 4px; height: 13px; border-left: 4px solid var(--arrow-color); border-right: 4px solid var(--arrow-color); }
+[data-play][data-state="paused"]  .iw-icon-play { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 12px solid var(--arrow-color); }
+
+[data-arrows="false"]     .iw-ctrl[data-nav] { display: none; }
+[data-pagination="false"] .iw-counter        { display: none; }
+
+@media (max-width: 960px) {
+  .iw-controls { left: 50%; transform: translateX(-50%); bottom: 20px; gap: 0; }
+  .iw-ctrl { display: none; }
+  .iw-counter { font-size: 14px; min-width: 0; }
 }
 
 .iw-slider:is([data-anim="fade"],[data-anim="slide-up"],[data-anim="slide-down"],[data-anim="slide-left"],[data-anim="slide-right"],[data-anim="zoom-in"]) { opacity: 0; }
@@ -206,6 +247,7 @@
   animation-fill-mode: both;
 }
 
+.iw-slider[data-animated="true"][data-anim="none"] { animation-name: none; opacity: 1; }
 .iw-slider[data-animated="true"][data-anim="fade"]        { animation-name: bannerFade; }
 .iw-slider[data-animated="true"][data-anim="slide-up"]    { animation-name: bannerSlideUp; }
 .iw-slider[data-animated="true"][data-anim="slide-down"]  { animation-name: bannerSlideDown; }
