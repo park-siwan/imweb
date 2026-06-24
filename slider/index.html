@@ -1,0 +1,85 @@
+{{!-- 콘텐츠 레이아웃 --}}
+{{!-- @name select-pc-position @type select @label "PC 콘텐츠 위치" @default "left-center" @values left-top,left-center,left-bottom,center-top,center-center,center-bottom,right-top,right-center,right-bottom @valueNames "왼쪽 상단","왼쪽 중앙","왼쪽 하단","중앙 상단","정 중앙","중앙 하단","오른쪽 상단","오른쪽 중앙","오른쪽 하단" --}}
+{{!-- @name select-mobile-position @type select @label "모바일 콘텐츠 위치" @default "center-center" @values left-top,left-center,left-bottom,center-top,center-center,center-bottom,right-top,right-center,right-bottom @valueNames "왼쪽 상단","왼쪽 중앙","왼쪽 하단","중앙 상단","정 중앙","중앙 하단","오른쪽 상단","오른쪽 중앙","오른쪽 하단" --}}
+
+{{!-- 슬라이드 레이아웃 --}}
+{{!-- @name switch-pagination   @type switch    @default true  @label "페이지네이션 표시" --}}
+
+{{!-- 슬라이드 좌우버튼 --}}
+{{!-- @name segment-arrow-style @type segment @label "화살표 형태" @default "line" @values line,angle @valueNames →,> --}}
+{{!-- @name switch-arrows @type switch @label "좌우 버튼 표시" @default true --}}
+
+{{!-- 슬라이드 애니메이션 --}}
+{{!-- @name switch-zoom @type switch @label "오버 시 이미지 확대" @default false --}}
+{{!-- @name text-duration @type textfield @label "자동 재생 간격" @default "5" --}}
+
+{{!-- 등장 애니메이션 --}}
+{{!-- @name select-anim @type select @label "스타일" @default "none" @values none,fade,slide-up,slide-down,slide-left,slide-right,zoom-in @valueNames "없음","페이드","슬라이드인-업","슬라이드인-다운","슬라이드인-왼쪽","슬라이드인-오른쪽","줌-인" --}}
+{{!-- @name text-animduration @type textfield @label "지속 시간" @default "0.7" @placeholder "0.7" --}}
+{{!-- @name text-animdelay @type textfield @label "지연 시간" @default "0" @placeholder "0" --}}
+
+<section class="iw-slider"
+  id="iw-slider"
+  tabindex="0"
+  data-arrows="{{switch-arrows}}"
+  data-pagination="{{switch-pagination}}"
+  data-zoom="{{switch-zoom}}"
+  data-pc-pos="{{select-pc-position}}"
+  data-mobile-pos="{{select-mobile-position}}"
+  data-arrow="{{segment-arrow-style}}"
+  data-anim="{{select-anim}}"
+  data-duration="{{text-duration}}"
+  data-anim-duration="{{text-animduration}}"
+  data-anim-delay="{{text-animdelay}}">
+  <div class="iw-track" id="iw-track">
+    {{!-- @name item-slides @type item @label "롤링 아이템" @length 3 --}}
+    {{#each item-slides}}
+    {{!-- @name image-bg         @type image       @label "PC 이미지" --}}
+    {{!-- @name image-bg-mobile  @type image       @label "모바일 이미지" --}}
+    {{!-- @name editor-subtext   @type text-editor @default "<p>피부 위 한 겹의 균형</p>" @label "텍스트 1" --}}
+    {{!-- @name editor-title     @type text-editor @default "<p>피부결을 자연스럽게,<br>오늘을 나답게 완성해 줘요</p>" @label "텍스트 2" --}}
+    {{!-- @name text-btn         @type textfield   @default "자세히보기" @label "버튼 텍스트" @placeholder "버튼 문구 입력" --}}
+    {{!-- @name text-link        @type textfield   @default "https://" @label "링크" @placeholder "https://" --}}
+    {{!-- @name switch-new-tab   @type switch      @default false @label "새창으로 이동" --}}
+    {{!-- @name date-start       @type date        @default "2000.01.01" @label "노출 시작일" --}}
+    {{!-- @name time-start       @type time        @label "노출 시작 시간" --}}
+    {{!-- @name date-end         @type date        @default "2099.12.31" @label "노출 종료일" --}}
+    {{!-- @name time-end         @type time        @label "노출 종료 시간" --}}
+      <div class="iw-slide"
+           data-date-start="{{date-start}}"
+           data-time-start="{{time-start}}"
+           data-date-end="{{date-end}}"
+           data-time-end="{{time-end}}">
+        <div class="iw-slide-bg">
+          <img src="{{image-bg}}" alt="" class="iw-slide-bg-img" data-image="pc" />
+          {{#if image-bg-mobile}}
+            <img src="{{image-bg-mobile}}" alt="" class="iw-slide-bg-img" data-image="mobile" />
+          {{/if}}
+        </div>
+        {{#unless text-btn}}
+          {{#if text-link}}
+            <a href="{{text-link}}" class="iw-slide-link-full"
+              {{#if switch-new-tab}}target="_blank" rel="noopener noreferrer"{{/if}}></a>
+          {{/if}}
+        {{/unless}}
+        <div class="iw-content">
+          <div class="iw-content-inner">
+            <div class="iw-subtext">{{editor-subtext}}</div>
+            <div class="iw-title">{{editor-title}}</div>
+            {{#if text-btn}}
+              <a href="{{text-link}}" class="iw-btn"
+                {{#if switch-new-tab}}target="_blank" rel="noopener noreferrer"{{/if}}>{{text-btn}}</a>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  <button class="iw-nav" id="iw-nav-prev" data-nav="prev" aria-label="이전"><span class="iw-arrow" aria-hidden="true"></span></button>
+  <button class="iw-nav" id="iw-nav-next" data-nav="next" aria-label="다음"><span class="iw-arrow" aria-hidden="true"></span></button>
+  <div class="iw-pagination" id="iw-pagination">
+    {{#each item-slides}}
+      <span class="iw-dot"><span class="iw-dot-progress"></span></span>
+    {{/each}}
+  </div>
+</section>
