@@ -1,0 +1,93 @@
+{{!-- 메뉴 --}}
+{{!-- @name text-menu-width @type textfield @label "메뉴 폭" @default "230" --}}
+{{!-- @name text-menu-font @type textfield @label "글자 크기" @default "16" --}}
+{{!-- @name text-item-py @type textfield @label "항목 상하 여백" @default "13" --}}
+{{!-- @name color-menu-bg @type color @label "메뉴 배경(반투명)" @default #33333359 --}}
+{{!-- @name color-menu-text @type color @label "메뉴 글자색" @default #FFFFFFFF --}}
+{{!-- @name color-menu-hover @type color @label "호버 배경" @default #FFFFFF26 --}}
+
+{{!-- 서브메뉴 --}}
+{{!-- @name color-sub-bg @type color @label "서브메뉴 배경" @default #FFFFFFFF --}}
+{{!-- @name color-sub-text @type color @label "서브메뉴 글자색" @default #333333FF --}}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.iw-menu {
+  --menu-width: {{text-menu-width}}px;
+  --menu-font: {{text-menu-font}}px;
+  --item-py: {{text-item-py}}px;
+  --menu-bg: {{color-menu-bg}};
+  --menu-text: {{color-menu-text}};
+  --menu-hover-bg: {{color-menu-hover}};
+  --sub-bg: {{color-sub-bg}};
+  --sub-text: {{color-sub-text}};
+
+  width: var(--menu-width);
+  min-height: 100%;
+  background: var(--menu-bg);
+  color: var(--menu-text);
+  font-size: var(--menu-font);
+  position: relative;
+  z-index: 1;
+}
+
+.iw-menu-list { list-style: none; }
+
+.iw-menu-item { position: relative; }
+
+.iw-menu-link {
+  display: block;
+  padding: var(--item-py) 22px;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.iw-menu-item:hover > .iw-menu-link,
+.iw-menu-item:focus-within > .iw-menu-link { background: var(--menu-hover-bg); }
+
+.iw-submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  min-width: 180px;
+  padding: 8px 0;
+  background: var(--sub-bg);
+  color: var(--sub-text);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  display: none;
+  z-index: 5;
+}
+
+/* 서브 링크가 있는 항목만, hover/focus 시 펼침 */
+.iw-menu-item:hover > .iw-submenu:has(.iw-sub-link),
+.iw-menu-item:focus-within > .iw-submenu:has(.iw-sub-link) { display: block; }
+
+.iw-sub-link {
+  display: block;
+  padding: 9px 20px;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  font-weight: 400;
+  transition: background 0.2s ease;
+}
+
+.iw-sub-link:hover { background: rgba(0, 0, 0, 0.05); }
+
+@media (max-width: 960px) {
+  .iw-menu { width: 100%; }
+
+  /* 모바일: 우측 플라이아웃 대신 항목 아래 인라인 토글 */
+  .iw-submenu {
+    position: static;
+    min-width: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  .iw-menu-item:hover > .iw-submenu:has(.iw-sub-link) { display: none; }
+  .iw-menu-item[data-open="true"] > .iw-submenu:has(.iw-sub-link) { display: block; }
+  .iw-sub-link { padding-left: 38px; }
+}

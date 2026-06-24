@@ -1,0 +1,32 @@
+<nav class="iw-menu" id="iw-menu" aria-label="카테고리">
+  <ul class="iw-menu-list">
+    {{!-- @name item-menu @type item @label "메뉴 항목" @length 6 --}}
+    {{#each item-menu}}
+      {{!-- @name label      @type textfield @default "카테고리" @label "메뉴명" --}}
+      {{!-- @name link       @type textfield @default "" @label "링크" @placeholder "https://" --}}
+      {{!-- @name sub1-label @type textfield @default "" @label "서브1 이름" --}}
+      {{!-- @name sub1-link  @type textfield @default "" @label "서브1 링크" @placeholder "https://" --}}
+      {{!-- @name sub2-label @type textfield @default "" @label "서브2 이름" --}}
+      {{!-- @name sub2-link  @type textfield @default "" @label "서브2 링크" @placeholder "https://" --}}
+      {{!-- @name sub3-label @type textfield @default "" @label "서브3 이름" --}}
+      {{!-- @name sub3-link  @type textfield @default "" @label "서브3 링크" @placeholder "https://" --}}
+      {{!-- @name sub4-label @type textfield @default "" @label "서브4 이름" --}}
+      {{!-- @name sub4-link  @type textfield @default "" @label "서브4 링크" @placeholder "https://" --}}
+      {{!-- @name sub5-label @type textfield @default "" @label "서브5 이름" --}}
+      {{!-- @name sub5-link  @type textfield @default "" @label "서브5 링크" @placeholder "https://" --}}
+      {{!-- @name sub6-label @type textfield @default "" @label "서브6 이름" --}}
+      {{!-- @name sub6-link  @type textfield @default "" @label "서브6 링크" @placeholder "https://" --}}
+      <li class="iw-menu-item">
+        <a href="{{link}}" class="iw-menu-link">{{label}}</a>
+        <div class="iw-submenu" role="menu">
+          {{#if sub1-label}}<a href="{{sub1-link}}" class="iw-sub-link" role="menuitem">{{sub1-label}}</a>{{/if}}
+          {{#if sub2-label}}<a href="{{sub2-link}}" class="iw-sub-link" role="menuitem">{{sub2-label}}</a>{{/if}}
+          {{#if sub3-label}}<a href="{{sub3-link}}" class="iw-sub-link" role="menuitem">{{sub3-label}}</a>{{/if}}
+          {{#if sub4-label}}<a href="{{sub4-link}}" class="iw-sub-link" role="menuitem">{{sub4-label}}</a>{{/if}}
+          {{#if sub5-label}}<a href="{{sub5-link}}" class="iw-sub-link" role="menuitem">{{sub5-label}}</a>{{/if}}
+          {{#if sub6-label}}<a href="{{sub6-link}}" class="iw-sub-link" role="menuitem">{{sub6-label}}</a>{{/if}}
+        </div>
+      </li>
+    {{/each}}
+  </ul>
+</nav>
