@@ -17,7 +17,7 @@
       {{!-- @name sub6-label @type textfield @default "" @label "서브6 이름" --}}
       {{!-- @name sub6-link  @type textfield @default "" @label "서브6 링크" @placeholder "https://" --}}
       {{!-- @name md-title        @type textfield @default "" @label "MD's Pick 제목" --}}
-      {{!-- @name md-body         @type textfield @default "" @label "MD's Pick 본문" --}}
+      {{!-- @name md-body         @type text-editor @default "" @label "MD's Pick 본문(엔터로 줄바꿈)" --}}
       {{!-- @name md-price-before @type textfield @default "" @label "MD's Pick 할인 전 가격" --}}
       {{!-- @name md-price        @type textfield @default "" @label "MD's Pick 할인 후 가격" --}}
       {{!-- @name md-image        @type image     @default "" @label "MD's Pick 이미지" --}}
@@ -37,7 +37,7 @@
           <a class="iw-mdpick" href="{{md-link}}">
             <span class="iw-mdpick-tag">MD's Pick</span>
             <span class="iw-mdpick-title">{{md-title}}</span>
-            {{#if md-body}}<span class="iw-mdpick-body">{{md-body}}</span>{{/if}}
+            {{#if md-body}}<div class="iw-mdpick-body">{{md-body}}</div>{{/if}}
             {{#if md-price-before}}<span class="iw-mdpick-before">{{md-price-before}}</span>{{/if}}
             {{#if md-price}}<span class="iw-mdpick-now">{{md-price}}</span>{{/if}}
             {{#if md-image}}<img src="{{md-image}}" alt="" class="iw-mdpick-img" />{{/if}}
