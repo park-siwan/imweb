@@ -16,15 +16,33 @@
       {{!-- @name sub5-link  @type textfield @default "" @label "서브5 링크" @placeholder "https://" --}}
       {{!-- @name sub6-label @type textfield @default "" @label "서브6 이름" --}}
       {{!-- @name sub6-link  @type textfield @default "" @label "서브6 링크" @placeholder "https://" --}}
+      {{!-- @name md-title        @type textfield @default "" @label "MD's Pick 제목" --}}
+      {{!-- @name md-body         @type textfield @default "" @label "MD's Pick 본문" --}}
+      {{!-- @name md-price-before @type textfield @default "" @label "MD's Pick 할인 전 가격" --}}
+      {{!-- @name md-price        @type textfield @default "" @label "MD's Pick 할인 후 가격" --}}
+      {{!-- @name md-image        @type image     @default "" @label "MD's Pick 이미지" --}}
+      {{!-- @name md-link         @type textfield @default "" @label "MD's Pick 링크" @placeholder "https://" --}}
       <li class="iw-menu-item">
         <a href="{{link}}" class="iw-menu-link">{{label}}</a>
         <div class="iw-submenu" role="menu">
-          {{#if sub1-label}}<a href="{{sub1-link}}" class="iw-sub-link" role="menuitem">{{sub1-label}}</a>{{/if}}
-          {{#if sub2-label}}<a href="{{sub2-link}}" class="iw-sub-link" role="menuitem">{{sub2-label}}</a>{{/if}}
-          {{#if sub3-label}}<a href="{{sub3-link}}" class="iw-sub-link" role="menuitem">{{sub3-label}}</a>{{/if}}
-          {{#if sub4-label}}<a href="{{sub4-link}}" class="iw-sub-link" role="menuitem">{{sub4-label}}</a>{{/if}}
-          {{#if sub5-label}}<a href="{{sub5-link}}" class="iw-sub-link" role="menuitem">{{sub5-label}}</a>{{/if}}
-          {{#if sub6-label}}<a href="{{sub6-link}}" class="iw-sub-link" role="menuitem">{{sub6-label}}</a>{{/if}}
+          <div class="iw-sub-list">
+            {{#if sub1-label}}<a href="{{sub1-link}}" class="iw-sub-link" role="menuitem">{{sub1-label}}</a>{{/if}}
+            {{#if sub2-label}}<a href="{{sub2-link}}" class="iw-sub-link" role="menuitem">{{sub2-label}}</a>{{/if}}
+            {{#if sub3-label}}<a href="{{sub3-link}}" class="iw-sub-link" role="menuitem">{{sub3-label}}</a>{{/if}}
+            {{#if sub4-label}}<a href="{{sub4-link}}" class="iw-sub-link" role="menuitem">{{sub4-label}}</a>{{/if}}
+            {{#if sub5-label}}<a href="{{sub5-link}}" class="iw-sub-link" role="menuitem">{{sub5-label}}</a>{{/if}}
+            {{#if sub6-label}}<a href="{{sub6-link}}" class="iw-sub-link" role="menuitem">{{sub6-label}}</a>{{/if}}
+          </div>
+          {{#if md-title}}
+          <a class="iw-mdpick" href="{{md-link}}">
+            <span class="iw-mdpick-tag">MD's Pick</span>
+            <span class="iw-mdpick-title">{{md-title}}</span>
+            {{#if md-body}}<span class="iw-mdpick-body">{{md-body}}</span>{{/if}}
+            {{#if md-price-before}}<span class="iw-mdpick-before">{{md-price-before}}</span>{{/if}}
+            {{#if md-price}}<span class="iw-mdpick-now">{{md-price}}</span>{{/if}}
+            {{#if md-image}}<img src="{{md-image}}" alt="" class="iw-mdpick-img" />{{/if}}
+          </a>
+          {{/if}}
         </div>
       </li>
     {{/each}}
