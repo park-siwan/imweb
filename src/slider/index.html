@@ -1,15 +1,15 @@
-{{!-- 콘텐츠 레이아웃 --}}
+{{!-- 콘텐츠 위치 --}}
 {{!-- @name select-pc-position @type select @label "PC 콘텐츠 위치" @default "left-top" @values left-top,left-center,left-bottom,center-top,center-center,center-bottom,right-top,right-center,right-bottom @valueNames "왼쪽 상단","왼쪽 중앙","왼쪽 하단","중앙 상단","정 중앙","중앙 하단","오른쪽 상단","오른쪽 중앙","오른쪽 하단" --}}
 {{!-- @name select-mobile-position @type select @label "모바일 콘텐츠 위치" @default "center-bottom" @values left-top,left-center,left-bottom,center-top,center-center,center-bottom,right-top,right-center,right-bottom @valueNames "왼쪽 상단","왼쪽 중앙","왼쪽 하단","중앙 상단","정 중앙","중앙 하단","오른쪽 상단","오른쪽 중앙","오른쪽 하단" --}}
 
-{{!-- 슬라이드 컨트롤 --}}
-{{!-- @name switch-pagination   @type switch    @default true  @label "번호 카운터 표시" --}}
-{{!-- @name segment-arrow-style @type segment @label "화살표 형태" @default "angle" @values line,angle @valueNames →,> --}}
-{{!-- @name switch-arrows @type switch @label "이전/다음 버튼 표시" @default true --}}
+{{!-- 컨트롤 --}}
+{{!-- @name switch-pagination   @type switch  @default true  @label "번호 카운터 표시" --}}
+{{!-- @name switch-arrows       @type switch  @default true  @label "이전/다음 버튼 표시" --}}
+{{!-- @name segment-arrow-style @type segment @default "angle" @label "화살표 형태" @values line,angle @valueNames →,> --}}
 
-{{!-- 슬라이드 애니메이션 --}}
-{{!-- @name switch-zoom @type switch @label "오버 시 이미지 확대" @default false --}}
-{{!-- @name text-duration @type textfield @label "자동 재생 간격" @default "5" --}}
+{{!-- 자동재생 --}}
+{{!-- @name text-duration @type textfield @label "자동 재생 간격(초)" @default "5" --}}
+{{!-- @name switch-zoom   @type switch    @label "오버 시 이미지 확대" @default false --}}
 
 {{!-- 등장 애니메이션 --}}
 {{!-- @name select-anim @type select @label "스타일" @default "none" @values none,fade,slide-up,slide-down,slide-left,slide-right,zoom-in @valueNames "없음","페이드","슬라이드인-업","슬라이드인-다운","슬라이드인-왼쪽","슬라이드인-오른쪽","줌-인" --}}
@@ -32,14 +32,18 @@
   <div class="iw-track" id="iw-track">
     {{!-- @name item-slides @type item @label "롤링 아이템" @length 3 --}}
     {{#each item-slides}}
-    {{!-- @name image-bg         @type image       @label "PC 이미지" --}}
-    {{!-- @name image-bg-mobile  @type image       @label "모바일 이미지" --}}
+    {{!-- 이미지 --}}
+    {{!-- @name image-bg         @type image       @label "PC 이미지 1920x450 우측 주요" --}}
+    {{!-- @name image-bg-mobile  @type image       @label "모바일 이미지 860x915 상단 주요" --}}
+    {{!-- 텍스트 --}}
     {{!-- @name editor-brand     @type text-editor @default "<p>아누아</p>" @label "브랜드명" --}}
     {{!-- @name editor-title     @type text-editor @default "<p>수분광채 가득<br>수지가 선택한<br>PDRN 세럼</p>" @label "본문" --}}
     {{!-- @name editor-subtext   @type text-editor @default "<p>올리브영 한정 기획 출시</p>" @label "혜택·액션" --}}
+    {{!-- 버튼·링크 (선택) --}}
     {{!-- @name text-btn         @type textfield   @default "" @label "버튼 텍스트(선택)" @placeholder "버튼 문구 입력" --}}
     {{!-- @name text-link        @type textfield   @default "" @label "링크(선택)" @placeholder "https://" --}}
     {{!-- @name switch-new-tab   @type switch      @default false @label "새창으로 이동" --}}
+    {{!-- 노출 기간 (선택) --}}
     {{!-- @name date-start       @type date        @default "2000.01.01" @label "노출 시작일" --}}
     {{!-- @name time-start       @type time        @label "노출 시작 시간" --}}
     {{!-- @name date-end         @type date        @default "2099.12.31" @label "노출 종료일" --}}

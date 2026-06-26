@@ -1,12 +1,26 @@
-{{!-- 텍스트 --}}
+{{!-- 슬라이드 크기·배치 --}}
+{{!-- @name text-pc-max-height @type textfield @label "PC 높이" @default "450" --}}
+{{!-- @name text-mobile-max-height @type textfield @label "모바일 최대 높이" @default "600" --}}
+{{!-- @name text-max-content @type textfield @label "콘텐츠 최대 너비" @default "1200" --}}
+{{!-- @name text-menu-reserve @type textfield @label "좌측 메뉴 예약폭" @default "210" --}}
+{{!-- @name text-content-top @type textfield @label "내부 상하 여백" @default "60" --}}
+
+{{!-- 텍스트 · 브랜드명 --}}
 {{!-- @name color-brand @type color @label "브랜드명 컬러" @default #1A1A1AFF --}}
 {{!-- @name text-brand-size @type textfield @label "브랜드명 크기" @default "18" --}}
+{{!-- @name text-brand-mb @type textfield @label "브랜드·본문 사이 간격" @default "20" --}}
+
+{{!-- 텍스트 · 본문 --}}
 {{!-- @name text-title-size @type textfield @label "본문 크기" @default "48" --}}
 {{!-- @name color-title @type color @label "본문 컬러" @default #1A1A1AFF --}}
+{{!-- @name text-title-mb @type textfield @label "본문·혜택 사이 간격" @default "4" --}}
+
+{{!-- 텍스트 · 혜택·액션 --}}
 {{!-- @name text-subtext-size @type textfield @label "혜택·액션 크기" @default "18" --}}
 {{!-- @name color-subtext @type color @label "혜택·액션 컬러" @default #1A1A1A99 --}}
+{{!-- @name text-subtext-mb @type textfield @label "혜택·버튼 사이 간격" @default "24" --}}
 
-{{!-- 버튼 --}}
+{{!-- 버튼 (선택) --}}
 {{!-- @name text-btn-size @type textfield @label "텍스트 크기" @default "16" --}}
 {{!-- @name color-btn-text @type color @label "텍스트 컬러" @default #FFFFFFFF --}}
 {{!-- @name color-btn-bg @type color @label "배경 컬러" @default #1A1A1AFF --}}
@@ -16,24 +30,11 @@
 {{!-- @name text-btn-py @type textfield @label "내부 상하 여백" @default "12" --}}
 {{!-- @name text-btn-radius @type textfield @label "모서리 둥글기" @default "0" --}}
 
-{{!-- 콘텐츠 레이아웃 --}}
-{{!-- @name text-brand-mb @type textfield @label "브랜드·본문 사이 간격" @default "20" --}}
-{{!-- @name text-title-mb @type textfield @label "본문·혜택 사이 간격" @default "4" --}}
-{{!-- @name text-subtext-mb @type textfield @label "혜택·버튼 사이 간격" @default "24" --}}
+{{!-- 컨트롤 컬러 --}}
+{{!-- @name color-pagination @type color @label "번호 카운터 컬러" @default #FFFFFFFF --}}
+{{!-- @name color-arrow @type color @label "화살표 컬러" @default #FFFFFFFF --}}
 
-{{!-- 슬라이드 레이아웃 --}}
-{{!-- @name text-pc-max-height @type textfield @label "PC 높이" @default "450" --}}
-{{!-- @name text-mobile-max-height @type textfield @label "모바일 최대 높이" @default "600" --}}
-{{!-- @name text-max-content @type textfield @label "콘텐츠 최대 너비" @default "1200" --}}
-{{!-- @name text-menu-reserve @type textfield @label "좌측 메뉴 예약폭" @default "210" --}}
-{{!-- @name text-content-top @type textfield @label "내부 상하 여백" @default "60" --}}
-{{!-- @name color-pagination @type color @label "컨트롤(번호·화살표) 컬러" @default #FFFFFF --}}
-
-{{!-- 슬라이드 좌우버튼 --}}
-{{!-- @name color-arrow @type color @label "화살표 컬러" @default  #FFFFFF --}}
-
-{{!-- 슬라이드 애니메이션 --}}
-{{!-- text-duration annotation 은 HTML 탭에 선언됨 (중복 금지). CSS 는 토큰만 사용 --}}
+{{!-- 애니메이션 (text-duration 은 HTML 탭) --}}
 {{!-- @name text-transition-speed @type textfield @label "전환 속도" @default "500" --}}
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
