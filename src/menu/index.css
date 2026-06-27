@@ -27,6 +27,9 @@
   z-index: 50;
   margin-top: calc(var(--overlay-top) * -1);
   margin-left: var(--overlay-left);
+  /* host 박스(풀폭)가 슬라이더 클릭을 막지 않게: 빈 영역은 통과,
+     메뉴 링크·플라이아웃만 클릭 받음(아래 pointer-events: auto) */
+  pointer-events: none;
 }
 
 .iw-menu {
@@ -62,6 +65,7 @@
   text-decoration: none;
   font-weight: 600;
   white-space: nowrap;
+  pointer-events: auto;
   transition: background 0.2s ease;
 }
 
@@ -80,6 +84,7 @@
   display: none;
   overflow: hidden;
   z-index: 5;
+  pointer-events: auto;
 }
 
 /* 중분류 또는 MD's Pick 이 있는 항목만 hover/focus 시 펼침 */
