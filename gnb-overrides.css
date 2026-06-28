@@ -1,0 +1,59 @@
+<style>
+/* ============================================================
+   GNB(상단 내비 + 카테고리 메가메뉴) 디자인 오버라이드
+   ------------------------------------------------------------
+   - imweb 네이티브 메뉴 DOM 위에 덮는 전역 CSS (커스텀 위젯 아님).
+   - 넣는 곳: imweb 헤더 전역 CSS(SEO·헤더 설정) 또는 코드 위젯.
+   - 위젯 id(w20260611…, dropdown_w20260611…, w20241114…)는 이 사이트 전용.
+     메뉴 위젯을 새로 만들면 id가 바뀌니 그땐 교체할 것.
+   - 외부 CSS가 <head>에 먼저 로드되므로 override엔 !important 필요.
+   ============================================================ */
+
+/* === 1) 카테고리 버튼 ======================================= */
+/* "카테고리" 글자 표시(HTML엔 이미 있고 .text가 숨겨져 있음) + 박스 선처리 */
+#w20260611e3f85984487bc .icon_type_menu a {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  border-left: 1px solid #ddd !important;
+  border-right: 1px solid #ddd !important;
+  width: 170px;
+  height: 47px;
+  padding: 12px 20px !important;
+}
+#w20260611e3f85984487bc .icon_type_menu a .text {
+  display: inline-block !important;
+  font-size: 16px;
+  font-weight: 700;
+  color: #212121;
+}
+
+/* === 2) 카테고리 메가메뉴 (다크 #2a2a2a → 화이트) === */
+#dropdown_w20260611e3f85984487bc .mega_dropdown_wrap {
+  background: #fff !important;
+  /* border-bottom: 2px solid #222;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); */
+}
+/* 대분류 */
+#dropdown_w20260611e3f85984487bc .mega_dropdown .title_menu > a,
+#dropdown_w20260611e3f85984487bc .mega_dropdown .title_menu > a .plain_name {
+  color: #222 !important;
+  font-size: 15px;
+  font-weight: 700;
+}
+/* 중분류 */
+#dropdown_w20260611e3f85984487bc .mega_dropdown .sub_menu > li > a {
+  color: #666 !important;
+  font-size: 13px;
+}
+#dropdown_w20260611e3f85984487bc .mega_dropdown .sub_menu > li > a:hover {
+  color: #fa622f !important;
+}
+
+/* === 3) 상단 내비 (선택, 필요 시) ============================ */
+/* 활성 항목 하단 바 색 등은 이미 네이티브에 있음. 색만 조정 예시: */
+/*
+#w20241114a3c11e39c2598 .viewport-nav > li.dropdown > a:hover { color: #fa622f !important; }
+*/
+
+</style>

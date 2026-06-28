@@ -121,11 +121,30 @@ const setCounter = (index) => {
   if (counterCur) counterCur.textContent = String(index + 1);
 };
 
+// imweb 자동 lazy-load 우회: 화면 밖 슬라이드 이미지가 안 불러와지는 문제 →
+// 진짜 주소(data-* 보관)를 src 에 강제 주입 + eager 로딩.
+const LAZY_ATTRS = ['data-original', 'data-src', 'data-lazy', 'data-lazy-src', 'data-echo'];
+const forceLoadImages = () => {
+  const imgs = document.querySelectorAll('.iw-slide-bg-img');
+  for (let i = 0; i < imgs.length; i++) {
+    const img = imgs[i];
+    for (let j = 0; j < LAZY_ATTRS.length; j++) {
+      const real = img.getAttribute(LAZY_ATTRS[j]);
+      if (real && img.getAttribute('src') !== real) {
+        img.setAttribute('src', real);
+        break;
+      }
+    }
+    img.setAttribute('loading', 'eager');
+  }
+};
+
 const renderSlide = () => {
   if (!track) return;
   setTrackPosition(currentIdx);
   setActiveSlide(currentIdx);
   setCounter(currentIdx);
+  forceLoadImages();
 };
 
 // --- 인덱스 전환 ---
