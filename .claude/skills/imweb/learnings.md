@@ -34,3 +34,15 @@
   ```
 
 ## 반응형 · 컨테이너 기준
+
+## 프로젝트 구조 · 린트
+
+### `src/` 안이라도 "커스텀 위젯이 아닌 파일"이 있다 → widget-lint 제외
+- **증상**: 상품 상세설명용 HTML(`src/detail/*`)을 저장하면 lint가 `인라인 style= 금지`로 막음.
+- **원인**: `widget-lint.sh`는 `src/**/*.{html,css,js}`를 전부 **샌드박스 커스텀 위젯**으로 보고 검사. 하지만 같은 `src/` 아래에도 성격이 다른 파일이 섞임:
+  - **커스텀 위젯**(`slider/`, `menu/`): 샌드박스 규칙 적용 → 인라인 style·`!important` 금지 ✅ 검사.
+  - **상세 에디터 HTML**(`detail/`): 아임웹 상품 상세설명 에디터에 붙여넣는 HTML → **인라인 style 정상**.
+  - **DOM 참고본**(`recommend/index.html`, `gnb/index.html`): 아임웹이 뱉은 마크업을 CSS 타겟 잡으려고 보관 → 인라인 style·임의 태그 정상.
+  - **헤더 전역 override CSS**(`recommend/overrides.css`): 코드 위젯/헤더 CSS에 넣는 일반 CSS → **`!important` 허용**(샌드박스 아님).
+- **해결**: hook에 폴더 제외 case 추가(`detail/`·`recommend/`·`gnb/`). 새 폴더는 **기본 검사**(false positive ＞ false negative — 린터는 기본 검사가 안전). 위젯 아닌 게 확인된 폴더만 추가 제외.
+- **부수 효과**: 예전엔 `!important` 쓰려고 override CSS를 `src/` **밖**에 두는 우회를 했는데, 이제 `recommend/`가 제외되어 **`src/` 안에 둬도 됨**.

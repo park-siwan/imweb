@@ -14,6 +14,17 @@ case "$f" in
   *) exit 0 ;;
 esac
 
+# 커스텀 위젯이 아닌 폴더는 샌드박스 규칙 대상 아님 → 제외.
+#  - detail/    : 상품 상세설명 에디터용 HTML (인라인 style 정상)
+#  - recommend/ : 아임웹 DOM 참고본 + 헤더 전역 override CSS (!important·인라인 정상)
+#  - gnb/       : 아임웹 네이티브 GNB DOM 참고본
+# 새 위젯 폴더는 기본 검사(안전한 기본값). 위가 아닌 참고/override만 추가 제외.
+case "$f" in
+  */src/detail/*|src/detail/*|\
+  */src/recommend/*|src/recommend/*|\
+  */src/gnb/*|src/gnb/*) exit 0 ;;
+esac
+
 ext="${f##*.}"
 violations=""
 
