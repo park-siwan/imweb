@@ -72,6 +72,9 @@
 .iw-menu-item:hover > .iw-menu-link,
 .iw-menu-item:focus-within > .iw-menu-link { background: var(--menu-hover-bg); }
 
+/* 카테고리 타일 이미지: 데스크탑은 숨김(텍스트만), 모바일에서만 표시 */
+.iw-cat-img { display: none; }
+
 /* 플라이아웃: 메뉴 우측, 메뉴와 동일한 높이(450), 흰 배경. 항상 같은 위치(안정적) */
 .iw-submenu {
   position: absolute;
@@ -127,19 +130,46 @@
 .iw-mdpick-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; display: block; margin-top: auto; }
 
 @media (max-width: 960px) {
-  .iw-menu { width: 100%; }
-
-  /* 모바일: 우측 플라이아웃 대신 항목 아래 인라인 토글, MD카드 숨김 */
-  .iw-submenu {
-    position: static;
-    height: auto;
-    overflow: visible;
-    box-shadow: none;
-    flex-direction: column;
+  /* 모바일: 오버레이 해제(슬라이더 아래 일반 흐름) + 올리브영식 이미지 타일 그리드 */
+  :host {
+    margin-top: 0;
+    margin-left: 0;
   }
-  .iw-menu-item:hover > .iw-submenu:has(.iw-sub-link) { display: none; }
-  .iw-menu-item[data-open="true"] > .iw-submenu:has(.iw-sub-link) { display: flex; }
-  .iw-sub-list { min-width: 0; padding: 0; }
-  .iw-sub-link { padding-left: 38px; }
-  .iw-mdpick { display: none; }
+  .iw-menu {
+    width: 100%;
+    min-height: auto;
+    background: transparent;
+    color: #333333;
+  }
+  .iw-menu-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px 8px;
+    padding: 16px;
+  }
+  .iw-menu-link {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: auto;
+    padding: 0;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #333333;
+    white-space: normal;
+    text-align: center;
+  }
+  .iw-menu-item:hover > .iw-menu-link,
+  .iw-menu-item:focus-within > .iw-menu-link { background: transparent; }
+  .iw-cat-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #f4f4f4;
+  }
+  /* 모바일 그리드에선 플라이아웃/서브/MD 숨김 */
+  .iw-submenu { display: none; }
 }

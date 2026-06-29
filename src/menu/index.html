@@ -14,8 +14,7 @@
       {{!-- @name sub4-link  @type textfield @default "" @label "서브4 링크" @placeholder "https://" --}}
       {{!-- @name sub5-label @type textfield @default "" @label "서브5 이름" --}}
       {{!-- @name sub5-link  @type textfield @default "" @label "서브5 링크" @placeholder "https://" --}}
-      {{!-- @name sub6-label @type textfield @default "" @label "서브6 이름" --}}
-      {{!-- @name sub6-link  @type textfield @default "" @label "서브6 링크" @placeholder "https://" --}}
+      {{!-- @name cat-image       @type image     @default "" @label "모바일 타일 이미지" --}}
       {{!-- @name md-title        @type textfield @default "" @label "MD's Pick 제목" --}}
       {{!-- @name md-body         @type text-editor @default "" @label "MD's Pick 본문(엔터로 줄바꿈)" --}}
       {{!-- @name md-price-before @type textfield @default "" @label "MD's Pick 할인 전 가격" --}}
@@ -23,7 +22,10 @@
       {{!-- @name md-image        @type image     @default "" @label "MD's Pick 이미지" --}}
       {{!-- @name md-link         @type textfield @default "" @label "MD's Pick 링크" @placeholder "https://" --}}
       <li class="iw-menu-item">
-        <a href="{{link}}" class="iw-menu-link">{{label}}</a>
+        <a href="{{link}}" class="iw-menu-link">
+          {{#if cat-image}}<img src="{{cat-image}}" alt="" class="iw-cat-img" />{{/if}}
+          <span class="iw-cat-label">{{label}}</span>
+        </a>
         <div class="iw-submenu" role="menu">
           <div class="iw-sub-list">
             {{#if sub1-label}}<a href="{{sub1-link}}" class="iw-sub-link" role="menuitem">{{sub1-label}}</a>{{/if}}
@@ -31,7 +33,6 @@
             {{#if sub3-label}}<a href="{{sub3-link}}" class="iw-sub-link" role="menuitem">{{sub3-label}}</a>{{/if}}
             {{#if sub4-label}}<a href="{{sub4-link}}" class="iw-sub-link" role="menuitem">{{sub4-label}}</a>{{/if}}
             {{#if sub5-label}}<a href="{{sub5-link}}" class="iw-sub-link" role="menuitem">{{sub5-label}}</a>{{/if}}
-            {{#if sub6-label}}<a href="{{sub6-link}}" class="iw-sub-link" role="menuitem">{{sub6-label}}</a>{{/if}}
           </div>
           {{#if md-title}}
           <a class="iw-mdpick" href="{{md-link}}">
