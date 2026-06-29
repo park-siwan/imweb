@@ -8,21 +8,12 @@ f="$(jq -r '.tool_input.file_path // .tool_response.filePath // empty' 2>/dev/nu
 [ -z "$f" ] && exit 0
 [ -f "$f" ] || exit 0
 
-# src/ 경로 + 위젯 확장자만 검사
+# src/ 아래 위젯 확장자만 검사.
+# src/ = 커스텀 위젯 전용(샌드박스). 위젯 아닌 것(코드위젯/주입 HTML·CSS, DOM 캡처본)은
+# src/ 밖 inject/ · ref/ 에 두므로 자동으로 검사 대상에서 빠진다.
 case "$f" in
   */src/*.html|*/src/*.css|*/src/*.js|src/*.html|src/*.css|src/*.js) ;;
   *) exit 0 ;;
-esac
-
-# 커스텀 위젯이 아닌 폴더는 샌드박스 규칙 대상 아님 → 제외.
-#  - detail/    : 상품 상세설명 에디터용 HTML (인라인 style 정상)
-#  - recommend/ : 아임웹 DOM 참고본 + 헤더 전역 override CSS (!important·인라인 정상)
-#  - gnb/       : 아임웹 네이티브 GNB DOM 참고본
-# 새 위젯 폴더는 기본 검사(안전한 기본값). 위가 아닌 참고/override만 추가 제외.
-case "$f" in
-  */src/detail/*|src/detail/*|\
-  */src/recommend/*|src/recommend/*|\
-  */src/gnb/*|src/gnb/*) exit 0 ;;
 esac
 
 ext="${f##*.}"
