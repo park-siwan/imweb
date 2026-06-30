@@ -5,6 +5,7 @@
       {{!-- @name label      @type textfield @default "카테고리" @label "메뉴명" --}}
       {{!-- @name link       @type textfield @default "" @label "링크" @placeholder "https://" --}}
       {{!-- @name cat-image       @type image     @default "" @label "모바일 타일 이미지" --}}
+      {{!-- @name switch-hide-pc  @type switch    @default "false" @label "PC 화면에서 숨기기" --}}
       {{!-- @name sub1-label @type textfield @default "" @label "서브1 이름" --}}
       {{!-- @name sub1-link  @type textfield @default "" @label "서브1 링크" @placeholder "https://" --}}
       {{!-- @name sub2-label @type textfield @default "" @label "서브2 이름" --}}
@@ -22,7 +23,8 @@
       {{!-- @name md-price        @type textfield @default "" @label "MD's Pick 할인 후 가격" --}}
       {{!-- @name md-image        @type image     @default "" @label "MD's Pick 이미지" --}}
       {{!-- @name md-link         @type textfield @default "" @label "MD's Pick 링크" @placeholder "https://" --}}
-      <li class="iw-menu-item">
+      {{#if label}}
+      <li class="iw-menu-item" data-hide-pc="{{switch-hide-pc}}">
         <a href="{{link}}" class="iw-menu-link">
           {{#if cat-image}}<img src="{{cat-image}}" alt="" class="iw-cat-img" />{{/if}}
           <span class="iw-cat-label">{{label}}</span>
@@ -47,6 +49,7 @@
           {{/if}}
         </div>
       </li>
+      {{/if}}
     {{/each}}
   </ul>
 </nav>

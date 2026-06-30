@@ -192,3 +192,9 @@
   /* 모바일 그리드에선 플라이아웃/서브/MD 숨김 */
   .iw-submenu { display: none; }
 }
+
+/* PC(데스크탑, >960px)에서만 개별 항목 숨김. 모바일 그리드에는 그대로 노출.
+   → 항목별 패널 토글 "PC 화면에서 숨기기"(switch-hide-pc) 가 data-hide-pc="true" 로 렌더. */
+@media (min-width: 961px) {
+  .iw-menu-item[data-hide-pc="true"] { display: none; }
+}
