@@ -142,22 +142,30 @@
     background: transparent;
     color: #333333;
   }
-  /* 2행 가로 스크롤(터치 드래그). 한 번에 약 5.5개 노출 → 다음 항목이 살짝 보여 스크롤 암시.
-     노출 개수 조절: 아래 5.5 를 키우면 더 작게 더 많이, 줄이면 더 크게 더 적게. */
+  /* 2행 가로 스크롤(드래그). 폭과 무관하게 항상 일정 개수 노출하려면 고정 px 금지·순수 %.
+     17.6% → 100/17.6 ≈ 5.67개 노출(5개 + 다음 1개의 2/3 peek).
+     개수 조절: 17.6 을 키우면 더 작게·더 많이, 줄이면 더 크게·더 적게. (예: 20%=정확히 5개) */
   .iw-menu-list {
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: repeat(2, auto);
-    grid-auto-columns: calc((100% - 40px) / 5.5);
-    gap: 16px 8px;
-    padding: 16px;
+    grid-auto-columns: 17.6%;
+    column-gap: 0;
+    row-gap: 16px;
+    padding: 16px 0;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x proximity;
     scrollbar-width: none;
   }
   .iw-menu-list::-webkit-scrollbar { display: none; }
-  .iw-menu-item { scroll-snap-align: start; }
+  /* 타일 사이 간격은 항목 내부 패딩으로(개수 계산에 영향 없게) */
+  .iw-menu-item {
+    box-sizing: border-box;
+    padding: 0 5px;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
   .iw-menu-link {
     flex-direction: column;
     align-items: center;

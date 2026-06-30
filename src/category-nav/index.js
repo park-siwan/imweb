@@ -34,3 +34,48 @@ const setupTouchToggle = () => {
 };
 
 setupTouchToggle();
+
+// 모바일 타일: 마우스 드래그로 가로 스크롤(터치는 native라 JS 불필요). 데스크탑 미리보기/narrow 대응.
+const DRAG_THRESHOLD_PX = 4;
+const setupDragScroll = () => {
+  if (!menu) return;
+  const list = menu.querySelector('.iw-menu-list');
+  if (!list) return;
+
+  let isDown = false;
+  let moved = false;
+  let startX = 0;
+  let startScroll = 0;
+
+  const onDown = (e) => {
+    isDown = true;
+    moved = false;
+    startX = e.pageX;
+    startScroll = list.scrollLeft;
+  };
+  const onMove = (e) => {
+    if (!isDown) return;
+    const dx = e.pageX - startX;
+    if (Math.abs(dx) > DRAG_THRESHOLD_PX) moved = true;
+    if (moved) {
+      e.preventDefault();
+      list.scrollLeft = startScroll - dx;
+    }
+  };
+  const onUp = () => { isDown = false; };
+  // 드래그 후 발생하는 클릭은 링크 이동을 막는다(스크롤 의도였으므로).
+  const onClick = (e) => {
+    if (!moved) return;
+    e.preventDefault();
+    e.stopPropagation();
+    moved = false;
+  };
+
+  list.addEventListener('mousedown', onDown);
+  list.addEventListener('mousemove', onMove);
+  list.addEventListener('mouseup', onUp);
+  list.addEventListener('mouseleave', onUp);
+  list.addEventListener('click', onClick);
+};
+
+setupDragScroll();
