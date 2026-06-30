@@ -134,6 +134,7 @@
   :host {
     margin-top: 0;
     margin-left: 0;
+    pointer-events: auto;
   }
   .iw-menu {
     width: 100%;
@@ -141,12 +142,22 @@
     background: transparent;
     color: #333333;
   }
+  /* 2행 가로 스크롤(터치 드래그). 한 번에 약 5.5개 노출 → 다음 항목이 살짝 보여 스크롤 암시.
+     노출 개수 조절: 아래 5.5 를 키우면 더 작게 더 많이, 줄이면 더 크게 더 적게. */
   .iw-menu-list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px 8px;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, auto);
+    grid-auto-columns: calc((100% - 40px) / 5.5);
+    gap: 16px 8px;
     padding: 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
   }
+  .iw-menu-list::-webkit-scrollbar { display: none; }
+  .iw-menu-item { scroll-snap-align: start; }
   .iw-menu-link {
     flex-direction: column;
     align-items: center;
