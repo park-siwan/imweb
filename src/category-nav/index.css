@@ -194,7 +194,12 @@
 }
 
 /* PC(데스크탑, >960px)에서만 개별 항목 숨김. 모바일 그리드에는 그대로 노출.
-   → 항목별 패널 토글 "PC 화면에서 숨기기"(switch-hide-pc) 가 data-hide-pc="true" 로 렌더. */
+   → 항목별 패널 토글 "PC 화면에서 숨기기"(switch-hide-pc) 가 data-hide-pc 로 렌더.
+   스위치 출력값이 환경따라 다를 수 있어 truthy 값 다수 매칭(true/Y/1/on). */
 @media (min-width: 961px) {
-  .iw-menu-item[data-hide-pc="true"] { display: none; }
+  .iw-menu-item[data-hide-pc="true"],
+  .iw-menu-item[data-hide-pc="Y"],
+  .iw-menu-item[data-hide-pc="1"],
+  .iw-menu-item[data-hide-pc="on"],
+  .iw-menu-item[data-hide-pc="checked"] { display: none; }
 }
