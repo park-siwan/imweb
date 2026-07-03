@@ -139,6 +139,11 @@ const ORDER_MAX_WIDTH = 960;
 const setupMobileOrder = () => {
   if (!menu) return;
   const items = menu.querySelectorAll('.iw-menu-item');
+  // 2행 유지 + 행 우선(가로) 순서: 열 개수 = ceil(항목수/2). (17.6% 는 CSS 열 폭과 동일)
+  const list = menu.querySelector('.iw-menu-list');
+  if (list && items.length) {
+    list.style.gridTemplateColumns = 'repeat(' + Math.max(1, Math.ceil(items.length / 2)) + ', 17.6%)';
+  }
   const apply = () => {
     const isMobile = window.innerWidth <= ORDER_MAX_WIDTH;
     for (let i = 0; i < items.length; i++) {

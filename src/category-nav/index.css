@@ -142,14 +142,13 @@
     background: transparent;
     color: #333333;
   }
-  /* 2행 가로 스크롤(드래그). 폭과 무관하게 항상 일정 개수 노출하려면 고정 px 금지·순수 %.
-     17.6% → 100/17.6 ≈ 5.67개 노출(5개 + 다음 1개의 2/3 peek).
-     개수 조절: 17.6 을 키우면 더 작게·더 많이, 줄이면 더 크게·더 적게. (예: 20%=정확히 5개) */
+  /* 2행 가로 스크롤(드래그). 행 우선(가로 먼저): 윗줄 좌→우 1,2,3… 채운 뒤 아랫줄.
+     열 개수(grid-template-columns)는 JS가 ceil(항목수/2)로 설정 → 2행 유지.
+     각 열 17.6% → 한 번에 약 5.67개 노출(peek). 개수 조절: 17.6 값 변경. (예: 20%=정확히 5개) */
   .iw-menu-list {
     display: grid;
-    grid-auto-flow: column;
-    grid-template-rows: repeat(2, auto);
-    grid-auto-columns: 17.6%;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(10, 17.6%); /* 초기 폴백. JS가 항목수에 맞춰 덮어씀 */
     column-gap: 0;
     row-gap: 16px;
     padding: 16px 0;
