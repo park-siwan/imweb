@@ -298,7 +298,25 @@ const startEntryAnimation = () => {
   setTimeout(showEntryAnimation, FALLBACK_OBSERVER_DELAY_MS);
 };
 
+// 링크 정규화: 기본 입력은 "단어만"(예: event) → "/event" 자동 보정.
+// http(s)·//·/·#·mailto·tel 로 시작하면 그대로 둔다(외부/절대경로).
+const normalizeHref = (raw) => {
+  const v = (raw || '').trim();
+  if (!v) return v;
+  if (/^(https?:|\/\/|\/|#|mailto:|tel:)/i.test(v)) return v;
+  return '/' + v;
+};
+
+const normalizeSlideLinks = () => {
+  const links = document.querySelectorAll('.iw-slide-link-full, .iw-btn');
+  for (let i = 0; i < links.length; i++) {
+    const href = links[i].getAttribute('href');
+    if (href) links[i].setAttribute('href', normalizeHref(href));
+  }
+};
+
 renderSlide();
 startAuto();
 applyAnimTiming();
 startEntryAnimation();
+normalizeSlideLinks();
