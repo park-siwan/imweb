@@ -33,8 +33,8 @@ const setupTouchToggle = () => {
   }
 };
 
-// 링크 정규화: "new" 처럼 슬래시 없이 넣어도 "/new" 로 보정(하위 페이지에서 안 깨지게).
-// http(s)·//·/·#·mailto·tel 로 시작하면 그대로 둔다.
+// 링크 정규화: 기본 입력은 "단어만"(예: new). 자동으로 "/new" 로 보정(하위 페이지에서 안 깨지게).
+// http(s)·//·/·#·mailto·tel 로 시작하면 그대로 둔다(외부/절대경로).
 const normalizeHref = (raw) => {
   const v = (raw || '').trim();
   if (!v) return v;

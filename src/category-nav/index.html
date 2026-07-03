@@ -3,18 +3,18 @@
     {{!-- @name item-menu @type item @label "메뉴 항목" @length 20 --}}
     {{#each item-menu}}
       {{!-- @name label      @type textfield @default "카테고리" @label "메뉴명" --}}
-      {{!-- @name link       @type textfield @default "" @label "링크 (내부는 /주소 예:/new, 외부는 https://)" @placeholder "/new" --}}
+      {{!-- @name link       @type textfield @default "" @label "링크 (주소 뒷부분만, 예: new / 외부는 https://)" @placeholder "new" --}}
       {{!-- @name cat-image       @type image     @default "" @label "모바일 타일 이미지" --}}
       {{!-- @name switch-hide-pc  @type switch    @default "false" @label "PC 화면에서 숨기기" --}}
       {{!-- @name text-mobile-order @type textfield @default "" @label "모바일 순서(숫자·작을수록 앞, 비우면 기본)" --}}
-      {{!-- @name editor-subs @type text-editor @default "" @label "서브메뉴 (한 줄에 하나: 이름|/주소, 예: 샤워·입욕|/shower)" --}}
+      {{!-- @name editor-subs @type text-editor @default "" @label "서브메뉴 (한 줄에 하나: 이름|주소, 예: 샤워·입욕|shower)" --}}
 
       {{!-- @name md-title        @type textfield @default "" @label "MD's Pick 제목" --}}
       {{!-- @name md-body         @type text-editor @default "" @label "MD's Pick 본문(엔터로 줄바꿈)" --}}
       {{!-- @name md-price-before @type textfield @default "" @label "MD's Pick 할인 전 가격" --}}
       {{!-- @name md-price        @type textfield @default "" @label "MD's Pick 할인 후 가격" --}}
       {{!-- @name md-image        @type image     @default "" @label "MD's Pick 이미지" --}}
-      {{!-- @name md-link         @type textfield @default "" @label "MD's Pick 링크 (/주소 또는 https://)" @placeholder "/new" --}}
+      {{!-- @name md-link         @type textfield @default "" @label "MD's Pick 링크 (예: new / 외부는 https://)" @placeholder "new" --}}
       {{#if label}}
       <li class="iw-menu-item" data-hide-pc="{{switch-hide-pc}}" data-order-m="{{text-mobile-order}}">
         <a href="{{link}}" class="iw-menu-link">
