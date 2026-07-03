@@ -33,6 +33,15 @@ const setupTouchToggle = () => {
   }
 };
 
+// 링크 정규화: "new" 처럼 슬래시 없이 넣어도 "/new" 로 보정(하위 페이지에서 안 깨지게).
+// http(s)·//·/·#·mailto·tel 로 시작하면 그대로 둔다.
+const normalizeHref = (raw) => {
+  const v = (raw || '').trim();
+  if (!v) return v;
+  if (/^(https?:|\/\/|\/|#|mailto:|tel:)/i.test(v)) return v;
+  return '/' + v;
+};
+
 // 서브메뉴: editor-subs("이름|링크" 줄바꿈 텍스트)를 파싱해 .iw-sub-list 에 링크 생성.
 // text-editor 출력이 <p>/<br> 로 나올 수 있어 줄 구분을 정규화한 뒤 파싱.
 const buildSubmenus = () => {
@@ -58,14 +67,25 @@ const buildSubmenus = () => {
       const a = document.createElement('a');
       a.className = 'iw-sub-link';
       a.setAttribute('role', 'menuitem');
-      if (link) a.setAttribute('href', link);
+      if (link) a.setAttribute('href', normalizeHref(link));
       a.textContent = label;
       list.appendChild(a);
     }
   }
 };
 
+// 메뉴 링크·MD 링크도 동일하게 정규화(Handlebars 로 렌더된 href 보정).
+const normalizeLinks = () => {
+  if (!menu) return;
+  const links = menu.querySelectorAll('.iw-menu-link, .iw-mdpick');
+  for (let i = 0; i < links.length; i++) {
+    const href = links[i].getAttribute('href');
+    if (href) links[i].setAttribute('href', normalizeHref(href));
+  }
+};
+
 buildSubmenus();
+normalizeLinks();
 setupTouchToggle();
 
 // 모바일 타일: 마우스 드래그로 가로 스크롤(터치는 native라 JS 불필요). 데스크탑 미리보기/narrow 대응.
