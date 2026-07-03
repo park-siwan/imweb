@@ -33,6 +33,39 @@ const setupTouchToggle = () => {
   }
 };
 
+// 서브메뉴: editor-subs("이름|링크" 줄바꿈 텍스트)를 파싱해 .iw-sub-list 에 링크 생성.
+// text-editor 출력이 <p>/<br> 로 나올 수 있어 줄 구분을 정규화한 뒤 파싱.
+const buildSubmenus = () => {
+  if (!menu) return;
+  const items = menu.querySelectorAll('.iw-menu-item');
+  for (let i = 0; i < items.length; i++) {
+    const src = items[i].querySelector('.iw-subs-src');
+    const list = items[i].querySelector('.iw-sub-list');
+    if (!src || !list) continue;
+    const normalized = src.innerHTML
+      .replace(/<\s*br\s*\/?>/gi, '\n')
+      .replace(/<\/(p|div|li)>/gi, '\n');
+    const tmp = document.createElement('div');
+    tmp.innerHTML = normalized;
+    const lines = (tmp.textContent || '').split('\n');
+    for (let j = 0; j < lines.length; j++) {
+      const line = lines[j].trim();
+      if (!line) continue;
+      const bar = line.indexOf('|');
+      const label = (bar === -1 ? line : line.slice(0, bar)).trim();
+      const link = bar === -1 ? '' : line.slice(bar + 1).trim();
+      if (!label) continue;
+      const a = document.createElement('a');
+      a.className = 'iw-sub-link';
+      a.setAttribute('role', 'menuitem');
+      if (link) a.setAttribute('href', link);
+      a.textContent = label;
+      list.appendChild(a);
+    }
+  }
+};
+
+buildSubmenus();
 setupTouchToggle();
 
 // 모바일 타일: 마우스 드래그로 가로 스크롤(터치는 native라 JS 불필요). 데스크탑 미리보기/narrow 대응.
