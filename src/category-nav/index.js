@@ -142,8 +142,11 @@ const setupMobileOrder = () => {
   const apply = () => {
     const isMobile = window.innerWidth <= ORDER_MAX_WIDTH;
     for (let i = 0; i < items.length; i++) {
+      if (!isMobile) { items[i].style.order = ''; continue; }
       const n = Number.parseInt(items[i].getAttribute('data-order-m'), 10);
-      items[i].style.order = (isMobile && Number.isFinite(n)) ? String(n) : '';
+      // 번호 있는 항목이 앞으로(작을수록 앞). 번호 없는 항목은 뒤로(큰 값).
+      // CSS order 기본값 0 이라 미지정을 그대로 두면 번호(1,2,3)가 0보다 커서 오히려 뒤로 감 → 큰 값 부여.
+      items[i].style.order = Number.isFinite(n) ? String(n) : '99999';
     }
   };
   apply();
