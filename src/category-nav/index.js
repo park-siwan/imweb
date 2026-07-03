@@ -79,3 +79,24 @@ const setupDragScroll = () => {
 };
 
 setupDragScroll();
+
+// 모바일에서만 항목 순서를 data-order-m(모바일 순서)로 재배치. PC는 패널(문서) 순서 유지.
+// (모바일 .iw-menu-list 는 grid 라 order 가 먹고, PC 세로 리스트엔 영향 없음.)
+const ORDER_MAX_WIDTH = 960;
+const setupMobileOrder = () => {
+  if (!menu) return;
+  const items = menu.querySelectorAll('.iw-menu-item');
+  const apply = () => {
+    const isMobile = window.innerWidth <= ORDER_MAX_WIDTH;
+    for (let i = 0; i < items.length; i++) {
+      const n = Number.parseInt(items[i].getAttribute('data-order-m'), 10);
+      items[i].style.order = (isMobile && Number.isFinite(n)) ? String(n) : '';
+    }
+  };
+  apply();
+  if (typeof ResizeObserver !== 'undefined') {
+    const ro = new ResizeObserver(apply);
+    ro.observe(menu);
+  }
+};
+setupMobileOrder();
