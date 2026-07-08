@@ -96,8 +96,8 @@
   .iw-track { gap: 8px; align-items: center; }
   .iw-slide {
     flex: 0 0 auto;
-    min-width: 0;                           /* base 의 min-width:100% 무효화 */
-    width: min(315px, calc(100% - 96px));   /* 최대 315, 좌우 48px 확보 → peek ~40px */
+    min-width: 0;                     /* base 의 min-width:100% 무효화 */
+    width: calc(100% - 96px);         /* 좌우 48px 씩 확보 → peek ~40px 일정. 폰=315급, 태블릿=커짐 */
     height: 335px;
     aspect-ratio: auto;
     max-height: none;
@@ -108,6 +108,11 @@
   }
   /* 활성 카드만 원래 크기 → 넘어갈 때 옆으로 밀리는 카드가 점점 작아짐 */
   .iw-slide[data-state="active"] { transform: scale(1); }
+}
+
+/* 태블릿(iPad 등, 600~960): 카드가 넓어지므로 높이도 키워 비율 완화(세로 이미지 크롭 줄임) */
+@media (min-width: 600px) and (max-width: 960px) {
+  .iw-slide { height: 420px; }
 }
 
 .iw-slide-bg { position: absolute; inset: 0; overflow: hidden; }

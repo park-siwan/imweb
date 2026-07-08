@@ -203,7 +203,7 @@
 }
 
 /* ── 모바일: 세로 레일 → 올영식 2행 가로스크롤 이미지 타일 ── */
-@media (max-width: 767px) {
+@media (max-width: 960px) {
   /* 겹침 해제(배너 아래 일반 흐름) + 고정높이 해제.
      display:block → imweb 이 pc_section 을 모바일에서 숨길 때 강제 표시(id 라 class 규칙 이김). */
   #s20260706348b8364e70a8 {
