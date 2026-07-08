@@ -295,6 +295,22 @@
     white-space: normal;
   }
 
+  /* 탭(터치는 hover/active/focus 발동) 시 데스크탑 레일의 검정배경·흰글자 무효화 → 자연스럽게.
+     대신 눌림 피드백은 썸네일만 살짝 어둡게. */
+  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01:hover > a,
+  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01:active > a,
+  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01:focus-within > a {
+    background: transparent !important;
+    color: #6B7280 !important;
+  }
+  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01 > a {
+    -webkit-tap-highlight-color: transparent;
+  }
+  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01:active .iw-cat-thumb {
+    opacity: 0.6;
+    transition: opacity 0.12s ease;
+  }
+
   /* 모바일 플라이아웃/중분류 숨김 */
   #w20260708ae5e62e25ea68 .nav > ul > li.depth-01 > ul,
   #w20260708ae5e62e25ea68 .nav > ul > li.depth-01:hover > ul { display: none !important; }
