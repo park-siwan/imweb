@@ -201,10 +201,12 @@
   /* 겹침 해제(배너 아래 일반 흐름) + 고정높이 해제.
      display:block → imweb 이 pc_section 을 모바일에서 숨길 때 강제 표시(id 라 class 규칙 이김). */
   #s20260706348b8364e70a8 {
-    position: static !important;
+    position: relative !important;   /* static 이면 내부 .section_bg_color(absolute)가 앵커를 잃고
+                                        뷰포트 전체로 퍼져 배너를 덮음 → relative 로 섹션 안에 가둠 */
     left: auto !important;
     right: auto !important;
     margin: 0 !important;
+    z-index: auto !important;        /* 데스크탑 겹침용 z-index 해제(모바일은 겹침 없음) */
     transform: none !important;      /* off-screen translate 해제 */
     height: auto !important;
     min-height: 0 !important;
