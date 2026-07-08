@@ -87,6 +87,28 @@ filterPeriodSlides();
 const slides = Array.from(document.querySelectorAll('.iw-slide'));
 const total = slides.length;
 
+// 무한 루프: 각 방향 2장씩 복제 → 끝↔처음 전환 중에도 양옆 peek 이 안 끊김.
+// DOM 순서: [R_{n-2}', R_{n-1}', R0..R_{n-1}, R0', R1']  (실제는 slides/total 유지)
+const cloneOffset = total > 1 ? 2 : 0;
+let forwardClone = null;  // 첫 카드 복제(맨 뒤) — 마지막→처음 전환 시 가운데 오는 클론
+let backwardClone = null; // 마지막 카드 복제(맨 앞) — 처음→마지막 전환 시 가운데 오는 클론
+if (cloneOffset && track) {
+  const head1 = slides[total - 1].cloneNode(true);                   // 마지막
+  const head2 = slides[(total - 2 + total) % total].cloneNode(true); // 마지막-1
+  const tail1 = slides[0].cloneNode(true);                           // 첫
+  const tail2 = slides[1 % total].cloneNode(true);                   // 둘째
+  [head1, head2, tail1, tail2].forEach((c) => {
+    c.setAttribute('data-clone', '');
+    c.removeAttribute('data-state');
+  });
+  track.insertBefore(head1, slides[0]);
+  track.insertBefore(head2, head1);
+  track.appendChild(tail1);
+  track.appendChild(tail2);
+  forwardClone = tail1;
+  backwardClone = head1;
+}
+
 const readSlideDurationMs = () => {
   const raw = Number.parseFloat(root ? root.getAttribute('data-duration') : '');
   return (Number.isFinite(raw) ? raw : DEFAULT_SLIDE_SECONDS) * SECONDS_TO_MS;
@@ -101,19 +123,42 @@ let isPaused = false;
 
 // --- DOM 갱신 ---
 
-const setTrackPosition = (index) => {
-  if (!track) return;
-  track.style.transform = `translateX(-${index * 100}%)`;
+// domPos(복제 포함 DOM 순서) 슬라이드를 컨테이너 가운데로 이동(px). 실제 폭·위치를 읽어 계산.
+// 데스크탑(풀폭)에선 -index*폭 과 동일, 모바일(315px 카드)에선 좌우 peek 정렬이 됨.
+const setTrackPositionDom = (domPos) => {
+  if (!track || !root) return;
+  const slideEls = track.querySelectorAll('.iw-slide');
+  const target = slideEls[domPos];
+  if (!target) { track.style.transform = 'translateX(0)'; return; }
+  const offset = (root.offsetWidth - target.offsetWidth) / 2 - target.offsetLeft;
+  track.style.transform = `translateX(${offset}px)`;
+};
+// 실제 인덱스 → DOM 위치(앞쪽 복제만큼 +cloneOffset)
+const setTrackPosition = (index) => setTrackPositionDom(index + cloneOffset);
+
+// 모든 슬라이드(복제 포함)의 활성/settled 해제
+const clearActiveAll = () => {
+  const all = track ? track.querySelectorAll('.iw-slide') : slides;
+  for (let i = 0; i < all.length; i++) {
+    all[i].removeAttribute('data-state');
+    all[i].removeAttribute('data-settled');
+  }
 };
 
 const setActiveSlide = (index) => {
-  for (let i = 0; i < slides.length; i++) {
-    const slide = slides[i];
-    slide.removeAttribute('data-state');
-    if (i === index) {
-      void slide.offsetWidth;
-      slide.setAttribute('data-state', 'active');
-    }
+  clearActiveAll();
+  const el = slides[index];
+  if (el) { void el.offsetWidth; el.setAttribute('data-state', 'active'); }
+};
+
+// 활성이되 애니메이션 없이 최종 상태(무한 루프 클론/점프용) — 스케일 1.0 + 텍스트 즉시.
+// el 은 실제 슬라이드 또는 복제. settled 라 fadeUp 안 뜨고 튐 없음.
+const setActiveSettled = (el) => {
+  clearActiveAll();
+  if (el) {
+    el.setAttribute('data-settled', '');
+    void el.offsetWidth;
+    el.setAttribute('data-state', 'active');
   }
 };
 
@@ -149,17 +194,54 @@ const renderSlide = () => {
 
 // --- 인덱스 전환 ---
 
+// 복제로 밀고 있는 중이면 true → 그 사이 입력 무시(점프 완료까지)
+let pendingJump = false;
+
 const nextSlide = () => {
-  if (total === 0) return;
+  if (total === 0 || pendingJump) return;
+  if (cloneOffset && currentIdx === total - 1) {
+    // 마지막 → 뒤쪽 복제(첫 카드)로 전진, transition 끝나면 진짜 첫 카드로 순간 점프.
+    // 가운데 올 복제를 활성(스케일 1.0 + 텍스트) → 크기·텍스트 튐 없음.
+    setCounter(0);
+    setActiveSettled(forwardClone);
+    setTrackPositionDom(total + 2);
+    forceLoadImages();
+    currentIdx = 0;
+    pendingJump = true;
+    return;
+  }
   currentIdx = (currentIdx + 1) % total;
   renderSlide();
 };
 
 const prevSlide = () => {
-  if (total === 0) return;
+  if (total === 0 || pendingJump) return;
+  if (cloneOffset && currentIdx === 0) {
+    // 처음 → 앞쪽 복제(마지막 카드)로 후진, transition 끝나면 진짜 마지막 카드로 순간 점프.
+    setCounter(total - 1);
+    setActiveSettled(backwardClone);
+    setTrackPositionDom(1);
+    forceLoadImages();
+    currentIdx = total - 1;
+    pendingJump = true;
+    return;
+  }
   currentIdx = (currentIdx - 1 + total) % total;
   renderSlide();
 };
+
+// 복제로 전진/후진 후(트랜지션 끝) 진짜 카드로 트랜지션 없이 순간 이동 → 끊김 없는 무한 루프
+const onTrackTransitionEnd = (e) => {
+  if (!pendingJump || !track || !root) return;
+  if (e.target !== track || e.propertyName !== 'transform') return;
+  pendingJump = false;
+  root.setAttribute('data-init', '');
+  setTrackPosition(currentIdx);
+  setActiveSettled(slides[currentIdx]); // 진짜 카드도 settled → 재애니메이션·튐 없이 그대로
+  void track.offsetWidth;
+  root.removeAttribute('data-init');
+};
+if (track) track.addEventListener('transitionend', onTrackTransitionEnd);
 
 // --- 자동 재생 ---
 
@@ -315,8 +397,17 @@ const normalizeSlideLinks = () => {
   }
 };
 
+// 초기 위치·스케일은 트랜지션 없이 즉시(새로고침 시 왼쪽→중앙 미끄러짐 방지).
+if (root) root.setAttribute('data-init', '');
 renderSlide();
+if (root) { void root.offsetWidth; root.removeAttribute('data-init'); }
 startAuto();
 applyAnimTiming();
 startEntryAnimation();
 normalizeSlideLinks();
+
+// px 기반 가운데 정렬이라 폭이 바뀌면(리사이즈·회전) 재계산 필요.
+if (typeof ResizeObserver !== 'undefined' && root) {
+  const resizeObserver = new ResizeObserver(() => setTrackPosition(currentIdx));
+  resizeObserver.observe(root);
+}

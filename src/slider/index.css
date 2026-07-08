@@ -84,8 +84,30 @@
 
 .iw-slide { min-width: 100%; position: relative; aspect-ratio: 12 / 5; max-height: var(--pc-max-height); overflow: hidden; }
 
+/* 초기 렌더는 트랜지션 없이 즉시 배치 → 새로고침 시 왼쪽에서 미끄러져 들어오는 것 방지 */
+.iw-slider[data-init] .iw-track,
+.iw-slider[data-init] .iw-slide { transition: none; }
+
 @media (max-width: 960px) {
-  .iw-slide { aspect-ratio: 4 / 5; max-height: var(--mobile-max-height); }
+  /* 올영식 peek 캐러셀: 가운데 카드(최대 315×335, 라운드) + 양옆 peek + 비활성 축소.
+     카드 폭을 컨테이너 기준으로 잡아 섹션 여백·화면폭과 무관하게 좌우 peek 보장.
+     (JS setTrackPosition 이 활성 카드를 가운데로 정렬) */
+  .iw-slider { padding-top: 16px; }        /* 카드 위 여유 공간 */
+  .iw-track { gap: 8px; align-items: center; }
+  .iw-slide {
+    flex: 0 0 auto;
+    min-width: 0;                           /* base 의 min-width:100% 무효화 */
+    width: min(315px, calc(100% - 96px));   /* 최대 315, 좌우 48px 확보 → peek ~40px */
+    height: 335px;
+    aspect-ratio: auto;
+    max-height: none;
+    border-radius: 20px;
+    transform: scale(0.88);
+    transform-origin: center center;
+    transition: transform var(--transition-speed) ease;
+  }
+  /* 활성 카드만 원래 크기 → 넘어갈 때 옆으로 밀리는 카드가 점점 작아짐 */
+  .iw-slide[data-state="active"] { transform: scale(1); }
 }
 
 .iw-slide-bg { position: absolute; inset: 0; overflow: hidden; }
@@ -199,6 +221,17 @@
   .iw-slide[data-state="active"] .iw-title   { animation-delay: 0.10s; }
   .iw-slide[data-state="active"] .iw-brand   { animation-delay: 0.30s; }
   .iw-slide[data-state="active"] .iw-subtext { animation-delay: 0.30s; }
+}
+
+/* 무한 루프 전환/점프 순간: 애니메이션 없이 내용 최종 상태로(재생·튐 방지).
+   base·모바일의 [data-state="active"] fadeUp 규칙 뒤에 와서 animation-name 을 none 으로 덮음. */
+.iw-slide[data-settled] .iw-brand,
+.iw-slide[data-settled] .iw-title,
+.iw-slide[data-settled] .iw-subtext,
+.iw-slide[data-settled] .iw-btn {
+  animation: none;
+  opacity: 1;
+  transform: none;
 }
 
 /* --- 좌하단 컨트롤 클러스터 --- */
