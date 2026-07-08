@@ -84,8 +84,8 @@
   flex-shrink: 0;
   width: 7px;
   height: 7px;
-  border-right: 1.5px solid rgba(255, 255, 255, 0.55);
-  border-bottom: 1.5px solid rgba(255, 255, 255, 0.55);
+  /* border-right: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.55); */
   transform: rotate(-45deg);
 }
 
@@ -107,7 +107,7 @@
   top: 0;
   height: 450px;                 /* 레일과 동일 높이(꽉 채움) */
   background: #ffffff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+  /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14); */
   padding: 24px 28px !important;
   z-index: 100;
   grid-auto-flow: column;                      /* 위→아래 먼저 채우고, 넘치면 우측 열로 */
@@ -117,9 +117,10 @@
   align-content: start;
 }
 
-/* imweb clearfix ::before/::after 가 grid 첫 칸을 먹어 "빈 첫 칸"이 생기는 버그 제거 */
-#w20260708ae5e62e25ea68 .nav > ul > li.depth-01 > ul::before,
-#w20260708ae5e62e25ea68 .nav > ul > li.depth-01 > ul::after {
+/* imweb clearfix ::before/::after (site.css 의 .nav.sub-menu ul:before) 가 grid 첫 칸을
+   먹어 "빈 첫 칸"이 생기는 버그 제거 — 레일/타일 ul + 플라이아웃 ul 모두. */
+#w20260708ae5e62e25ea68 .nav ul::before,
+#w20260708ae5e62e25ea68 .nav ul::after {
   content: none !important;
   display: none !important;
 }
@@ -191,28 +192,110 @@
   border-radius: 8px;
 }
 
-/* ── 모바일: 플라이아웃(호버) 대신 대분류 리스트만 노출 ──
-   중분류는 대분류 탭 → 카테고리 페이지에서 확인. */
+/* 타일 썸네일: 데스크탑 레일에선 숨김(텍스트 전용), 모바일 타일에서만 표시.
+   이미지는 category-menubar.js 가 각 대분류에 주입(og:image 자동 / IMG_OVERRIDE). */
+#w20260708ae5e62e25ea68 .iw-cat-thumb { display: none; }
+
+/* ── 모바일: 세로 레일 → 올영식 2행 가로스크롤 이미지 타일 ── */
 @media (max-width: 767px) {
-  /* 모바일: 겹침 해제(배너 아래 일반 흐름) + 고정높이 해제 */
+  /* 겹침 해제(배너 아래 일반 흐름) + 고정높이 해제.
+     display:block → imweb 이 pc_section 을 모바일에서 숨길 때 강제 표시(id 라 class 규칙 이김). */
   #s20260706348b8364e70a8 {
     position: static !important;
-    margin-top: 0 !important;
-    pointer-events: auto;
-  }
-  #w20260708ae5e62e25ea68 .nav > ul {
+    left: auto !important;
+    right: auto !important;
+    margin: 0 !important;
+    transform: none !important;      /* off-screen translate 해제 */
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;    /* height:0+overflow:hidden 숨김 해제 */
+    visibility: visible !important;
+    opacity: 1 !important;
     display: block !important;
-    width: 100%;
-    height: auto;
+    pointer-events: auto !important;
   }
+  /* 위젯 안쪽 체인을 풀폭 블록으로 → UL 이 shrink 되어 0 폭이 되는 것 방지 */
+  #s20260706348b8364e70a8 .inside,
+  #s20260706348b8364e70a8 .doz_row,
+  #s20260706348b8364e70a8 .col-dz,
+  #s20260706348b8364e70a8 ._widget_data,
+  #s20260706348b8364e70a8 .widget,
+  #s20260706348b8364e70a8 .nav {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* 레일 → 2행 그리드(행 우선: 윗줄 좌→우 먼저, 그다음 아랫줄) + 가로 스크롤.
+     열 개수(grid-template-columns)는 JS가 ceil(항목수/2)로 설정 → 2행 유지. */
+  #w20260708ae5e62e25ea68 .nav > ul {
+    display: grid !important;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(6, 64px); /* 고정 px(폴백). JS가 항목수에 맞춰 덮어씀.
+                                               px 라 부모 폭·이미지 유무와 무관하게 안 접힘 */
+    grid-template-rows: repeat(2, auto);
+    width: 100% !important;
+    height: auto;
+    background: transparent;
+    column-gap: 8px;
+    row-gap: 14px;
+    padding: 14px 0;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #w20260708ae5e62e25ea68 .nav > ul::-webkit-scrollbar { display: none; }
+
+  /* 타일 */
   #w20260708ae5e62e25ea68 .nav > ul > li.depth-01 {
     display: block;
     flex: none;
+    min-height: 0;
+    scroll-snap-align: start;
+    border: 0 !important; /* imweb 세로메뉴 항목 구분선 제거 */
   }
-  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01 > ul {
-    display: none !important;
+  /* 타일 링크: 이미지(위) + 라벨(아래) */
+  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01 > a {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 0 !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    line-height: 1.3;
+    color: #6B7280 !important; /* 모바일은 밝은 배경 → 다크 텍스트 */
+    text-align: center;
+    white-space: normal;
+    border: 0 !important;   /* imweb 세로메뉴 구분선(이상한 선) 제거 */
+    outline: 0 !important;
   }
-  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01:hover > ul {
-    display: none !important;
+  /* 데스크탑 화살표 숨김 */
+  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01 > a::after { display: none !important; }
+
+  /* 라운드 사각 썸네일 */
+  #w20260708ae5e62e25ea68 .iw-cat-thumb {
+    display: block !important;
+    width: 100%;
+    height: 64px; /* 고정 높이 — aspect-ratio 대신. 이미지 없어도 타일 안 접힘 */
+    object-fit: cover;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    border-radius: 16px;
+    background: #F3F2F2; /* 이미지 로딩 전/실패 시 회색 플레이스홀더 */
   }
+  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01 > a .plain_name {
+    display: block;
+    white-space: normal;
+  }
+
+  /* 모바일 플라이아웃/중분류 숨김 */
+  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01 > ul,
+  #w20260708ae5e62e25ea68 .nav > ul > li.depth-01:hover > ul { display: none !important; }
 }

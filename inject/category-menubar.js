@@ -1,11 +1,13 @@
-/* 카테고리 메뉴바 — MD's Pick 하드코딩 주입
+
+  /* 카테고리 메뉴바 — MD's Pick 하드코딩 주입
    대상 : 위젯 #w20260708ae5e62e25ea68 의 각 대분류 플라이아웃(중분류 ul)
    동작 : 아래 MDPICK 맵(대분류 href 기준)에 해당하는 대분류의 플라이아웃 우측에
           MD's Pick 카드를 삽입하고, 해당 li 에 .has-mdpick 클래스를 부여(CSS가 우측 여백 확보).
-   위치 : SEO > Footer Code 에 <script>...</script> 로. (유료 플랜에서 JS 동작)
+   위치 : SEO > Footer Code 에
           또는 이 메뉴가 있는 페이지에 "코드/HTML" 위젯을 넣고 그 안에 <script> 로.
    편집 : 운영진은 MDPICK 안의 title/before/now/image/link 만 고치면 됨(비개발자용 하드코딩).
-   ※ 위젯 id 가 바뀌면 WIDGET_ID 상수만 교체. */
+   ※ 위젯 id 가 바뀌면 WIDGET_ID 상수만 교체. 
+  */
 (function () {
   var WIDGET_ID = 'w20260708ae5e62e25ea68';
 
@@ -13,27 +15,27 @@
   var MDPICK = {
     '/health': {
       tag: "MD's Pick",
-      title: '정관장 홍삼활력보 2종 (택1)',
+      title: '정관장 홍삼활력보',
       before: '66,000원',
       now: '33,900원',
-      image: '', // 예: 'https://cdn.imweb.me/upload/.../xxxx.jpg'
-      link: '/health'
+      image: 'https://cdn-optimized.imweb.me/thumbnail/20260617/b1556908a5bbc.jpg?w=750', // 예: 'https://cdn.imweb.me/upload/.../xxxx.jpg'
+      link: '/health/?idx=4311'
     },
     '/food': {
       tag: "MD's Pick",
-      title: '베스트 간편식 모음',
-      before: '',
-      now: '',
-      image: '',
-      link: '/food'
+      title: '[하영이네] 카레맛 떡갈비(비가열) 120g',
+      before: '7,000원',
+      now: '2,300원',
+      image: 'https://cdn-optimized.imweb.me/thumbnail/20260612/6cdf02f83ebbd.jpg?w=750',
+      link: '/food/?idx=4187'
     },
     '/cosmetic': {
       tag: "MD's Pick",
-      title: '스킨케어 특가',
-      before: '',
-      now: '',
-      image: '',
-      link: '/cosmetic'
+      title: '[듀이트리] 어반 쉐이드 안티 폴루션 선크림 50ml 1+1',
+      before: '30,000원',
+      now: '16,900원',
+      image: 'https://cdn-optimized.imweb.me/thumbnail/20260610/1ee92b09c53f4946.jpg?w=750',
+      link: '/cosmetic/?idx=4301'
     }
   };
 
@@ -67,4 +69,173 @@
     sub.appendChild(card);
     li.classList.add('has-mdpick');
   }
+})();
+
+/* ============================================================
+   모바일 카테고리 타일 — 각 대분류에 라운드 썸네일 주입
+   ------------------------------------------------------------
+   - 데스크탑: 아무것도 안 함(썸네일은 CSS로 display:none).
+   - 모바일: 각 대분류에 <img.iw-cat-thumb> 주입 후 이미지 채움.
+   - 이미지 우선순위: IMG_OVERRIDE(하드코딩) → localStorage 캐시 → og:image 스트리밍.
+   - og:image 스트리밍: 상품/카테고리 페이지 HTML을 조금씩 읽다가 og:image 찾으면
+     즉시 abort → 페이지 전체(수백KB) 안 받고 ~20KB만 → 저부하. 결과는 캐시.
+   ※ 위젯 id 바뀌면 WIDGET_ID 교체. 캐시 갱신하려면 CACHE_VER 숫자만 올림.
+   ============================================================ */
+(function () {
+  var WIDGET_ID = 'w20260708ae5e62e25ea68';
+  var MOBILE_MAX = 767;
+  var CACHE_VER = 3; // 올리면 기존 캐시 전체 무효화(업로드 즉시 반영하고 싶을 때 +1)
+  var MAX_BYTES = 256 * 1024; // 안전장치: 페이지당 256KB까지만 읽음
+  var HOME_PATHS = ['', '/home']; // 이미지 스크랩을 허용할 경로(끝 슬래시 무시). 홈에서만 → 타 페이지 부하 0
+  var DEFAULT_IMG_MARKERS = ['6107606bf8803']; // 이 문자열 포함 = 사이트 기본 로고 → 이미지 없음(회색) 취급
+  var NONE_TTL = 60 * 60 * 1000;      // "이미지 없음" 캐시 수명 1시간 → 대표이미지 업로드하면 그 안에 자동 반영
+  var IMG_TTL = 7 * 24 * 60 * 60 * 1000; // 실제 이미지 캐시 수명 7일
+
+  // (선택) 대분류 href → 이미지 강제 지정. og:image 가 부실하거나 통제하고 싶을 때.
+  var IMG_OVERRIDE = {
+    // '/health': 'https://cdn-optimized.imweb.me/thumbnail/.../xxxx.jpg?w=400',
+    // '/food':   '',
+  };
+
+  var menu = document.querySelector('#' + WIDGET_ID + ' .nav');
+  if (!menu) return;
+  var list = menu.querySelector('ul');
+  if (!list) return;
+  var items = list.querySelectorAll(':scope > li.depth-01');
+  if (!items.length) return;
+
+  function isMobile() {
+    return window.matchMedia('(max-width: ' + MOBILE_MAX + 'px)').matches;
+  }
+  // 스크랩(fetch)은 홈에서만. 타 페이지에선 캐시/오버라이드만 사용(요청 0).
+  function isHome() {
+    var p = (location.pathname || '').replace(/\/+$/, '');
+    return HOME_PATHS.indexOf(p) !== -1;
+  }
+  function cacheKey(href) { return 'catimg:v' + CACHE_VER + ':' + href; }
+  // 사이트 기본 로고면 true → 이미지 안 넣고 회색 배경 유지
+  function isDefaultImg(src) {
+    if (!src) return true;
+    for (var i = 0; i < DEFAULT_IMG_MARKERS.length; i++) {
+      if (src.indexOf(DEFAULT_IMG_MARKERS[i]) !== -1) return true;
+    }
+    return false;
+  }
+  // 캐시 read/write (TTL 포함). 만료되면 null 반환 → 재fetch.
+  function readCache(href) {
+    try {
+      var raw = localStorage.getItem(cacheKey(href));
+      if (!raw) return null;
+      var o = JSON.parse(raw);
+      var ttl = (o.v === 'none') ? NONE_TTL : IMG_TTL;
+      if (Date.now() - o.t > ttl) return null;
+      return o.v;
+    } catch (e) { return null; }
+  }
+  function writeCache(href, v) {
+    try { localStorage.setItem(cacheKey(href), JSON.stringify({ v: v, t: Date.now() })); } catch (e) {}
+  }
+
+  // 투명 1×1 픽셀 — 기본 src. src 없는 <img> 를 iOS Safari 가 테두리 프레임으로 그리는 것 방지
+  // (이미지 없을 땐 이게 투명하게 깔려 회색 배경만 보임). 실제 이미지는 loadOne 이 덮어씀.
+  var TRANSPARENT_PX = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+
+  // 각 대분류에 썸네일 <img> 자리 생성(라벨 앞). 데스크탑에선 CSS로 숨김.
+  for (var i = 0; i < items.length; i++) {
+    var a0 = items[i].querySelector(':scope > a');
+    if (!a0 || a0.querySelector('.iw-cat-thumb')) continue;
+    var img = document.createElement('img');
+    img.className = 'iw-cat-thumb';
+    img.alt = '';
+    img.setAttribute('loading', 'lazy');
+    img.src = TRANSPARENT_PX; // 빈 프레임 방지(회색 배경만 노출)
+    a0.insertBefore(img, a0.firstChild);
+  }
+
+  // og:image 스트리밍 추출(찾으면 즉시 abort). 스트림 미지원이면 text() 폴백.
+  function fetchOgImage(url) {
+    var controller = new AbortController();
+    return fetch(url, { signal: controller.signal }).then(function (res) {
+      if (!res.ok) { controller.abort(); return null; }
+      if (!res.body || !res.body.getReader) {
+        return res.text().then(function (t) {
+          var m = t.match(/property=["']og:image["'][^>]+content=["']([^"']+)/i);
+          return m ? m[1] : null;
+        });
+      }
+      var reader = res.body.getReader();
+      var decoder = new TextDecoder();
+      var html = '';
+      var received = 0;
+      function pump() {
+        return reader.read().then(function (r) {
+          if (r.done) return null;
+          received += r.value.length;
+          html += decoder.decode(r.value, { stream: true });
+          var m = html.match(/property=["']og:image["'][^>]+content=["']([^"']+)/i);
+          if (m) { controller.abort(); return m[1]; }
+          if (html.indexOf('</head>') !== -1 || received > MAX_BYTES) {
+            controller.abort();
+            return null;
+          }
+          return pump();
+        });
+      }
+      return pump();
+    }).catch(function () { return null; }); // abort/네트워크 오류는 조용히 무시
+  }
+
+  function setImg(li, src) {
+    if (!src) return;
+    var img = li.querySelector(':scope > a .iw-cat-thumb');
+    if (img) img.src = src;
+  }
+
+  function loadOne(li) {
+    var a = li.querySelector(':scope > a');
+    var href = a && a.getAttribute('href');
+    if (!href) return Promise.resolve();
+
+    if (IMG_OVERRIDE[href]) { setImg(li, IMG_OVERRIDE[href]); return Promise.resolve(); }
+
+    var cached = readCache(href);
+    if (cached === 'none') return Promise.resolve();               // 이미지 없음(만료 전) → 회색 유지
+    if (cached && !isDefaultImg(cached)) { setImg(li, cached); return Promise.resolve(); }
+
+    if (!isHome()) return Promise.resolve(); // 홈이 아니면 스크랩 안 함(캐시/오버라이드만)
+
+    return fetchOgImage(href).then(function (src) {
+      if (isDefaultImg(src)) { writeCache(href, 'none'); return; } // 없음 → 짧게(1h) 캐시, 업로드 시 곧 재시도
+      setImg(li, src);
+      writeCache(href, src);                                       // 이미지 → 7일 캐시
+    });
+  }
+
+  // 순차 로드(동시 요청 폭주 방지). 캐시 히트면 사실상 즉시.
+  function loadAll() {
+    var idx = 0;
+    (function next() {
+      if (idx >= items.length) return;
+      loadOne(items[idx]).then(function () { idx++; next(); });
+    })();
+  }
+
+  // 모바일 2행 그리드 열 개수 = ceil(항목수/2) (2행 유지, 가로 스크롤)
+  function applyGridCols() {
+    if (isMobile()) {
+      // 고정 64px 컬럼 → 부모 폭·이미지 유무와 무관하게 타일이 안 접힘
+      list.style.gridTemplateColumns = 'repeat(' + Math.max(1, Math.ceil(items.length / 2)) + ', 64px)';
+    } else {
+      list.style.gridTemplateColumns = '';
+    }
+  }
+
+  var loaded = false;
+  function maybeLoad() {
+    if (!loaded && isMobile()) { loaded = true; loadAll(); } // 모바일에서만 fetch(저부하)
+  }
+
+  applyGridCols();
+  maybeLoad();
+  window.addEventListener('resize', function () { applyGridCols(); maybeLoad(); });
 })();
