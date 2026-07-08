@@ -28,7 +28,7 @@
   top: 0;            /* 절반 col 전체 = 제목/더보기부터 */
   bottom: 0;         /* SALE 칩 아래까지 */
   width: 1px;
-  background: #e5e5e5;
+  background: #EEF1F8;
   pointer-events: none;
 }
 
