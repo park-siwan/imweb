@@ -196,6 +196,12 @@
    이미지는 category-menubar.js 가 각 대분류에 주입(og:image 자동 / IMG_OVERRIDE). */
 #w20260708ae5e62e25ea68 .iw-cat-thumb { display: none; }
 
+/* 스켈레톤 shimmer 키프레임(모바일 로딩용) */
+@keyframes iw-catnav-shimmer {
+  0%   { background-position: -160px 0; }
+  100% { background-position: 160px 0; }
+}
+
 /* ── 모바일: 세로 레일 → 올영식 2행 가로스크롤 이미지 타일 ── */
 @media (max-width: 767px) {
   /* 겹침 해제(배너 아래 일반 흐름) + 고정높이 해제.
@@ -236,17 +242,16 @@
      열 개수(grid-template-columns)는 JS가 ceil(항목수/2)로 설정 → 2행 유지. */
   #w20260708ae5e62e25ea68 .nav > ul {
     display: grid !important;
-    grid-auto-flow: row;
-    grid-template-columns: repeat(6, 64px); /* 고정 px(폴백). JS가 항목수에 맞춰 덮어씀.
-                                               px 라 부모 폭·이미지 유무와 무관하게 안 접힘 */
-    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;   /* 1행: 가로로 나열 */
+    grid-template-rows: auto;  /* 1행 */
+    grid-auto-columns: 64px;   /* 각 타일 64px (JS 컬럼지정 불필요) */
     width: 100% !important;
     height: auto;
     background: transparent;
     column-gap: 8px;
-    row-gap: 14px;
-    padding: 14px 0;
-    overflow-x: auto;
+    padding-top: 20px;
+    /* 데스크탑 flyout용 overflow:visible!important 를 이겨서 가로 스크롤(드래그) 복구 */
+    overflow-x: auto !important;
     scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -291,6 +296,14 @@
     box-shadow: none !important;
     border-radius: 16px;
     background: #F3F2F2; /* 이미지 로딩 전/실패 시 회색 플레이스홀더 */
+  }
+  /* 스켈레톤 로딩중: 모든 이미지 도착 전까지 썸네일 shimmer (라벨은 텍스트라 그대로 노출) */
+  #w20260708ae5e62e25ea68 .nav > ul.iw-catnav-loading .iw-cat-thumb {
+    background-color: #EFEEEE;
+    background-image: linear-gradient(100deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0) 80%);
+    background-size: 160px 100%;
+    background-repeat: no-repeat;
+    animation: iw-catnav-shimmer 1.15s ease-in-out infinite;
   }
   #w20260708ae5e62e25ea68 .nav > ul > li.depth-01 > a .plain_name {
     display: block;

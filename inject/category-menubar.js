@@ -191,48 +191,72 @@
     if (img) img.src = src;
   }
 
-  function loadOne(li) {
+  // 타일 이미지 URL 해석(오버라이드→캐시→og:image). 이미지 없으면 null.
+  function resolveUrl(li) {
     var a = li.querySelector(':scope > a');
     var href = a && a.getAttribute('href');
-    if (!href) return Promise.resolve();
-
-    if (IMG_OVERRIDE[href]) { setImg(li, IMG_OVERRIDE[href]); return Promise.resolve(); }
-
+    if (!href) return Promise.resolve(null);
+    if (IMG_OVERRIDE[href]) return Promise.resolve(IMG_OVERRIDE[href]);
     var cached = readCache(href);
-    if (cached === 'none') return Promise.resolve();               // 이미지 없음(만료 전) → 회색 유지
-    if (cached && !isDefaultImg(cached)) { setImg(li, cached); return Promise.resolve(); }
-
-    if (!isHome()) return Promise.resolve(); // 홈이 아니면 스크랩 안 함(캐시/오버라이드만)
-
+    if (cached === 'none') return Promise.resolve(null);
+    if (cached && !isDefaultImg(cached)) return Promise.resolve(cached);
+    if (!isHome()) return Promise.resolve(null); // 홈이 아니면 스크랩 안 함(캐시/오버라이드만)
     return fetchOgImage(href).then(function (src) {
-      if (isDefaultImg(src)) { writeCache(href, 'none'); return; } // 없음 → 짧게(1h) 캐시, 업로드 시 곧 재시도
-      setImg(li, src);
-      writeCache(href, src);                                       // 이미지 → 7일 캐시
+      if (isDefaultImg(src)) { writeCache(href, 'none'); return null; } // 없음 → 1h 캐시
+      writeCache(href, src);                                            // 이미지 → 7일 캐시
+      return src;
     });
   }
 
-  // 순차 로드(동시 요청 폭주 방지). 캐시 히트면 사실상 즉시.
+  // 이미지 미리 로드(브라우저 캐시에 올려둠). 실패·없음도 그냥 resolve.
+  function preload(url) {
+    return new Promise(function (resolve) {
+      if (!url) { resolve(); return; }
+      var pre = new Image();
+      pre.onload = function () { resolve(); };
+      pre.onerror = function () { resolve(); };
+      pre.src = url;
+    });
+  }
+
+  var tileUrls = [];
+  var revealed = false;
+  // 스켈레톤 종료 + 준비된 이미지 일괄 노출
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    for (var r = 0; r < items.length; r++) {
+      if (tileUrls[r]) setImg(items[r], tileUrls[r]);
+    }
+    if (list) { list.classList.remove('iw-catnav-loading'); list.classList.add('iw-catnav-ready'); }
+  }
+
+  // 모든 타일 URL 해석 + preload 완료 후 "일괄" 노출(그전까지 스켈레톤). 순차 처리로 요청 폭주 방지.
   function loadAll() {
     var idx = 0;
     (function next() {
-      if (idx >= items.length) return;
-      loadOne(items[idx]).then(function () { idx++; next(); });
+      if (idx >= items.length) { reveal(); return; }
+      var i = idx;
+      resolveUrl(items[i]).then(function (url) {
+        tileUrls[i] = url || null;
+        return preload(tileUrls[i]);
+      }).then(function () { idx++; next(); });
     })();
+    setTimeout(reveal, 5000); // 안전장치: 5초 넘으면 준비된 만큼이라도 노출
   }
 
-  // 모바일 2행 그리드 열 개수 = ceil(항목수/2) (2행 유지, 가로 스크롤)
   function applyGridCols() {
-    if (isMobile()) {
-      // 고정 64px 컬럼 → 부모 폭·이미지 유무와 무관하게 타일이 안 접힘
-      list.style.gridTemplateColumns = 'repeat(' + Math.max(1, Math.ceil(items.length / 2)) + ', 64px)';
-    } else {
-      list.style.gridTemplateColumns = '';
-    }
+    // 1행(CSS grid-auto-flow:column)이 처리 → JS 인라인 컬럼 지정 제거(이전 값 정리)
+    list.style.gridTemplateColumns = '';
   }
 
   var loaded = false;
   function maybeLoad() {
-    if (!loaded && isMobile()) { loaded = true; loadAll(); } // 모바일에서만 fetch(저부하)
+    if (!loaded && isMobile()) {
+      loaded = true;
+      if (list) list.classList.add('iw-catnav-loading'); // 스켈레톤 시작(모바일만)
+      loadAll();
+    }
   }
 
   applyGridCols();
