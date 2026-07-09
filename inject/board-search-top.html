@@ -1,83 +1,75 @@
-<!-- 게시판(FAQ 등) 하단 검색을 "게시물 상단"으로 이동 + 리스타일 + 플레이스홀더 변경.
-     그 게시판이 있는 페이지에 "코드" 위젯으로 붙여넣기(게시판 위/아래 아무데나 OK — JS가 찾아 옮김).
-     - 폼만 이동하므로 하단 "글쓰기" 버튼은 그대로.
-     - hidden-xs(모바일 숨김) 컨테이너에서 빠져나와 모바일에서도 검색 노출됨. -->
+<!-- ============================================================
+     게시판/사이트 검색 커스터마이즈 — "CSS만 상단 배치" (JS DOM이동 X → 들썩임 0)
+     ▸ [A] <style> = SEO > 헤더 코드(<head>). 전부 CSS라 첫 페인트부터 검색이 상단 → 움직임 없음.
+     ▸ [B] <script> = SEO > 푸터 코드(선택). 플레이스홀더 문구만 바꿈(레이아웃 영향 0).
+     ▸ 원리: 게시판 래퍼(._list_wrap)를 flex column, 하단 footer(검색+글쓰기)를 order:-1 로 최상단에.
+             DOM 을 안 옮기니 하단→상단 점프가 아예 없음.
+     ▸ 트레이드오프: 같은 footer 라 "글쓰기" 버튼도 검색과 함께 상단으로 옴(보통 무방).
+     ▸ 이전 JS 이동 버전(코드위젯/푸터의 move 스크립트, .ajg-bs 등)은 있으면 제거 — 중복되면 충돌.
+     ============================================================ -->
+
+<!-- ========================= [A] 헤더 코드 ========================= -->
 <style>
-  /* imweb 부트스트랩 .input-group(display:table, border-radius:0)을 이겨야 해서 !important 사용(코드위젯이라 허용) */
-  .ajg-board-search { display: block !important; width: auto !important; max-width: 460px; margin: 4px auto 24px !important; }
-  .ajg-board-search .input-group,
-  .ajg-board-search form {
-    display: block !important; position: relative !important;
-    width: 100% !important; margin: 0 !important; padding: 0 !important;
-    border-collapse: separate !important;
+  /* 하단 footer(검색+글쓰기)를 CSS order 로 상단 이동 (JS 없음 → 무깜빡임) */
+  ._list_wrap { display: flex !important; flex-direction: column !important; align-items: stretch !important; }
+  ._list_wrap > * { width: 100% !important; } /* flex 전환으로 리스트가 좁아지는 것 방지(풀폭 유지) */
+  ._list_wrap > .li_footer {
+    order: -1 !important;
+    display: flex !important; align-items: center !important; gap: 12px !important;
+    margin: 0 0 18px !important; padding: 4px 0 0 !important;
   }
-  .ajg-board-search .form-control {
+  /* 검색 툴: hidden-xs(모바일 숨김) 무력화 + 가로 채움 */
+  ._list_wrap > .li_footer .tools {
+    display: block !important; flex: 1 1 auto !important; min-width: 0 !important; margin: 0 !important;
+  }
+  /* 글쓰기 버튼: 상단 우측 고정 */
+  ._list_wrap > .li_footer .btn-block-right { flex: 0 0 auto !important; margin: 0 !important; }
+
+  /* 검색폼 둥근 pill (부트스트랩 .input-group: display:table, border-radius:0 override) */
+  .li_footer form.input-group {
+    display: block !important; position: relative !important;
+    width: 100% !important; max-width: 460px !important; margin: 0 auto !important; border-collapse: separate !important;
+  }
+  .li_footer form.input-group .form-control {
     display: block !important; float: none !important; width: 100% !important;
-    height: 46px !important; box-sizing: border-box !important;
-    padding: 0 48px 0 18px !important;
+    height: 46px !important; box-sizing: border-box !important; padding: 0 48px 0 18px !important;
     border: 1px solid #EEF1F8 !important; border-radius: 999px !important;
     background: #fff !important; box-shadow: none !important; outline: none !important;
-    font-size: 14px !important; color: #21262E !important;
-    transition: border-color .15s ease;
+    font-size: 14px !important; color: #21262E !important; transition: border-color .15s ease;
   }
-  .ajg-board-search .form-control::placeholder { color: #9FA3AB !important; }
-  .ajg-board-search .form-control:focus { border-color: #091E56 !important; box-shadow: none !important; }
-  .ajg-board-search .ico-search {
-    position: absolute !important; top: 0 !important; right: 0 !important;
-    width: 46px !important; height: 46px !important;
+  /* JS로 문구 바꾸기 전(placeholder="Search")엔 투명 → "Search" 잠깐 보이는 것 방지.
+     transition 으로 투명→회색 페이드 → 번쩍 대신 부드럽게 등장. */
+  .li_footer form.input-group .form-control::placeholder { transition: color 0.45s ease; }
+  .li_footer form.input-group .form-control:not([data-ph])::placeholder { color: transparent !important; }
+  .li_footer form.input-group .form-control[data-ph]::placeholder { color: #9FA3AB !important; }
+  .li_footer form.input-group .form-control:focus { border-color: #091E56 !important; box-shadow: none !important; }
+  .li_footer form.input-group .ico-search {
+    position: absolute !important; top: 0 !important; right: 0 !important; width: 46px !important; height: 46px !important;
     display: flex !important; align-items: center !important; justify-content: center !important;
     color: #6B7280 !important; text-decoration: none !important; z-index: 3 !important;
   }
-  .ajg-board-search .ico-search:hover { color: #091E56 !important; }
-  .ajg-board-search #image_list { display: none !important; }
-  /* hidden input 이 혹시 자리 차지하면 제거 */
-  .ajg-board-search input[type="hidden"] { display: none !important; }
+  .li_footer form.input-group .ico-search:hover { color: #091E56 !important; }
+  .li_footer #image_list { display: none !important; }
 
-  /* --- 사이트(상품) 검색 #s_form 도 둥글게 (게시판 검색과 톤 통일, 별도 스코프라 서로 안 침범) --- */
-  #s_form input[name="keyword"] {
-    border-radius: 999px !important;
-    border: 1px solid #EEF1F8 !important;
+  /* 좁은 화면: 검색 한 줄 꽉, 글쓰기 그 아래 우측 */
+  @media (max-width: 600px) {
+    ._list_wrap > .li_footer { flex-wrap: wrap !important; }
+    ._list_wrap > .li_footer .tools { flex: 1 1 100% !important; }
+    ._list_wrap > .li_footer .btn-block-right { margin-left: auto !important; }
   }
+
+  /* 사이트(상품) 검색 #s_form 도 둥글게 (별도 스코프라 서로 안 침범) */
+  #s_form input[name="keyword"] { border-radius: 999px !important; border: 1px solid #EEF1F8 !important; }
   #s_form input[name="keyword"]:focus { border-color: #091E56 !important; box-shadow: none !important; }
 </style>
+
+<!-- ========================= [B] 푸터 코드 (선택: 플레이스홀더 문구) ========================= -->
 <script>
   (function () {
-    function move() {
-      // 폼 id 가 게시판마다 다름(bottomSearch/boardSearch…) → id 비의존으로 검색폼 탐색
-      var form = document.querySelector('#bottomSearch, #boardSearch, .li_footer form.input-group');
-      if (!form) {
-        var kw = document.querySelector('.li_footer input[name="keyword"]');
-        form = kw ? kw.closest('form') : null;
-      }
-      if (!form) return false;
-      if (document.querySelector('.ajg-board-search')) return true; // 이미 이동됨
-
-      // 게시판 리스트 래퍼(풀폭 블록) 최상단에 삽입 → 폭·위치 안정.
-      // (특정 요소 앞 삽입은 게시판 유형별로 좁은 컨테이너에 들어가 폭이 0으로 무너질 수 있음)
-      var wrap = form.closest('._list_wrap') || form.closest('.board');
-      var box = document.createElement('div');
-      box.className = 'ajg-board-search';
-      box.appendChild(form); // 폼만 이동(하단 글쓰기 버튼은 유지)
-      if (wrap) {
-        wrap.insertBefore(box, wrap.firstChild);
-      } else {
-        var anchor = document.querySelector('.li_table')
-                  || document.querySelector('.board_list')
-                  || document.querySelector('.li_header');
-        if (!anchor || !anchor.parentNode) return false;
-        anchor.parentNode.insertBefore(box, anchor);
-      }
-
-      var input = form.querySelector('input[name="keyword"]');
-      if (input) input.placeholder = '궁금한 점을 검색해보세요'; // ← 플레이스홀더 수정
-      return true;
-    }
-
-    if (!move()) {
-      // 게시판이 늦게 렌더되는 경우 잠깐 재시도
-      var n = 0, iv = setInterval(function () {
-        if (move() || ++n > 20) clearInterval(iv);
-      }, 150);
+    var list = document.querySelectorAll('.li_footer input[name="keyword"]');
+    for (var i = 0; i < list.length; i++) {
+      list[i].setAttribute('data-ph', '');           // 투명 해제(문구 준비됨)
+      list[i].placeholder = '궁금한 점을 검색해보세요';
     }
   })();
 </script>
