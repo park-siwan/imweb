@@ -1,0 +1,42 @@
+<!-- 고객센터 카드 — imweb "코드" 위젯에 통째로 붙여넣기.
+     전화번호 tap-to-call(tel:), 헤드셋 아이콘, 브랜드 팔레트. 값은 아래 텍스트만 수정. -->
+<div class="ajg-cs">
+  <span class="ajg-cs__ic" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="#091E56">
+      <path d="M12 2C6.48 2 2 6.48 2 12v7a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H4v-1a8 8 0 1 1 16 0v1h-2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-7c0-5.52-4.48-10-10-10z"/>
+    </svg>
+  </span>
+  <div class="ajg-cs__body">
+    <p class="ajg-cs__label">고객센터</p>
+    <a class="ajg-cs__tel" href="tel:07088045670">070-8804-5670</a>
+    <ul class="ajg-cs__hours">
+      <li>상담시간 : 10:00 ~ 17:00 <span>(평일)</span></li>
+      <li>점심시간 : 13:00 ~ 14:00</li>
+      <li>주말·공휴일 휴무</li>
+    </ul>
+  </div>
+</div>
+
+<style>
+.ajg-cs { display:flex; align-items:flex-start; gap:16px; padding:24px;
+  background:#fff; border:1px solid #EEF1F8; border-radius:14px;
+  font-family:'Pretendard','Apple SD Gothic Neo',sans-serif; }
+.ajg-cs, .ajg-cs * { box-sizing:border-box; }
+.ajg-cs__ic { flex-shrink:0; width:48px; height:48px; display:flex;
+  align-items:center; justify-content:center; background:#E8F0FF; border-radius:50%; }
+.ajg-cs__body { min-width:0; }
+.ajg-cs__label { margin:0 0 4px; font-size:14px; font-weight:700;
+  color:#091E56; letter-spacing:-0.01em; }
+.ajg-cs__tel { display:inline-block; margin:0 0 12px; font-size:34px; font-weight:800;
+  color:#21262E; text-decoration:none; letter-spacing:-0.02em; line-height:1.1; }
+.ajg-cs__hours { list-style:none; margin:0; padding:0; }
+.ajg-cs__hours li { position:relative; padding-left:12px; font-size:14px;
+  color:#6B7280; line-height:1.75; }
+.ajg-cs__hours li::before { content:"·"; position:absolute; left:2px; color:#6B7280; }
+.ajg-cs__hours li span { color:#9FA3AB; }
+
+@media (max-width:480px) {
+  .ajg-cs { padding:20px; gap:12px; }
+  .ajg-cs__tel { font-size:28px; }
+}
+</style>

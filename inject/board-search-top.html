@@ -1,0 +1,83 @@
+<!-- 게시판(FAQ 등) 하단 검색을 "게시물 상단"으로 이동 + 리스타일 + 플레이스홀더 변경.
+     그 게시판이 있는 페이지에 "코드" 위젯으로 붙여넣기(게시판 위/아래 아무데나 OK — JS가 찾아 옮김).
+     - 폼만 이동하므로 하단 "글쓰기" 버튼은 그대로.
+     - hidden-xs(모바일 숨김) 컨테이너에서 빠져나와 모바일에서도 검색 노출됨. -->
+<style>
+  /* imweb 부트스트랩 .input-group(display:table, border-radius:0)을 이겨야 해서 !important 사용(코드위젯이라 허용) */
+  .ajg-board-search { display: block !important; width: auto !important; max-width: 460px; margin: 4px auto 24px !important; }
+  .ajg-board-search .input-group,
+  .ajg-board-search form {
+    display: block !important; position: relative !important;
+    width: 100% !important; margin: 0 !important; padding: 0 !important;
+    border-collapse: separate !important;
+  }
+  .ajg-board-search .form-control {
+    display: block !important; float: none !important; width: 100% !important;
+    height: 46px !important; box-sizing: border-box !important;
+    padding: 0 48px 0 18px !important;
+    border: 1px solid #EEF1F8 !important; border-radius: 999px !important;
+    background: #fff !important; box-shadow: none !important; outline: none !important;
+    font-size: 14px !important; color: #21262E !important;
+    transition: border-color .15s ease;
+  }
+  .ajg-board-search .form-control::placeholder { color: #9FA3AB !important; }
+  .ajg-board-search .form-control:focus { border-color: #091E56 !important; box-shadow: none !important; }
+  .ajg-board-search .ico-search {
+    position: absolute !important; top: 0 !important; right: 0 !important;
+    width: 46px !important; height: 46px !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    color: #6B7280 !important; text-decoration: none !important; z-index: 3 !important;
+  }
+  .ajg-board-search .ico-search:hover { color: #091E56 !important; }
+  .ajg-board-search #image_list { display: none !important; }
+  /* hidden input 이 혹시 자리 차지하면 제거 */
+  .ajg-board-search input[type="hidden"] { display: none !important; }
+
+  /* --- 사이트(상품) 검색 #s_form 도 둥글게 (게시판 검색과 톤 통일, 별도 스코프라 서로 안 침범) --- */
+  #s_form input[name="keyword"] {
+    border-radius: 999px !important;
+    border: 1px solid #EEF1F8 !important;
+  }
+  #s_form input[name="keyword"]:focus { border-color: #091E56 !important; box-shadow: none !important; }
+</style>
+<script>
+  (function () {
+    function move() {
+      // 폼 id 가 게시판마다 다름(bottomSearch/boardSearch…) → id 비의존으로 검색폼 탐색
+      var form = document.querySelector('#bottomSearch, #boardSearch, .li_footer form.input-group');
+      if (!form) {
+        var kw = document.querySelector('.li_footer input[name="keyword"]');
+        form = kw ? kw.closest('form') : null;
+      }
+      if (!form) return false;
+      if (document.querySelector('.ajg-board-search')) return true; // 이미 이동됨
+
+      // 게시판 리스트 래퍼(풀폭 블록) 최상단에 삽입 → 폭·위치 안정.
+      // (특정 요소 앞 삽입은 게시판 유형별로 좁은 컨테이너에 들어가 폭이 0으로 무너질 수 있음)
+      var wrap = form.closest('._list_wrap') || form.closest('.board');
+      var box = document.createElement('div');
+      box.className = 'ajg-board-search';
+      box.appendChild(form); // 폼만 이동(하단 글쓰기 버튼은 유지)
+      if (wrap) {
+        wrap.insertBefore(box, wrap.firstChild);
+      } else {
+        var anchor = document.querySelector('.li_table')
+                  || document.querySelector('.board_list')
+                  || document.querySelector('.li_header');
+        if (!anchor || !anchor.parentNode) return false;
+        anchor.parentNode.insertBefore(box, anchor);
+      }
+
+      var input = form.querySelector('input[name="keyword"]');
+      if (input) input.placeholder = '궁금한 점을 검색해보세요'; // ← 플레이스홀더 수정
+      return true;
+    }
+
+    if (!move()) {
+      // 게시판이 늦게 렌더되는 경우 잠깐 재시도
+      var n = 0, iv = setInterval(function () {
+        if (move() || ++n > 20) clearInterval(iv);
+      }, 150);
+    }
+  })();
+</script>
