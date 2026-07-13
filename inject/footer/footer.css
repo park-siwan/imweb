@@ -1,0 +1,343 @@
+/* ============================================================
+   바라던 할인 — 푸터 리스타일 (전역 override)
+   삽입 위치: 아임웹 관리자 > 디자인 > 코드 삽입 > <head> (또는 헤더 CSS)
+   대상 DOM: ref/footer.html (아임웹 footer-type05)
+
+   레이아웃 (데스크톱: 2열 grid)
+   ┌──────────────────────────────────────────────────────┐
+   │ 이용약관 · 개인정보처리방침 · 고객센터   [N pay][kakao][toss] │ ← 메뉴 | 결제수단 카드
+   ├──────────────────────────────────────────────────────┤
+   │ 상호명 · 대표자 · 주소 · 사업자등록번호 …  (법정 정보)      │
+   │ © 바라던 할인. All rights reserved.                    │
+   └──────────────────────────────────────────────────────┘
+
+   ⚠ 결제 안내 문구와 카드 3장은 아임웹 "푸터 텍스트" 블록(.custom-text)을 재활용한다.
+     푸터 DOM 에서 우리가 자유롭게 쓸 수 있는 빈 요소가 여기뿐이기 때문.
+     → 아임웹 관리자에서 이 푸터 텍스트 블록에 글자를 넣지 말 것.
+       (넣으면 네이버 카드와 카카오 카드 사이에 그 글자가 끼어든다)
+     → 안내 문구를 고치려면 아래 .custom-text::before 의 content 를 수정한다.
+   ============================================================ */
+
+#doz_footer_wrap {
+  /* 브랜드 컬러 — gnb-overrides / category-menubar / board-search-top 과 동일 */
+  --fw-brand: #091e56;
+
+  --fw-bg: #ffffff;
+  --fw-rule: #c9cdd2; /* 최상단 굵은 회색선 */
+  --fw-band: #f5f7f9; /* 링크 구간 회색 밴드 */
+  --fw-line: #e5e8eb; /* 밴드 아래 얇은 회색선 */
+  --fw-text: #8b95a1;
+  --fw-strong: #333d4b;
+
+  /* 회색 밴드가 100vw 로 삐져나가도 가로 스크롤바가 생기지 않게 잘라낸다.
+     (overflow-x: hidden 과 달리 clip 은 스크롤 컨테이너를 만들지 않는다) */
+  overflow-x: clip;
+
+  /* 법정 정보 항목 사이 간격. 구분선은 이 간격의 정중앙에 놓인다. */
+  --fw-sep: 21px;
+
+  /* ---- 결제수단 카드 (시안 350x136 / radius 16 비율 기준, 테두리 없음) ----
+     높이만 바꾸면 폭·라운드가 시안 비율 그대로 따라온다. */
+  --fw-card-h: 44px;
+  --fw-card-w: calc(var(--fw-card-h) * 350 / 136);
+  --fw-card-r: calc(var(--fw-card-h) * 16 / 136);
+  --fw-card-gap: 8px;
+  --fw-card-pad: 7px 12px; /* 카드 안쪽 로고 여백 */
+
+  /* 로고 3장. 아임웹에 업로드한 뒤 이 3줄의 url() 만 갈아끼우면 된다. */
+  --fw-pay-naver: url('https://cdn.imweb.me/upload/S202310167035b854dd5cb/66aae3863030a.png');
+  --fw-pay-kakao: url('https://cdn.imweb.me/upload/S202310167035b854dd5cb/6f41f827082e0.png');
+  --fw-pay-toss: url('https://cdn.imweb.me/upload/S202310167035b854dd5cb/25b5e18d40f5a.png');
+}
+
+/* ---------- 껍데기 ---------- */
+/* 밴드가 푸터 맨 위에 딱 붙어야 하므로 padding-top 은 0. 위쪽 여백은 밴드가 만든다. */
+#doz_footer .footer-section {
+  background-color: var(--fw-bg) !important;
+  border-top: 2px solid var(--fw-rule) !important;
+  color: var(--fw-text) !important;
+  text-align: left !important;
+  padding-top: 0 !important;
+  padding-bottom: 40px !important;
+}
+
+/* 1행: 메뉴 | 결제수단, 2행: 법정 정보, 3행: 카피라이트 */
+#doz_footer .footer-section .foot-custom {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 24px;
+  row-gap: 20px;
+}
+
+/* 링크 구간 회색 밴드.
+   grid-area 를 주면 그 셀이 곧 절대배치의 컨테이닝 블록이 된다. 거기서 100vw 로
+   좌우를 밀어내 화면 끝까지 채운다 (.inside 가 max-width 로 묶여 있어 필요한 처리).
+   아래쪽 얇은 회색선도 이 밴드의 border-bottom 이 겸한다. */
+#doz_footer .footer-section .foot-custom::before {
+  content: '';
+  grid-area: 1 / 1 / 2 / -1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  z-index: 0;
+  background: var(--fw-band);
+  border-bottom: 1px solid var(--fw-line);
+}
+
+/* ---------- ① 메뉴 ---------- */
+#doz_footer .footer-section .foot-foot-nav {
+  position: relative; /* 밴드 위로 */
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 16px 0;
+}
+
+#doz_footer .footer-section .nav.nav-stacked.footer-all-nav {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* 원본의 float 레이아웃 해제 */
+#doz_footer .footer-section .foot-foot-nav .policy_menu,
+#doz_footer .footer-section .foot-foot-nav .footer_menu {
+  display: flex;
+  float: none;
+  align-items: center;
+}
+
+#doz_footer .footer-section .nav.nav-stacked.footer-all-nav li {
+  float: none;
+  display: flex;
+  align-items: center;
+  font-weight: 400 !important; /* 인라인 font-weight:bold 제거 */
+}
+
+/* 항목 사이 가운데점 구분자 */
+#doz_footer .footer-section .nav.nav-stacked.footer-all-nav li + li::before,
+#doz_footer .footer-section .foot-foot-nav .footer_menu li:first-child::before {
+  content: '';
+  width: 3px;
+  height: 3px;
+  margin: 0 4px;
+  border-radius: 50%;
+  background: #d9dee3;
+}
+
+#doz_footer .footer-section .nav.nav-stacked.footer-all-nav li a {
+  padding: 4px 10px !important;
+  font-size: 13px !important;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--fw-strong) !important;
+  transition: color 0.15s ease;
+}
+
+#doz_footer .footer-section .nav.nav-stacked.footer-all-nav li a:hover {
+  color: var(--fw-brand) !important;
+  opacity: 1;
+}
+
+/* ---------- ② 결제 안내 문구 + 결제수단 카드 3장 ---------- */
+/* 쓸 수 있는 박스가 .custom-text / .custom-text-info 와 그 pseudo 뿐이라 이렇게 나눈다.
+     .custom-text::before        → 안내 문구 (2줄)
+     .custom-text::after         → 네이버페이 카드
+     .custom-text-info           → 카카오+토스를 담는 래퍼 (카드 아님)
+       └ ::before / ::after      → 카카오페이 / 토스페이 카드
+   DOM 순서와 무관하게 grid 로 자리를 지정하므로 화면에는 문구 → [네이버][카카오][토스] 순. */
+#doz_footer .footer-section .custom-text {
+  position: relative; /* 밴드 위로 */
+  z-index: 1;
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: auto auto; /* [네이버] [카카오+토스] */
+  justify-content: end;
+  align-items: center;
+  gap: 10px var(--fw-card-gap);
+  margin: 0;
+  padding: 14px 0;
+}
+
+/* 안내 문구 — \A 로 두 줄, pre-line 이라 좁아지면 자연스럽게 더 접힌다 */
+#doz_footer .footer-section .custom-text::before {
+  content: '정식 인증 결제사를 통해 안전하게 결제됩니다\A신용카드 · 계좌이체 · 간편결제 · 휴대폰결제';
+  grid-row: 1;
+  grid-column: 1 / -1;
+  white-space: pre-line;
+  text-align: right;
+  font-size: 12px;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+  color: var(--fw-text);
+}
+
+/* 카카오+토스 래퍼. 카드가 아니므로 배경·테두리 없음 */
+#doz_footer .footer-section .custom-text .custom-text-info {
+  grid-row: 2;
+  grid-column: 2;
+  display: flex;
+  gap: var(--fw-card-gap);
+  font-size: 0; /* 아임웹 관리자에서 실수로 글자를 넣어도 카드가 밀리지 않게 */
+}
+
+/* 카드 3장 공통 */
+#doz_footer .footer-section .custom-text::after,
+#doz_footer .footer-section .custom-text .custom-text-info::before,
+#doz_footer .footer-section .custom-text .custom-text-info::after {
+  content: '';
+  display: block;
+  flex: 0 0 var(--fw-card-w);
+  width: var(--fw-card-w);
+  height: var(--fw-card-h);
+  box-sizing: border-box;
+  padding: var(--fw-card-pad);
+  border-radius: var(--fw-card-r);
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-origin: content-box; /* padding 을 로고 여백으로 쓴다 */
+}
+
+#doz_footer .footer-section .custom-text::after {
+  grid-row: 2;
+  grid-column: 1;
+  background-image: var(--fw-pay-naver);
+}
+
+#doz_footer .footer-section .custom-text .custom-text-info::before {
+  background-image: var(--fw-pay-kakao);
+}
+
+#doz_footer .footer-section .custom-text .custom-text-info::after {
+  background-image: var(--fw-pay-toss);
+}
+
+/* ---------- ③ 법정 사업자 정보 ---------- */
+/* 구분선은 밴드의 border-bottom 이 이미 그렸으므로 여기에 border-top 을 또 주지 않는다. */
+#doz_footer .footer-section .footer-company-info {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+/* 구분선을 항목 사이 "간격"에 절대배치하고, 컨테이너 왼쪽 바깥으로 삐져나간 것만 잘라낸다.
+   줄바꿈이 일어나면 새 줄의 첫 항목도 x=0 에 놓이므로 그 구분선은 -10.5px 로 밀려나
+   overflow 에 잘린다. 덕분에 몇 줄로 접히든 줄머리에 구분선이 남지 않는다.
+   (li + li 방식은 두 번째 줄이 "│ 대표자 이메일…" 처럼 시작해서 좌측이 비어 보인다) */
+#doz_footer .footer-section .footer-company-info #footer-company-info-line {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--fw-sep);
+  row-gap: 4px;
+  overflow: hidden;
+  margin: 0 !important;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--fw-text);
+}
+
+#doz_footer .footer-section .footer-company-info__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0 !important;
+}
+
+#doz_footer .footer-section .footer-company-info__item::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--fw-sep) / -2);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 10px;
+  background: #e5e8eb;
+}
+
+/* ---------- ④ 카피라이트 ---------- */
+#doz_footer .footer-section .foot-custom::after {
+  content: '© 바라던 할인. All rights reserved.';
+  grid-column: 1 / -1;
+  grid-row: 3;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: #b0b8c1;
+}
+
+/* ---------- 반응형 ---------- */
+@media (max-width: 768px) {
+  #doz_footer_wrap {
+    --fw-sep: 16px;
+    --fw-card-h: 38px;
+    --fw-card-pad: 6px 10px;
+  }
+
+  /* padding-top 은 0 유지 — 밴드가 굵은 상단선에 딱 붙어야 한다 */
+  #doz_footer .footer-section {
+    padding-bottom: 28px !important;
+    font-size: 12px !important;
+  }
+
+  /* 1열로 쌓는다: 메뉴 → 결제수단 → 법정 정보 → 카피라이트 */
+  #doz_footer .footer-section .foot-custom {
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+  }
+
+  /* 밴드가 메뉴(1행) + 결제수단(2행) 을 함께 감싸도록 늘린다 */
+  #doz_footer .footer-section .foot-custom::before {
+    grid-area: 1 / 1 / 3 / -1;
+  }
+
+  #doz_footer .footer-section .foot-foot-nav {
+    padding: 16px 0 0;
+  }
+
+  /* 문구·카드 모두 왼쪽 정렬 (데스크톱은 오른쪽 정렬) */
+  #doz_footer .footer-section .custom-text {
+    grid-column: 1;
+    grid-row: 2;
+    justify-content: start;
+    padding: 0 0 16px;
+  }
+
+  #doz_footer .footer-section .custom-text::before {
+    text-align: left;
+    font-size: 11px;
+  }
+
+  #doz_footer .footer-section .footer-company-info {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  #doz_footer .footer-section .foot-custom::after {
+    grid-column: 1;
+    grid-row: 4;
+  }
+
+  #doz_footer .footer-section .nav.nav-stacked.footer-all-nav li a {
+    padding: 2px 8px !important;
+  }
+
+  #doz_footer .footer-section .nav.nav-stacked.footer-all-nav li:first-child a,
+  #doz_footer .footer-section .foot-foot-nav .policy_menu li:first-child a {
+    padding-left: 0 !important;
+  }
+
+  #doz_footer .footer-section .footer-company-info #footer-company-info-line {
+    font-size: 11px;
+  }
+}

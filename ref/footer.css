@@ -1,0 +1,190 @@
+
+
+	.footer-section {
+	;
+		background-color                                                               : #fafbfc;
+	;
+		color                                                                          : #6b7280;
+		font-size        :12px;
+	;
+	 background-size : cover; background-repeat: no-repeat; background-position : ; text-align : center;
+		padding-top                                                                    : 16px;
+		padding-bottom                                                                 : 16px;
+			}
+
+	.doz_sys .footer-section a {
+	;
+		color   : #6b7280 !important;
+	}
+	.doz_sys .footer-section .use_sub_name:hover>a>.plain_name:before {
+		color   : #6b7280;
+	}
+	.footer-section .custom-text {
+		margin-top : 5px;
+		margin-bottom: 10px;
+	}
+
+	.footer-section .custom-text .custom-text-info {
+		font-size        :12px;
+	}
+
+	.foot-main-nav {
+		font-size        :12px;
+	}
+
+	.foot-foot-nav {
+		font-size        :12px;
+	}
+
+	.foot-foot-nav .policy_menu, .foot-foot-nav .footer_menu {
+		float : left;
+	}
+	.footer-section .site-brand {
+		font-size        :12px;
+		margin-bottom : 0.8em;
+	}
+
+	.footer-section .copryright-area {
+		font-size        :12px;
+	}
+
+	.footer-section .nav.nav-stacked.footer-all-nav {
+		display     : inline-block;
+	}
+
+	.footer-section .nav.nav-stacked.footer-all-nav li {
+		float : left;
+	}
+
+	.footer-section .nav.nav-stacked.footer-all-nav li a {
+		padding   : 3px 7.5px;
+		font-size        :12px;
+	}
+
+
+	.footer-section .nav.nav-stacked.footer-all-nav li a:hover {
+		background : none;
+		opacity    : 1;
+	}
+
+	.nav-stacked > li + li {
+		margin-top : 0;
+	}
+
+	.footer-section .foot-sociallink {
+		display : inline-block;
+	}
+
+	.footer-section .foot-sociallink .btn-group {
+		display : block;
+	}
+
+	.footer-section .foot-sociallink .btn-group .btn {
+		background    : none;
+		font-size     : 20px;
+		border-radius : 0;
+		border        : none;
+		border-color: transparent;
+		padding       : 0 12px;
+	}
+
+	.footer-section .foot-sociallink .btn-group .btn i {
+	;
+		color : #6b7280;
+	}
+	.footer-section .foot-sociallink .btn-group .btn i.icon_naver {
+		font-family: "Arial Black", "AvenirNext-Heavy";
+		transform: translateY(-1px);
+		font-style: normal;
+	}
+	.footer-section .foot-sociallink .btn-group .btn:hover {
+		opacity : 0.7;
+		color   : inherit;
+	}
+	#doz_footer .footer-section .foot-app-menu {
+		margin-top: 30px;
+		display: inline-block;
+	}
+	#doz_footer .footer-section .foot-app-menu > div {
+		float:left;
+		margin: 2.5px;
+	}
+	#doz_footer .footer-section .foot-app-menu .btn {
+		width: 195px;
+		height: 60px;
+		padding: 0 24px;
+		color:#fff;
+	}
+	#doz_footer .footer-section .foot-app-menu .sm-txt {
+		font-size: 11px;
+		color: #999;
+		letter-spacing: 0;
+	}
+	#doz_footer .footer-section .foot-app-menu .lg-txt {
+		font-size: 15px;
+		font-weight: bold;
+		letter-spacing: 0;
+		color: #fff;
+	}
+	@media (max-width : 992px) {
+		.foot-main-nav, .foot-foot-nav, .footer-section .foot-sociallink {
+			margin : 7px 0;
+		}
+
+		.footer-section {
+			font-size : 14px;
+		}
+
+		.footer-section .footer-wrap {
+			padding : 0;
+		}
+
+		.footer-section .foot-sociallink {
+			position : inherit;
+			order    : 4;
+		}
+
+		.footer-section .nav.nav-stacked.footer-all-nav li, .foot-foot-nav .policy_menu, .foot-foot-nav .footer_menu {
+			float   : none;
+			display : inline-block;
+		}
+	}
+	@media (max-width:640px) {
+		#doz_footer .footer-section .foot-app-menu {
+			display: table;
+			margin-top: 20px;
+			width: 100%;
+		}
+		#doz_footer .footer-section .foot-app-menu .btn {
+			width: 100%;
+			padding: 0 10px;
+			letter-spacing: 0;
+		}
+		#doz_footer .footer-section .foot-app-menu > div {
+			float: none;
+			margin: 0;
+			display: table-cell;
+			padding: 0 2.5px 0 0;
+			width: 50%;
+		}
+		#doz_footer .footer-section .foot-app-menu > div.apple {
+			padding: 0 0 0 2.5px;
+		}
+		#doz_footer .footer-section .foot-app-menu .lg-txt {
+			font-size:14px;
+		}
+
+	}
+	@media all and (min-width:320px) and (max-width:639px) {
+		#doz_footer .footer-section .foot-app-menu .btn {
+			padding: 0 8px;
+		}
+	}
+    #doz_footer .footer-section .footer-company-info__item {
+        display: inline-block;
+        margin-right: 8px;
+    }
+    #doz_footer .footer-section .footer-company-info #footer-company-info-line {
+        margin: 10px 0;
+    }
+<
