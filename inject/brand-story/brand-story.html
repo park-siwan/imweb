@@ -142,7 +142,7 @@
         정품 보상 정책 확인하기 <span aria-hidden="true">→</span>
       </a>
     </div>
-    <p class="ajg-bs__note">상품별 공급처와 유통 방식은 다를 수 있고, 자세한 상품 정보는 각 상품 상세페이지에서 확인할 수 있어요.</p>
+    <p class="ajg-bs__note">상품별 공급처와 유통 방식은 다를 수 있어요.</p>
   </section>
 
   <!-- ═══════════ 04 유통 구조 (검정 아래 회색 밴드) ═══════════ -->
@@ -230,7 +230,7 @@
   <!-- ═══════════ 05 사회적 증거 (STATS — 수치는 이 섹션에서만 수정) ═══════════ -->
   <section class="ajg-bs__sec ajg-bs__sec--soft" data-rv>
     <p class="ajg-bs__num">05</p>
-    <h2 class="ajg-bs__h2">먼저 산 분들은 뭐라고 할까요?</h2>
+    <h2 class="ajg-bs__h2">실제 브랜드 경험 기반</h2>
     <div class="ajg-bs__prose">
       <p>바라던할인은 가격뿐 아니라 상품의 품질과 배송, 포장, 고객 응대까지<br class="ajg-bs__br-pc">
         구매 과정 전반에서 만족을 드리는 것을 중요하게 생각해요.</p>
@@ -561,7 +561,9 @@
 /* 다크 밴드 안 보상 카드 — 반투명 유리(글래스) 질감: backdrop blur가 뒤 노이즈를 뭉갬 */
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise {
   background-color: rgba(255, 255, 255, .07);
-  background-image: none; /* 저알파 그라디언트는 어두운 유리 위에서 계조 단차(남북 분단)로 보여 제거 — 하이라이트는 윗변 보더가 담당 */
+  /* 유리 표면 자체 그레인 — 서리 낀 질감 (그라디언트는 계조 단차 문제로 금지, 노이즈는 안전) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.15'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
   border: 1px solid rgba(255, 255, 255, .16);
   border-top-color: rgba(255, 255, 255, .26); /* 유리 윗면 반사 */
   -webkit-backdrop-filter: blur(14px);
@@ -676,19 +678,20 @@
 #ajgBrandStory .ajg-bs__promise-link:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0, 0, 0, .25); }
 /* 다크 밴드에선 CTA도 글래스모피즘 — 반투명 + 블러 + 하이라이트 보더 + 흰 글자 */
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link {
-  background: rgba(255, 255, 255, .12);
+  /* background: rgba(255, 255, 255, .12);
   border: 1px solid rgba(255, 255, 255, .32);
   border-top-color: rgba(255, 255, 255, .45);
   color: #FFFFFF;
   -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px); */
+  background: rgba(255, 255, 255, 0.959);
 }
-#ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link:hover,
+/* #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link:hover,
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link:focus,
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link:visited {
   color: #FFFFFF;
 }
-#ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link:hover { background: rgba(255, 255, 255, .2); }
+#ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link:hover { background: rgba(255, 255, 255, .2); } */
 
 /* 정품 보상 카드 입체 효과 — 마우스 따라 2.5도 이하 틸트 + 은은한 조명 (데스크톱 전용) */
 @media (hover: hover) and (pointer: fine) {
@@ -1235,7 +1238,7 @@
       if (last === null) last = ts;
       /* 관성+마찰 모델 (위상 50° 이동) — 상단: 점점 가속(0.48→0.94) → 우측 하강: 최고속(피크 1.68배, θ≈140°)
          → 하단: 관성으로 빠르게 진입 후 마찰 감속(1.68→1.06) → 좌측 상승: 가장 느림(최저 0.32배, θ≈320°) */
-      theta += (ts - last) * (Math.PI * 2 / 7000) * (1 + 0.68 * Math.sin(theta - 0.873));
+      theta += (ts - last) * (Math.PI * 2 / 3000) * (1 + 0.68 * Math.sin(theta - 0.873));
       last = ts;
       /* 조명 중심을 카드 가장자리에 붙여 글린트와 같은 지점을 순회 (0.62 반경 + 0~1 클램프) */
       var px = Math.min(1, Math.max(0, 0.5 + 0.62 * Math.sin(theta)));
