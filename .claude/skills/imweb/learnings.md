@@ -31,6 +31,12 @@
 
 ## CSS cascade · specificity
 
+### 코드위젯 CSS가 아임웹 전역 `.doz_sys h3`·`.doz_sys a` 에 밀림 → ID 스코프로 해결
+- **증상**: 코드위젯에 `<style>`로 넣은 `.xxx__h3 { font-size:17px }`, `.xxx__btn { color:#fff }` 이 사이트에서 무시됨. h3가 거대해지고(`.doz_sys h3 { font-size:2.571em }`), 네이비 버튼 안 글자가 검정(`.doz_sys a` color).
+- **원인**: 아임웹 테마 전역 CSS가 `.doz_sys h3`·`.doz_sys a` 같은 **class+element 선택자(특이도 0,1,1)** 를 쓰는데, 위젯의 단일 클래스 선택자는 (0,1,0)이라 짐. `blockquote`·`ul`·`strong` 등 요소 선택자 스타일도 같은 경로로 침투.
+- **해결**: 코드위젯 루트에 ID를 주고(`id="ajgBrandStory"`) **모든 CSS 규칙을 `#루트ID .클래스`(1,1,0)로 스코프** → `!important` 없이 전역을 이김. 요소 태그(blockquote·ul·a·strong)를 쓰는 곳은 border/font-style/list-style/색을 **명시적으로 재선언**해서 테마 값 상속 차단.
+- **부수 규칙**: letter-spacing 미세조정(음수 자간 등)은 넣지 말 것 — 사용자 피드백: "클로드코드 티가 남". 브랜드 톤은 색·굵기·여백으로만.
+
 ### color @default 의 알파(투명도)가 실제론 안 먹음 → FF(불투명)로 떨어짐
 - **증상**: `@default #33333380`(50%)인데 패널 필드·렌더는 `#333333FF`(불투명). 컬러피커에서 알파 % 줘도 렌더 투명도 안 먹힘.
 - **원인**: imweb이 색상값 알파를 불안정하게 처리(8-hex 알파를 FF로 떨굼). §3.3의 "8-hex 알파 지원"과 실제 동작이 다름.
