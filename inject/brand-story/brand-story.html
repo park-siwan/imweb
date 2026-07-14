@@ -1101,20 +1101,21 @@
   transition: opacity .4s ease, transform .4s ease;
 }
 #ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in .ajg-bs__flow-steps > * { opacity: 1; transform: none; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--ours .ajg-bs__flow-steps > :nth-child(1) { transition-delay: .5s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--ours .ajg-bs__flow-steps > :nth-child(2) { transition-delay: .64s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--ours .ajg-bs__flow-steps > :nth-child(3) { transition-delay: .78s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--ours .ajg-bs__flow-steps > :nth-child(4) { transition-delay: .92s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--ours .ajg-bs__flow-steps > :nth-child(5) { transition-delay: 1.06s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(1) { transition-delay: 1.2s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(2) { transition-delay: 1.32s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(3) { transition-delay: 1.44s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(4) { transition-delay: 1.56s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(5) { transition-delay: 1.68s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(6) { transition-delay: 1.80s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(7) { transition-delay: 1.92s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(8) { transition-delay: 2.04s; }
-#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(9) { transition-delay: 2.16s; }
+/* 일반 구조(위)가 먼저 그려지고, 바라던할인(아래)이 펀치라인으로 이어짐 */
+#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(1) { transition-delay: .5s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(2) { transition-delay: .62s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(3) { transition-delay: .74s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(4) { transition-delay: .86s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(5) { transition-delay: .98s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(6) { transition-delay: 1.10s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(7) { transition-delay: 1.22s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(8) { transition-delay: 1.34s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--typ .ajg-bs__flow-steps > :nth-child(9) { transition-delay: 1.46s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--ours .ajg-bs__flow-steps > :nth-child(1) { transition-delay: 1.62s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--ours .ajg-bs__flow-steps > :nth-child(2) { transition-delay: 1.76s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--ours .ajg-bs__flow-steps > :nth-child(3) { transition-delay: 1.90s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--ours .ajg-bs__flow-steps > :nth-child(4) { transition-delay: 2.04s; }
+#ajgBrandStory [data-rv] .ajg-bs__flow--ours .ajg-bs__flow-steps > :nth-child(5) { transition-delay: 2.18s; }
 
 /* 07 마퀴 타일 — 리빌 시 왼쪽부터 하나씩 페이드인 (hover transition과 분리하려고 animation 사용) */
 #ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__mq-item { opacity: 0; }
