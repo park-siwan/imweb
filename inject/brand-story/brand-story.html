@@ -625,6 +625,42 @@
 }
 #ajgBrandStory .ajg-bs__promise-link:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0, 0, 0, .25); }
 
+/* 정품 보상 카드 입체 효과 — 마우스 따라 2.5도 이하 틸트 + 은은한 조명 (데스크톱 전용) */
+@media (hover: hover) and (pointer: fine) {
+  #ajgBrandStory .ajg-bs__promise {
+    --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 50%;
+    position: relative; overflow: hidden;
+    transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(0);
+    transform-style: preserve-3d;
+    transition: transform .16s ease-out, box-shadow .22s ease;
+    box-shadow: 0 18px 40px rgba(9, 30, 86, .14);
+    will-change: transform;
+  }
+  #ajgBrandStory .ajg-bs__promise:hover {
+    box-shadow: 0 30px 60px rgba(9, 30, 86, .24), 0 8px 18px rgba(0, 0, 0, .08);
+  }
+  #ajgBrandStory .ajg-bs__promise::before { /* 마우스를 따라 움직이는 은은한 빛 */
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+    background: radial-gradient(circle at var(--mx) var(--my),
+      rgba(255, 220, 170, .18), rgba(255, 220, 170, .05) 24%, transparent 52%); /* 웜 골드 조명 */
+    transition: opacity .22s ease;
+  }
+  #ajgBrandStory .ajg-bs__promise:hover::before { opacity: 1; }
+  #ajgBrandStory .ajg-bs__promise > * { position: relative; z-index: 1; transform: translateZ(16px); }
+  #ajgBrandStory .ajg-bs__promise-ic { transform: translateZ(26px); }
+  #ajgBrandStory .ajg-bs__promise-title { transform: translateZ(22px); }
+  #ajgBrandStory .ajg-bs__promise-link { transform: translateZ(24px); }
+  #ajgBrandStory .ajg-bs__promise-link:hover { transform: translateZ(24px) translateY(-2px); }
+}
+#ajgBrandStory .ajg-bs__promise:focus-within { /* 키보드 포커스는 움직임 대신 테두리 강조 */
+  outline: 3px solid rgba(9, 30, 86, .18); outline-offset: 5px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #ajgBrandStory .ajg-bs__promise,
+  #ajgBrandStory .ajg-bs__promise > * { transform: none; transition: none; }
+  #ajgBrandStory .ajg-bs__promise::before { display: none; }
+}
+
 /* ── 04 유통 구조 다이어그램 ── */
 #ajgBrandStory .ajg-bs__flows { max-width: 760px; margin: 36px auto 0; display: grid; gap: 16px; }
 #ajgBrandStory .ajg-bs__flow { padding: 24px 22px 26px; border-radius: 16px; text-align: center; }
@@ -1050,5 +1086,31 @@
     });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
   root.querySelectorAll('[data-rv]').forEach(function (el) { io.observe(el); });
+})();
+
+/* 정품 보상 카드 틸트 — 데스크톱 파인 포인터 전용, 모션 감소 설정 시 미동작 */
+(function () {
+  var card = document.querySelector('#ajgBrandStory .ajg-bs__promise');
+  if (!card) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var maxTilt = 2.5;
+
+  card.addEventListener('mousemove', function (event) {
+    var rect = card.getBoundingClientRect();
+    var px = (event.clientX - rect.left) / rect.width;
+    var py = (event.clientY - rect.top) / rect.height;
+    card.style.setProperty('--rx', ((0.5 - py) * maxTilt * 2).toFixed(2) + 'deg');
+    card.style.setProperty('--ry', ((px - 0.5) * maxTilt * 2).toFixed(2) + 'deg');
+    card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+    card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+  });
+
+  card.addEventListener('mouseleave', function () {
+    /* 틸트만 복귀 — 조명 좌표는 마지막 위치에 두고 opacity로만 꺼짐 (가운데로 점프하는 어색함 방지) */
+    card.style.setProperty('--rx', '0deg');
+    card.style.setProperty('--ry', '0deg');
+  });
 })();
 </script>
