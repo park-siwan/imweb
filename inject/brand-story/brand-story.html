@@ -86,9 +86,9 @@
   <!-- ═══════════ 02 세 가지 가치 ═══════════ -->
   <section class="ajg-bs__sec ajg-bs__sec--soft" data-rv>
     <p class="ajg-bs__num">02</p>
-    <h2 class="ajg-bs__h2">싸기만 하면 될까요?</h2>
+    <h2 class="ajg-bs__h2">낮은 가격과 높은 목표</h2>
     <div class="ajg-bs__prose">
-      <p>아니요. 바라던할인은 세 가지를 함께 챙겨요.</p>
+      <p>바라던할인은 세 가지를 함께 챙겨요.</p>
     </div>
     <div class="ajg-bs__grid ajg-bs__grid--3">
       <div class="ajg-bs__card">
@@ -145,8 +145,8 @@
     <p class="ajg-bs__note">상품별 공급처와 유통 방식은 다를 수 있고, 자세한 상품 정보는 각 상품 상세페이지에서 확인할 수 있어요.</p>
   </section>
 
-  <!-- ═══════════ 04 유통 구조 ═══════════ -->
-  <section class="ajg-bs__sec" data-rv>
+  <!-- ═══════════ 04 유통 구조 (검정 아래 회색 밴드) ═══════════ -->
+  <section class="ajg-bs__sec ajg-bs__sec--soft" data-rv>
     <p class="ajg-bs__num">04</p>
     <h2 class="ajg-bs__h2">어떻게 이 가격이 가능할까요?</h2>
     <div class="ajg-bs__prose">
@@ -363,10 +363,10 @@
     </p>
   </section>
 
-  <!-- ═══════════ 07 카테고리 ═══════════ -->
-  <section class="ajg-bs__sec" data-rv>
+  <!-- ═══════════ 07 카테고리 (클로징 검정 위 회색 밴드) ═══════════ -->
+  <section class="ajg-bs__sec ajg-bs__sec--soft" data-rv>
     <p class="ajg-bs__num">07</p>
-    <h2 class="ajg-bs__h2">일상에 필요한 상품을 한곳에서</h2>
+    <h2 class="ajg-bs__h2">다양한 상품을 준비했어요</h2>
     <div class="ajg-bs__prose">
   <p>일상에서 자주 찾는 다양한 상품을 합리적인 가격으로 만나보세요.</p>
     </div>
@@ -536,17 +536,21 @@
   padding-left: max(20px, calc((100vw - 1080px) / 2));
   padding-right: max(20px, calc((100vw - 1080px) / 2));
 }
-#ajgBrandStory .ajg-bs__sec--soft { /* 페이지 리듬용 연한 밴드 — 02·05 */
-  padding-top: clamp(48px, 7vw, 72px); padding-bottom: clamp(48px, 7vw, 72px);
-  background: linear-gradient(180deg, #FAFAFA 0%, #F3F3F3 100%);
+#ajgBrandStory .ajg-bs__sec--soft { /* 회색 밴드 — 02·05·04·07(검정 섹션 위아래). 단으로 딱 끊김 */
+  padding-top: clamp(56px, 8vw, 80px); padding-bottom: clamp(56px, 8vw, 80px);
+  background-color: #F3F3F3;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.05'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
 }
 /* 다크 밴드(03) — 밝음→어두움→밝음→어두움 페이지 명암 리듬. 클로징과 같은 검정+노이즈 질감 */
 #ajgBrandStory .ajg-bs__sec--dark {
-  padding-top: clamp(56px, 8vw, 88px); padding-bottom: clamp(56px, 8vw, 88px);
+  position: relative; margin-top: 0; /* 위 회색 밴드에 밀착 — 단으로 끊김 */
+  padding-top: clamp(64px, 9vw, 96px); padding-bottom: clamp(64px, 9vw, 96px);
   background-color: #000000e8;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.15'/%3E%3C/svg%3E");
   background-size: 180px 180px;
 }
+#ajgBrandStory .ajg-bs__sec--dark + .ajg-bs__sec { margin-top: 0; } /* 검정 아래 회색 밴드도 밀착 */
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__h2 { color: #FFFFFF; }
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__prose p { color: #868686; }
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__prose strong { color: #FFFFFF; }
@@ -554,11 +558,14 @@
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__num::before,
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__num::after { background: rgba(255, 255, 255, .22); }
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__note { color: rgba(255, 255, 255, .55); }
-/* 다크 밴드 안 보상 카드 — 배경과 묻히지 않게 반투명 면 + 보더로 띄움 */
+/* 다크 밴드 안 보상 카드 — 반투명 유리(글래스) 질감: backdrop blur가 뒤 노이즈를 뭉갬 */
 #ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise {
-  background-color: rgba(255, 255, 255, .06);
-  background-image: none;
-  border: 1px solid rgba(255, 255, 255, .14);
+  background-color: rgba(255, 255, 255, .07);
+  background-image: none; /* 저알파 그라디언트는 어두운 유리 위에서 계조 단차(남북 분단)로 보여 제거 — 하이라이트는 윗변 보더가 담당 */
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-top-color: rgba(255, 255, 255, .26); /* 유리 윗면 반사 */
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
 }
 #ajgBrandStory .ajg-bs__prose { max-width: 680px; margin: 22px auto 0; }
 #ajgBrandStory .ajg-bs__prose p { margin-top: 14px; font-size: clamp(15px, 2.3vw, 16.5px); line-height: 1.85; color: #6B7280; }
@@ -587,12 +594,13 @@
 #ajgBrandStory .ajg-bs__pd-price { font-size: 16.5px; font-weight: 800; color: #21262E; }
 #ajgBrandStory .ajg-bs__pd-diff { font-size: 12.5px; color: #6B7280; }
 #ajgBrandStory .ajg-bs__pd-card--us {
-  background: #F4F6FB; border: 1.5px solid #091E56; color: #091E56;
+  background: #091E56; color: #FFFFFF;
   box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+  /* padding:10px; */
 }
-#ajgBrandStory .ajg-bs__pd-card--us .ajg-bs__pd-shop { color: #091E56; }
-#ajgBrandStory .ajg-bs__pd-card--us .ajg-bs__pd-price { color: #21262E; }
-#ajgBrandStory .ajg-bs__pd-diff--us { color: #091E56; font-weight: 700; }
+#ajgBrandStory .ajg-bs__pd-card--us .ajg-bs__pd-shop { color: #fff; }
+#ajgBrandStory .ajg-bs__pd-card--us .ajg-bs__pd-price { color: #fff; }
+#ajgBrandStory .ajg-bs__pd-diff--us { color: #fff; font-weight: 400; }
 #ajgBrandStory .ajg-bs__price-demo + .ajg-bs__note { margin-top: 16px; } /* 카드→예시 안내 간격 축소 */
 @media (max-width: 599px) {
   #ajgBrandStory .ajg-bs__price-demo::before { display: none; } /* 줄바꿈 레이아웃에선 연결선 제거 */
@@ -608,7 +616,7 @@
     linear-gradient(135deg, #fafafa70 0%, #f3f3f37f 100%); */
   border: 1px solid #EEF1F8; border-radius: 22px;
   /* box-shadow: 0 10px 30px rgba(9, 30, 86, 0.2); */
-  font-size: clamp(17px, 2.8vw, 21px); font-weight: 600; font-style: normal; line-height: 1.7;
+  font-size: clamp(17px, 2.8vw, 21px); font-weight: 400; font-style: normal; line-height: 1.7;
   color: #21262E; text-align: center;
 }
 @media (max-width: 600px) {
@@ -618,10 +626,10 @@
   position: relative; display: inline-block; margin-bottom: 14px;
   padding: 6px 13px; border-radius: 999px; 
   border: 1px solid #EEF1F8;
-  background: #ffffff; color: #21262E;
+  background: #091E56; color: #fff;
   font-size: 13px; font-weight: 700;
 }
-#ajgBrandStory .ajg-bs__pull-text { position: relative; margin-bottom: 12px;}
+#ajgBrandStory .ajg-bs__pull-text { position: relative; margin: 12px auto;}
 #ajgBrandStory .ajg-bs__pull strong { font-weight: 800; color: #21262E; }
 
 /* ── 카드 그리드 ── */
@@ -663,36 +671,78 @@
   transition: transform .18s ease, box-shadow .18s ease;
 }
 #ajgBrandStory .ajg-bs__promise-link:hover, #ajgBrandStory .ajg-bs__promise-link:focus, #ajgBrandStory .ajg-bs__promise-link:visited {
-  color: #091E56; text-decoration: none;
+  color: #21262E; text-decoration: none;
 }
 #ajgBrandStory .ajg-bs__promise-link:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0, 0, 0, .25); }
+/* 다크 밴드에선 CTA도 글래스모피즘 — 반투명 + 블러 + 하이라이트 보더 + 흰 글자 */
+#ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link {
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .32);
+  border-top-color: rgba(255, 255, 255, .45);
+  color: #FFFFFF;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+#ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link:hover,
+#ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link:focus,
+#ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link:visited {
+  color: #FFFFFF;
+}
+#ajgBrandStory .ajg-bs__sec--dark .ajg-bs__promise-link:hover { background: rgba(255, 255, 255, .2); }
 
 /* 정품 보상 카드 입체 효과 — 마우스 따라 2.5도 이하 틸트 + 은은한 조명 (데스크톱 전용) */
 @media (hover: hover) and (pointer: fine) {
   #ajgBrandStory .ajg-bs__promise {
     --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 50%;
-    position: relative; overflow: hidden;
-    transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(0);
+    position: relative; /* overflow hidden 제거 — 글린트 링이 보더 위에 정확히 겹치도록 */
+    transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)); /* scale 제거 — 텍스트 흐림 방지 */
     transform-style: preserve-3d;
     transition: transform .16s ease-out, box-shadow .22s ease;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, .2);
+    /* 주변 조명: 웜 헤일로가 조명 방향(--gx/--gy)으로 흘러 카드 밖 배경을 비춤 + 은은한 상시 앰비언트 */
+    box-shadow:
+      0 18px 40px rgba(0, 0, 0, .2),
+      calc(var(--gx, 0) * 1px) calc(var(--gy, 0) * 1px) 64px rgba(255, 220, 170, .16),
+      0 0 100px rgba(255, 220, 170, .05);
     will-change: transform;
   }
   #ajgBrandStory .ajg-bs__promise:hover {
-    box-shadow: 0 30px 60px rgba(0, 0, 0, .32), 0 8px 18px rgba(0, 0, 0, .12);
+    box-shadow:
+      0 30px 60px rgba(0, 0, 0, .32), 0 8px 18px rgba(0, 0, 0, .12),
+      calc(var(--gx, 0) * 1px) calc(var(--gy, 0) * 1px) 64px rgba(255, 220, 170, .18),
+      0 0 100px rgba(255, 220, 170, .06);
   }
   #ajgBrandStory .ajg-bs__promise::before { /* 마우스를 따라 움직이는 은은한 빛 */
-    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+    content: ""; position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; opacity: 0;
     background: radial-gradient(circle at var(--mx) var(--my),
-      rgba(255, 220, 170, .18), rgba(255, 220, 170, .05) 24%, transparent 52%); /* 웜 골드 조명 */
+      rgba(255, 220, 170, .16),
+      rgba(255, 220, 170, .07) 22%,
+      rgba(255, 220, 170, .025) 45%,
+      transparent 78%); /* 웜 골드 조명 — 감쇠를 길게 펴서 경계선(마하 밴드) 방지 */
     transition: opacity .22s ease;
   }
   #ajgBrandStory .ajg-bs__promise:hover::before { opacity: 1; }
-  #ajgBrandStory .ajg-bs__promise > * { position: relative; z-index: 1; transform: translateZ(16px); }
-  #ajgBrandStory .ajg-bs__promise-ic { transform: translateZ(26px); }
-  #ajgBrandStory .ajg-bs__promise-title { transform: translateZ(22px); }
-  #ajgBrandStory .ajg-bs__promise-link { transform: translateZ(24px); }
-  #ajgBrandStory .ajg-bs__promise-link:hover { transform: translateZ(24px) translateY(-2px); }
+  /* 아이들 상태 — 테두리 글린트 + 내부 조명이 같은 지점에서 함께 돎 (눌림 scale은 텍스트 흐림 유발로 제거) */
+  #ajgBrandStory .ajg-bs__promise.ajg-bs--idle::before { opacity: 1; }
+  /* 테두리 글린트 링 — 보더 자리(inset -1px, 두께 1px)에 정확히 겹쳐 유리면 곡률과 일치 */
+  #ajgBrandStory .ajg-bs__promise::after {
+    content: ""; position: absolute; inset: -1px; border-radius: inherit;
+    padding: 1px; pointer-events: none; opacity: 0;
+    background: conic-gradient(from calc(var(--sweep, 0) * 1deg),
+      rgba(255, 228, 186, .95) 0deg,
+      rgba(255, 220, 170, .28) 24deg,
+      transparent 60deg,
+      transparent 300deg,
+      rgba(255, 220, 170, .28) 336deg,
+      rgba(255, 228, 186, .95) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    transition: opacity .3s ease;
+  }
+  #ajgBrandStory .ajg-bs__promise.ajg-bs--idle::after { opacity: 1; }
+  /* translateZ 부양 제거 — 원근 확대가 텍스트를 비정수 스케일해 흐리게 만들던 원인 */
+  #ajgBrandStory .ajg-bs__promise > * { position: relative; z-index: 1; }
 }
 #ajgBrandStory .ajg-bs__promise:focus-within { /* 키보드 포커스는 움직임 대신 테두리 강조 */
   outline: 3px solid rgba(255, 255, 255, .35); outline-offset: 5px;
@@ -708,6 +758,11 @@
 #ajgBrandStory .ajg-bs__flow { padding: 24px 22px 26px; border-radius: 16px; text-align: center; }
 #ajgBrandStory .ajg-bs__flow--ours { background: white; border: 1px solid #EEF1F8; }
 #ajgBrandStory .ajg-bs__flow--typ { background: #FAFAFA; border: 1px dashed #EEF1F8; }
+#ajgBrandStory .ajg-bs__flow--ours,
+#ajgBrandStory .ajg-bs__flow--typ {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.04'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
 #ajgBrandStory .ajg-bs__flow-label {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   font-size: 14px; font-weight: 700; color: #21262E; margin-bottom: 16px;
@@ -855,7 +910,7 @@
 /* ── 클로징 — 풀블리드 다크 밴드 + 은은한 배경 원 + 약속 라벨/리스트 ── */
 #ajgBrandStory .ajg-bs__closing {
   position: relative; overflow: hidden;
-  margin: clamp(72px, 9vw, 100px) calc(50% - 50vw) 0;
+  margin: 0 calc(50% - 50vw); /* 상단 여백은 전환 스트립(.ajg-bs__to-dark)이 담당 */
   padding: clamp(52px, 7vw, 72px) max(24px, calc((100vw - 1080px) / 2));
   background: #091E56; text-align: center;
 }
@@ -966,6 +1021,17 @@
   background-size: 180px 180px;
 }
 
+/* 단색 카드 표면 공통 노이즈 — 배경 shorthand 규칙들보다 뒤에 있어 image만 얹힘 */
+#ajgBrandStory .ajg-bs__card,
+#ajgBrandStory .ajg-bs__stat,
+#ajgBrandStory .ajg-bs__review,
+#ajgBrandStory .ajg-bs__pd-card,
+#ajgBrandStory .ajg-bs__mq-item,
+#ajgBrandStory .ajg-bs__step {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.035'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
 /* ── 스크롤 리빌 (JS 있을 때만 활성 — 없으면 항상 보임) ── */
 #ajgBrandStory.ajg-bs--js [data-rv] { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
 #ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in { opacity: 1; transform: none; }
@@ -990,8 +1056,8 @@
 #ajgBrandStory [data-rv] .ajg-bs__price-demo > :nth-child(2) { transition-delay: .08s; }
 #ajgBrandStory [data-rv] .ajg-bs__price-demo > :nth-child(3) { transition-delay: .16s; }
 /* 바라던할인 카드는 리빌 후 6px 떠서 자리 잡음 (JS 없을 땐 아래 정적 규칙으로도 떠 있음) */
-#ajgBrandStory .ajg-bs__pd-card--us { transform: translateY(-6px); }
-#ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in .ajg-bs__pd-card--us { transform: translateY(-6px); }
+/* #ajgBrandStory .ajg-bs__pd-card--us { transform: translateY(-6px); } */
+/* #ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in .ajg-bs__pd-card--us { transform: translateY(-6px); } */
 
 /* 유통 다이어그램 단계 순차 등장 — 섹션 페이드(0.6s)가 끝날 무렵 시작,
    바라던할인 구조(0.5s~)가 먼저 차례로 뜨고, 일반 구조(1.2s~)가 이어서 뜸 */
@@ -1139,7 +1205,8 @@
   root.querySelectorAll('[data-rv]').forEach(function (el) { io.observe(el); });
 })();
 
-/* 정품 보상 카드 틸트 — 데스크톱 파인 포인터 전용, 모션 감소 설정 시 미동작 */
+/* 정품 보상 카드 — 아이들: 조명 자동 점등 + 시계방향 순회 + 살짝 눌림 / 호버: 마우스가 이어받음
+   데스크톱 파인 포인터 전용, 모션 감소 설정 시 미동작 */
 (function () {
   var card = document.querySelector('#ajgBrandStory .ajg-bs__promise');
   if (!card) return;
@@ -1147,21 +1214,63 @@
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   var maxTilt = 2.5;
+  var idleTilt = 2.0;
+
+  function apply(px, py, tilt) {
+    card.style.setProperty('--rx', ((0.5 - py) * tilt * 2).toFixed(2) + 'deg');
+    card.style.setProperty('--ry', ((px - 0.5) * tilt * 2).toFixed(2) + 'deg');
+    card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+    card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+    /* 주변 헤일로 오프셋 — 조명 방향으로 그림자 빛이 흘러나감 */
+    card.style.setProperty('--gx', ((px - 0.5) * 56).toFixed(1));
+    card.style.setProperty('--gy', ((py - 0.5) * 56).toFixed(1));
+  }
+
+  /* 아이들 루프 — 카드가 화면에 보일 때만, 7초에 한 바퀴 시계방향 */
+  var idle = true, inView = false, theta = 0, last = null;
+  card.classList.add('ajg-bs--idle');
+
+  function frame(ts) {
+    if (idle && inView) {
+      if (last === null) last = ts;
+      /* 관성+마찰 모델 (위상 50° 이동) — 상단: 점점 가속(0.48→0.94) → 우측 하강: 최고속(피크 1.68배, θ≈140°)
+         → 하단: 관성으로 빠르게 진입 후 마찰 감속(1.68→1.06) → 좌측 상승: 가장 느림(최저 0.32배, θ≈320°) */
+      theta += (ts - last) * (Math.PI * 2 / 7000) * (1 + 0.68 * Math.sin(theta - 0.873));
+      last = ts;
+      /* 조명 중심을 카드 가장자리에 붙여 글린트와 같은 지점을 순회 (0.62 반경 + 0~1 클램프) */
+      var px = Math.min(1, Math.max(0, 0.5 + 0.62 * Math.sin(theta)));
+      var py = Math.min(1, Math.max(0, 0.5 - 0.62 * Math.cos(theta)));
+      apply(px, py, idleTilt);
+      /* 테두리 글린트 각도 — conic 0deg(12시)에서 시계방향, 틸트 궤도와 동기 */
+      card.style.setProperty('--sweep', ((theta * 180 / Math.PI) % 360).toFixed(1));
+    } else {
+      last = null;
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      inView = entries[0].isIntersecting;
+    }, { threshold: 0.2 }).observe(card);
+  } else {
+    inView = true;
+  }
+
+  card.addEventListener('mouseenter', function () {
+    idle = false;
+    card.classList.remove('ajg-bs--idle');
+  });
 
   card.addEventListener('mousemove', function (event) {
     var rect = card.getBoundingClientRect();
-    var px = (event.clientX - rect.left) / rect.width;
-    var py = (event.clientY - rect.top) / rect.height;
-    card.style.setProperty('--rx', ((0.5 - py) * maxTilt * 2).toFixed(2) + 'deg');
-    card.style.setProperty('--ry', ((px - 0.5) * maxTilt * 2).toFixed(2) + 'deg');
-    card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
-    card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+    apply((event.clientX - rect.left) / rect.width, (event.clientY - rect.top) / rect.height, maxTilt);
   });
 
   card.addEventListener('mouseleave', function () {
-    /* 틸트만 복귀 — 조명 좌표는 마지막 위치에 두고 opacity로만 꺼짐 (가운데로 점프하는 어색함 방지) */
-    card.style.setProperty('--rx', '0deg');
-    card.style.setProperty('--ry', '0deg');
+    idle = true;
+    card.classList.add('ajg-bs--idle'); /* 조명 켠 채 아이들 순회 재개 */
   });
 })();
 </script>
