@@ -19,28 +19,39 @@
 
   <!-- ═══════════ HERO ═══════════ -->
   <header class="ajg-bs__hero" data-rv>
-    <!-- <p class="ajg-bs__eyebrow">브랜드 스토리</p> -->
-    <h1 class="ajg-bs__h1">바라던할인이<br>바꾸고 싶은 것</h1>
-    <p class="ajg-bs__lead">
-    불필요한 유통 비용은 줄이고
-<br class="ajg-bs__br-pc">
-        좋은 상품을 더 합리적인 가격에 전하기 위해 시작했어요.
-    </p>
-    <!-- <a class="ajg-bs__btn" href="/home">바라던할인 상품 둘러보기</a> -->
     <!-- 히어로 슬라이드 4장 — 2초 간격 크로스페이드. ②~④는 아임웹 업로드 후 주소 교체 필요 -->
     <div class="ajg-bs__hero-slides">
-      <img class="ajg-bs__hero-img is-on" src="https://cdn.imweb.me/thumbnail/20260715/05d9bace88a11.png" alt="바라던할인이 소개하는 식품·건강기능식품·주방용품·생활가전" loading="eager">
-      <img class="ajg-bs__hero-img" src="https://cdn.imweb.me/thumbnail/20260715/3a2a2f4f65730.png" alt="바라던할인 사무실에서 일하는 모습" loading="lazy">
-      <img class="ajg-bs__hero-img" src="https://cdn.imweb.me/thumbnail/20260715/7f45fc828f866.png" alt="상품이 정돈된 물류창고" loading="lazy">
-      <img class="ajg-bs__hero-img" src="https://cdn.imweb.me/thumbnail/20260715/8e0ebb50aa09d.png" alt="배송 트럭이 출발하는 모습" loading="lazy">
+      <picture>
+        <source media="(min-width: 768px)" srcset="https://cdn.imweb.me/thumbnail/20260715/754f0f26a910f.png">
+        <img class="ajg-bs__hero-img is-on" src="https://cdn.imweb.me/thumbnail/20260715/05d9bace88a11.png" alt="바라던할인이 소개하는 식품·건강기능식품·주방용품·생활가전" loading="eager">
+      </picture>
+      <picture>
+        <source media="(min-width: 768px)" srcset="https://cdn.imweb.me/thumbnail/20260715/abad8c8c9adac.png">
+        <img class="ajg-bs__hero-img" src="https://cdn.imweb.me/thumbnail/20260715/3a2a2f4f65730.png" alt="바라던할인 사무실에서 일하는 모습" loading="lazy">
+      </picture>
+      <picture>
+        <source media="(min-width: 768px)" srcset="https://cdn.imweb.me/thumbnail/20260715/37aa5023cb66f.png">
+        <img class="ajg-bs__hero-img" src="https://cdn.imweb.me/thumbnail/20260715/7f45fc828f866.png" alt="상품이 정돈된 물류창고" loading="lazy">
+      </picture>
+      <picture>
+        <source media="(min-width: 768px)" srcset="https://cdn.imweb.me/thumbnail/20260715/1d22d1416274a.png">
+        <img class="ajg-bs__hero-img" src="https://cdn.imweb.me/thumbnail/20260715/8e0ebb50aa09d.png" alt="배송 트럭이 출발하는 모습" loading="lazy">
+      </picture>
       <!-- 어두운 오버레이 + 중앙 로고 (bd_logo_white.svg 인라인) -->
       <span class="ajg-bs__hero-dim" aria-hidden="true"></span>
+      <div class="ajg-bs__hero-inner">
       <svg class="ajg-bs__hero-logo" xmlns="http://www.w3.org/2000/svg" viewBox="87 57 692 609" fill="#FFFFFF" aria-hidden="true">
         <g transform="translate(0.000000,736.000000) scale(0.100000,-0.100000)" fill="#FFFFFF" stroke="none" fill-rule="evenodd">
           <path d="M6695 6677 c-51 -27 -64 -40 -87 -86 l-28 -55 0 -857 c0 -729 -2 -858 -14 -868 -22 -18 -81 -3 -124 31 -20 17 -57 39 -81 49 -24 11 -57 30 -73 44 -16 13 -48 29 -71 36 -23 6 -86 24 -141 41 -118 36 -223 48 -416 48 -186 0 -349 -15 -425 -40 -33 -11 -102 -29 -154 -40 -60 -13 -105 -29 -125 -44 -18 -13 -54 -31 -81 -40 -50 -17 -159 -86 -182 -116 -7 -8 -13 -35 -13 -59 0 -38 5 -48 35 -75 132 -117 227 -219 275 -296 29 -47 66 -99 82 -116 16 -17 35 -51 42 -75 21 -66 78 -162 108 -178 22 -13 37 -13 124 4 55 10 125 29 158 42 105 44 269 42 360 -4 16 -8 68 -23 117 -33 61 -12 102 -27 135 -49 26 -17 54 -31 61 -31 20 0 199 -176 228 -225 14 -22 35 -61 48 -87 13 -25 38 -62 55 -82 17 -20 34 -52 37 -73 4 -21 18 -90 32 -153 23 -98 27 -145 31 -320 3 -190 2 -214 -22 -332 -14 -70 -30 -157 -35 -193 -7 -48 -18 -77 -38 -103 -15 -20 -39 -55 -53 -78 -53 -88 -101 -154 -120 -164 -11 -6 -55 -42 -98 -80 -53 -49 -92 -75 -127 -86 -27 -9 -79 -31 -115 -48 l-65 -31 -190 0 c-189 0 -190 0 -236 27 -26 15 -71 36 -100 48 -97 36 -230 167 -277 273 -12 27 -30 60 -42 74 -28 36 -39 82 -48 217 -9 127 -19 151 -80 192 -43 30 -168 36 -547 28 l-310 -6 -35 -28 c-76 -60 -75 -59 -72 -199 4 -151 10 -198 52 -359 19 -75 42 -141 60 -168 16 -25 34 -69 40 -97 6 -28 24 -72 40 -97 16 -25 34 -58 40 -74 6 -16 23 -45 38 -65 15 -20 35 -52 45 -72 46 -91 362 -403 485 -479 40 -25 95 -59 122 -77 27 -17 73 -39 102 -48 29 -10 69 -28 88 -40 19 -13 62 -31 96 -39 34 -9 85 -27 115 -40 73 -33 217 -49 454 -48 271 0 433 15 493 46 27 14 77 32 113 41 35 9 82 27 104 40 23 13 69 31 104 40 35 9 85 30 111 48 26 18 60 40 76 50 109 67 143 90 174 116 19 17 68 58 108 92 39 33 72 65 72 69 0 5 15 17 33 29 17 11 52 45 77 76 25 31 61 75 80 98 37 44 92 131 130 207 13 25 35 60 51 77 15 18 33 51 39 73 6 22 22 61 35 88 13 26 29 79 35 117 7 42 23 90 41 122 23 41 34 77 47 170 16 108 17 289 17 2153 0 2341 13 2081 -109 2143 l-73 37 -389 0 -389 -1 -60 -32z"/>
           <path d="M1115 6686 c-22 -7 -61 -25 -87 -40 -85 -50 -78 148 -78 -2114 0 -1156 4 -2055 10 -2120 7 -85 15 -127 34 -167 14 -30 32 -82 40 -116 9 -34 25 -74 37 -90 11 -16 29 -61 40 -101 11 -40 29 -82 39 -93 10 -11 28 -40 40 -64 12 -24 35 -62 51 -84 16 -22 29 -45 29 -51 0 -11 15 -31 122 -161 67 -81 249 -256 303 -291 28 -17 57 -40 65 -49 8 -9 37 -28 65 -41 46 -22 126 -68 205 -121 19 -12 56 -27 83 -33 27 -6 79 -23 116 -39 36 -16 90 -34 119 -40 29 -6 79 -22 113 -36 95 -40 192 -49 584 -49 409 -1 516 8 621 53 38 16 87 32 108 35 21 4 62 20 90 36 28 16 75 34 103 40 29 7 69 23 90 37 21 14 57 34 79 44 23 9 62 32 86 51 25 18 53 38 63 43 31 18 21 59 -31 124 -27 34 -63 82 -81 108 -17 25 -45 60 -60 77 -49 52 -81 101 -108 162 -14 32 -35 68 -45 79 -11 12 -28 45 -39 75 -10 30 -28 73 -39 95 -11 22 -23 59 -27 82 -14 91 -102 109 -191 40 -27 -21 -62 -38 -87 -42 -23 -4 -64 -18 -91 -32 -103 -52 -320 -74 -535 -53 -114 11 -141 17 -201 46 -38 18 -85 36 -104 40 -34 6 -125 59 -216 126 -63 46 -157 147 -176 188 -9 19 -29 49 -44 65 -16 17 -46 71 -68 120 -36 80 -43 108 -61 256 -25 197 -26 308 -5 500 17 163 28 210 55 255 10 17 26 50 34 74 8 23 26 56 40 74 15 17 46 59 71 94 48 65 196 207 242 231 15 8 43 26 63 42 21 16 62 34 102 43 37 9 90 27 118 42 66 33 201 48 364 40 119 -5 164 -15 260 -55 28 -11 68 -25 91 -31 22 -5 56 -21 75 -35 19 -14 48 -36 66 -48 121 -84 174 -138 252 -256 13 -20 36 -50 51 -68 16 -18 31 -50 35 -75 4 -24 18 -91 31 -150 13 -58 28 -165 32 -237 13 -209 -3 -203 549 -199 l398 3 47 30 c29 18 52 41 58 59 13 37 13 312 0 392 -6 34 -19 82 -31 108 -11 25 -27 85 -35 133 -9 48 -26 112 -38 142 -13 31 -31 82 -40 113 -9 31 -27 70 -40 85 -14 16 -36 54 -51 84 -39 83 -78 146 -112 182 -16 17 -56 68 -87 112 -56 77 -191 208 -280 270 -24 17 -59 45 -80 63 -20 17 -41 32 -45 32 -5 0 -28 16 -51 35 -23 19 -48 35 -56 35 -7 0 -50 20 -96 44 -46 24 -94 47 -108 51 -14 4 -40 18 -57 32 -23 16 -68 31 -145 47 -62 13 -131 31 -152 40 -64 27 -217 40 -461 40 -251 0 -357 -12 -450 -48 -33 -13 -91 -29 -129 -35 -66 -12 -138 -40 -150 -60 -4 -5 -23 -15 -44 -21 -20 -7 -53 -24 -72 -40 -19 -15 -51 -32 -71 -39 -20 -6 -49 -25 -64 -41 -31 -32 -53 -38 -73 -18 -9 9 -12 222 -12 897 l0 886 -36 52 c-27 39 -51 60 -93 80 l-56 28 -370 2 c-278 2 -380 -1 -410 -11z"/>
         </g>
       </svg>
+      <p class="ajg-bs__hero-eyebrow">
+        좋은 상품을 더 합리적인 가격에 전하기 위해 시작했어요.
+    </p>
+      <h1 class="ajg-bs__hero-title">바라던할인이 바꾸고 싶은 것</h1>
+      <p class="ajg-bs__hero-caption" id="ajgHeroCaption">좋은 상품을 찾아요.</p>
+      </div>
     </div>
   </header>
 
@@ -518,30 +529,56 @@
 #ajgBrandStory .ajg-bs__mq + .ajg-bs__note { font-size: 13.5px; color: #21262E; } /* 카테고리 안내문은 대비 살짝 위로 */
 
 /* ── 히어로 ── */
-#ajgBrandStory .ajg-bs__hero { padding: clamp(48px, 8vw, 88px) 0 0; text-align: center; }
-/* 히어로 슬라이드 — 4장이 겹쳐 있고 .is-on만 보임, 0.8초 크로스페이드 */
+#ajgBrandStory .ajg-bs__hero {  text-align: center; }
+/* 히어로 슬라이드 — 최상단 풀블리드 배너, 4장이 겹쳐 .is-on만 보임.
+   PC는 450px 고정 높이(1920×450 규격) — 화면이 좁아지면 cover로 좌우만 잘림 */
 #ajgBrandStory .ajg-bs__hero-slides {
-  position: relative; width: 100%; max-width: 880px; margin: 36px auto 0;
-  aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden;
+  position: relative;
+  margin: 0 calc(50% - 50vw);
+  height: 450px;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  #ajgBrandStory .ajg-bs__hero-slides { height: clamp(280px, 55vw, 380px); } /* 모바일은 현 이미지 구도에 맞게 높게 */
 }
 #ajgBrandStory .ajg-bs__hero-img {
   position: absolute; inset: 0; display: block;
   width: 100%; height: 100%; object-fit: cover;
-  opacity: 0; transition: opacity .8s ease;
+  opacity: 0; /* 즉시 전환 — 페이드 없음 */
 }
 #ajgBrandStory .ajg-bs__hero-img.is-on { opacity: 1; }
-#ajgBrandStory .ajg-bs__hero-dim { /* 어두운 오버레이 — 흰 로고 대비 확보 */
-  position: absolute; inset: 0; background: rgba(0, 0, 0, .42);
+#ajgBrandStory .ajg-bs__hero-dim { /* 어두운 오버레이 — 흰 로고·타이포 대비 확보 */
+  position: absolute; inset: 0; background: #000000; opacity: .7;
 }
-#ajgBrandStory .ajg-bs__hero-logo { /* 슬라이드 위 중앙 고정 로고 */
-  position: absolute; top: 50%; left: 50%;
-  width: clamp(88px, 14vw, 150px); height: auto;
-  transform: translate(-50%, -50%);
-  filter: drop-shadow(0 4px 24px rgba(0, 0, 0, .35));
+#ajgBrandStory .ajg-bs__hero-inner { /* 로고 + 3단 타이포 — 좌측 정렬 에디토리얼 배치 (그리드 라인 정렬) */
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+  gap: clamp(8px, 1.4vw, 14px);
+  padding: 0 max(20px, calc((100vw - 1080px) / 2));
+  text-align: left;
 }
-@media (prefers-reduced-motion: reduce) {
-  #ajgBrandStory .ajg-bs__hero-img { transition: none; } /* 전환 페이드 제거(JS도 회전 안 함) */
+#ajgBrandStory .ajg-bs__hero-logo {
+  width: clamp(52px, 6.5vw, 92px); height: auto; margin-bottom: clamp(4px, 1vw, 10px);
+  filter: drop-shadow(0 4px 24px rgba(0, 0, 0, 0.708));
 }
+#ajgBrandStory .ajg-bs__hero-eyebrow { /* 작은 글 */
+  margin: 0; font-size: 13px; font-weight: 600;
+  color: rgba(255, 255, 255, .72);
+}
+#ajgBrandStory .ajg-bs__hero-title { /* 굵은 글 — 고정 메인 타이틀 */
+  margin: 0; color: #FFFFFF;
+  font-size: clamp(26px, 3.6vw, 46px); font-weight: 800; line-height: 1.3;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .35);
+}
+#ajgBrandStory .ajg-bs__hero-caption { /* 얇은 글 — 슬라이드 동기 문구 (컨베이어 스왑 트랜지션) */
+  margin: 0; color: rgba(255, 255, 255, .88);
+  font-size: clamp(16px, 1.9vw, 22px); font-weight: 400; line-height: 1.5;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, .3);
+  transition: opacity .3s ease, transform .3s ease;
+}
+#ajgBrandStory .ajg-bs__hero-caption.is-out { opacity: 0; transform: translateY(-12px); } /* 위로 퇴장 */
+#ajgBrandStory .ajg-bs__hero-caption.is-in { opacity: 0; transform: translateY(14px); }  /* 아래 대기 위치 */
+#ajgBrandStory .ajg-bs__hero-caption.no-trans { transition: none; }
 #ajgBrandStory .ajg-bs__btn {
   display:flex; align-items: center; justify-content: center; margin-top: 30px; padding: 15px 30px;
   background: #21262E; color: #FFFFFF; font-size: 16px; font-weight: 700;
@@ -557,6 +594,7 @@
 
 /* ── 섹션 공통 ── */
 #ajgBrandStory .ajg-bs__sec { padding-top: clamp(72px, 11vw, 120px); padding-bottom: clamp(72px, 11vw, 120px); text-align: center; }
+#ajgBrandStory .ajg-bs__hero + .ajg-bs__sec { padding-top: clamp(8px, 2vw, 24px); } /* 01만 히어로 배너에 밀착 */
 /* 배경 밴드 공통 — 콘텐츠 컬럼(1120px)을 뚫고 화면 전체 폭으로 (카드 아님, 무드 전환).
    좌우 패딩은 밴드 안 콘텐츠가 기존 그리드 라인에 정렬되도록 계산.
    ※ 100vw 브레이크아웃이라 Windows 스크롤바 환경에서 가로 스크롤이 보이면
@@ -1161,12 +1199,14 @@
 </style>
 
 <script>
-/* 히어로 슬라이드 — 2초 간격 순환. 모션 감소 설정 시 첫 장 고정, 화면 밖에선 정지 */
+/* 히어로 슬라이드 — 2초 간격 즉시 전환 + 슬라이드별 문구 동기화. 모션 감소 시 첫 장 고정, 화면 밖 정지 */
 (function () {
   var slides = document.querySelectorAll('#ajgBrandStory .ajg-bs__hero-slides .ajg-bs__hero-img');
   if (slides.length < 2) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var i = 0, inView = true, wrap = slides[0].parentNode;
+  var captions = ['좋은 상품을 찾아요.', '합리적인 가격으로 개선해요.', '유통 비용을 줄여요.', '배송을 미리 준비해요.'];
+  var capEl = document.getElementById('ajgHeroCaption');
+  var i = 0, inView = true, wrap = slides[0].closest('.ajg-bs__hero-slides');
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (entries) { inView = entries[0].isIntersecting; }, { threshold: 0.1 }).observe(wrap);
   }
@@ -1175,7 +1215,17 @@
     slides[i].classList.remove('is-on');
     i = (i + 1) % slides.length;
     slides[i].classList.add('is-on');
-  }, 2000);
+    if (!capEl || !captions[i]) return;
+    /* 컨베이어 스왑 — 위로 퇴장 → 텍스트 교체 → 아래에서 등장 */
+    capEl.classList.add('is-out');
+    setTimeout(function () {
+      capEl.textContent = captions[i];
+      capEl.classList.add('no-trans', 'is-in');
+      capEl.classList.remove('is-out');
+      void capEl.offsetWidth; /* reflow — 대기 위치 확정 */
+      capEl.classList.remove('no-trans', 'is-in');
+    }, 300);
+  }, 4000); /* 읽을 시간 확보 — 4초 간격 */
 })();
 
 /* GNB — 뒤로가기 + 스크롤에 따라 현재 섹션 제목/번호 갱신 (모션 설정과 무관하게 항상 동작) */
