@@ -28,23 +28,49 @@
     <h2 class="ajg-bs__h2">같은 상품, 달라지는 가격</h2>
     <div class="ajg-bs__prose">
       <p>같은 상품인데 어디서 사느냐에 따라<br>가격이 달라졌던 경험, 한 번쯤 있으시죠?</p>
-        <p>
-    좋은 상품의 가격이 여러 유통 단계를 거치며<br class="ajg-bs__br-pc">
-    필요 이상으로 높아지는 현실.<br>
-    바라던할인은 그 문제의식에서 시작했어요.
-  </p>
+    </div>
+
+    <!-- 같은 상품, 다른 가격 — 개념 일러스트 (동일 썸네일 3장 = '같은 상품', 가격은 예시) -->
+    <div class="ajg-bs__price-demo">
+      <div class="ajg-bs__pd-card">
+        <img class="ajg-bs__pd-img" src="https://cdn.imweb.me/thumbnail/20260714/b1a60a48cf69e.png" alt="" loading="lazy">
+        <span class="ajg-bs__pd-shop">A 쇼핑몰</span>
+        <span class="ajg-bs__pd-price">15,800원</span>
+        <span class="ajg-bs__pd-diff">+5,900원</span>
+      </div>
+      <div class="ajg-bs__pd-card">
+        <img class="ajg-bs__pd-img" src="https://cdn.imweb.me/thumbnail/20260714/b1a60a48cf69e.png" alt="" loading="lazy">
+        <span class="ajg-bs__pd-shop">B 쇼핑몰</span>
+        <span class="ajg-bs__pd-price">12,900원</span>
+        <span class="ajg-bs__pd-diff">+3,000원</span>
+      </div>
+      <div class="ajg-bs__pd-card ajg-bs__pd-card--us">
+        <img class="ajg-bs__pd-img" src="https://cdn.imweb.me/thumbnail/20260714/b1a60a48cf69e.png" alt="" loading="lazy">
+        <span class="ajg-bs__pd-shop">바라던할인</span>
+        <span class="ajg-bs__pd-price">9,900원</span>
+        <span class="ajg-bs__pd-diff ajg-bs__pd-diff--us">유통 비용을 줄인 가격</span>
+      </div>
+    </div>
+    <p class="ajg-bs__note">같은 상품도 유통 경로에 따라 가격이 달라지는 것을 표현한 예시예요.</p>
+
+    <div class="ajg-bs__prose">
+      <p>좋은 상품도 유통 단계를 거칠수록<br>가격 차이가 커질 수 있어요.</p>
+      <p>바라던할인은 그 차이를 줄이는 데서 시작했어요.</p>
     </div>
 
 <blockquote class="ajg-bs__pull">
-  품질을 포기하지 않아도,<br>
-  불필요한 유통 비용을 줄이면
-  <strong>합리적인 가격</strong>이 가능해요.
+  <span class="ajg-bs__pull-label">바라던할인이 찾은 답</span>
+  <p class="ajg-bs__pull-text">
+    품질을 포기하지 않아도,<br>
+    불필요한 유통 비용을 줄이면
+    <strong>더 합리적인 가격</strong>이 가능해요.
+  </p>
 </blockquote>
     <div class="ajg-bs__prose">
   <p>
-    고객이 가격과 품질을 충분히 확인하고<br>
-    안심하고 선택할 수 있도록 돕는 것.<br>
-    <strong>바라던할인이 지키려는 원칙이에요.</strong>
+    가격만 낮추는 것이 아니라<br>
+    상품과 구매 경험까지 꼼꼼하게 살피는 것.<br>
+    <strong>바라던할인이 지키는 기준이에요.</strong>
   </p>
     </div>
   </section>
@@ -94,7 +120,7 @@
     </div>
     <!-- [사진 대기] 검수·포장 실사 1장 — 아임웹 업로드 주소로 TRUST_IMAGE_URL 교체 (교체 전엔 통째로 숨김) -->
     <figure class="ajg-bs__trust-media">
-      <img src="./물류창고.png" alt="판매 전 상품 상태와 포장을 확인하는 과정" loading="lazy">
+      <!-- <img src="./물류창고.png" alt="판매 전 상품 상태와 포장을 확인하는 과정" loading="lazy"> -->
       <figcaption>상품의 공급 경로와 상태를 확인한 뒤 판매해요.</figcaption>
     </figure>
     <div class="ajg-bs__promise">
@@ -429,6 +455,7 @@
   margin-top: 28px; font-size: 13px; color: #6B7280; text-align: center; line-height: 1.7;
 }
 #ajgBrandStory .ajg-bs__note::before { content: "※ "; }
+#ajgBrandStory .ajg-bs__mq + .ajg-bs__note { font-size: 13.5px; color: #21262E; } /* 카테고리 안내문은 대비 살짝 위로 */
 
 /* ── 히어로 ── */
 #ajgBrandStory .ajg-bs__hero { padding: clamp(48px, 8vw, 88px) 0 0; text-align: center; }
@@ -456,13 +483,62 @@
 #ajgBrandStory .ajg-bs__prose p { margin-top: 14px; font-size: clamp(15px, 2.3vw, 16.5px); line-height: 1.85; color: #21262E; }
 #ajgBrandStory .ajg-bs__prose strong { font-weight: 700; color: #091E56; }
 
-/* 01 풀 인용 */
-#ajgBrandStory .ajg-bs__pull {
-  max-width: 680px; margin: 32px auto; padding: 28px 26px;
-  background: #F4F6FB; border: 0; border-radius: 16px;
-  font-size: clamp(17px, 2.8vw, 21px); font-weight: 600; font-style: normal; line-height: 1.7;
-  color: #091E56;
+/* ── 01 같은 상품 다른 가격 일러스트 ── */
+#ajgBrandStory .ajg-bs__price-demo {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px;
+  margin-top: 28px; position: relative; padding: 8px 0;
 }
+#ajgBrandStory .ajg-bs__price-demo::before { /* 카드 뒤 연결선 — 비교 구조 암시 */
+  content: ""; position: absolute; top: 50%; left: 10%; right: 10%;
+  height: 1px; background: #EEF1F8;
+}
+#ajgBrandStory .ajg-bs__pd-card {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  width: 132px; padding: 15px 10px 13px; position: relative;
+  background: #FFFFFF; border: 1px solid #EEF1F8; border-radius: 14px;
+  color: #6B7280;
+}
+#ajgBrandStory .ajg-bs__pd-img {
+  width: 44px; height: 44px; object-fit: contain; border-radius: 10px;
+  display: block; max-width: none; margin-bottom: 4px;
+}
+#ajgBrandStory .ajg-bs__pd-shop { font-size: 12.5px; font-weight: 600; color: #6B7280; }
+#ajgBrandStory .ajg-bs__pd-price { font-size: 16.5px; font-weight: 800; color: #21262E; }
+#ajgBrandStory .ajg-bs__pd-diff { font-size: 12.5px; color: #6B7280; }
+#ajgBrandStory .ajg-bs__pd-card--us {
+  background: #F4F6FB; border: 1.5px solid #091E56; color: #091E56;
+  box-shadow: 0 8px 24px rgba(9, 30, 86, .08);
+}
+#ajgBrandStory .ajg-bs__pd-card--us .ajg-bs__pd-shop { color: #091E56; }
+#ajgBrandStory .ajg-bs__pd-card--us .ajg-bs__pd-price { color: #F62D2B; }
+#ajgBrandStory .ajg-bs__pd-diff--us { color: #091E56; font-weight: 700; }
+#ajgBrandStory .ajg-bs__price-demo + .ajg-bs__note { margin-top: 16px; } /* 카드→예시 안내 간격 축소 */
+@media (max-width: 599px) {
+  #ajgBrandStory .ajg-bs__price-demo::before { display: none; } /* 줄바꿈 레이아웃에선 연결선 제거 */
+}
+
+/* 01 풀 인용 — 요약 카드 (라벨 + 약한 그라데이션 + 은은한 원형 포인트) */
+#ajgBrandStory .ajg-bs__pull {
+  position: relative; overflow: hidden;
+  max-width: 680px; margin: 28px auto; padding: 34px 28px 32px;
+  background: linear-gradient(135deg, #FAFBFC 0%, #F4F6FB 100%);
+  border: 0; border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(9, 30, 86, .05);
+  font-size: clamp(17px, 2.8vw, 21px); font-weight: 600; font-style: normal; line-height: 1.7;
+  color: #091E56; text-align: center;
+}
+#ajgBrandStory .ajg-bs__pull::before { /* 좌상단 희미한 원형 블러 */
+  content: ""; position: absolute; top: -44px; left: -24px;
+  width: 150px; height: 150px; border-radius: 50%;
+  background: rgba(9, 30, 86, .05); filter: blur(10px);
+}
+#ajgBrandStory .ajg-bs__pull-label {
+  position: relative; display: inline-block; margin-bottom: 14px;
+  padding: 6px 13px; border-radius: 999px;
+  background: #E8F0FF; color: #091E56;
+  font-size: 13px; font-weight: 700; line-height: 1.2;
+}
+#ajgBrandStory .ajg-bs__pull-text { position: relative; margin: 0; }
 #ajgBrandStory .ajg-bs__pull strong { font-weight: 800; color: #091E56; }
 
 /* ── 카드 그리드 ── */
@@ -520,7 +596,7 @@
 #ajgBrandStory .ajg-bs__flow--typ .ajg-bs__flow-label { color: #6B7280; }
 #ajgBrandStory .ajg-bs__flow-badge {
   padding: 3px 9px; background: #091E56; color: #FFFFFF;
-  font-size: 11.5px; font-weight: 700; border-radius: 999px;
+  font-size: 12px; font-weight: 700; border-radius: 999px;
 }
 #ajgBrandStory .ajg-bs__flow-badge--typ { background: #EEF1F8; color: #6B7280; }
 #ajgBrandStory .ajg-bs__flow-steps {
@@ -588,13 +664,17 @@
 #ajgBrandStory .ajg-bs__review-stars { font-size: 13px; color: #F62D2B; }
 #ajgBrandStory .ajg-bs__review-tag {
   padding: 3px 10px; background: #E8F0FF; color: #091E56;
-  font-size: 12px; font-weight: 700; border-radius: 999px;
+  font-size: 12.5px; font-weight: 700; border-radius: 999px;
 }
 #ajgBrandStory .ajg-bs__review-quote {
   font-size: 15px; line-height: 1.75; color: #21262E; flex-grow: 1;
   background: none; border: 0; font-style: normal;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; /* 카드 높이 균형 — 본문 3줄 제한 */
 }
-#ajgBrandStory .ajg-bs__review-by { font-size: 13.5px; font-weight: 700; color: #091E56; }
+#ajgBrandStory .ajg-bs__review-by {
+  font-size: 13.5px; font-weight: 700; color: #091E56;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; /* 상품명 1줄 말줄임 */
+}
 #ajgBrandStory .ajg-bs__review-by span { font-weight: 500; color: #6B7280; }
 
 /* ── 06 결제 아이콘 — 네이버·카카오는 필 배경 포함 로고, 토스는 배경 없는 워드마크라
@@ -622,7 +702,7 @@
 
 /* ── 07 카테고리 마퀴 (좌로 천천히 무한 이동, 호버 시 정지) ── */
 #ajgBrandStory .ajg-bs__mq {
-  overflow: hidden; margin-top: 26px; padding: 10px 0 26px; /* 패딩 = 그림자 잘림 방지(overflow hidden) */
+  overflow: hidden; margin-top: 34px; padding: 10px 0 26px; /* 패딩 = 그림자 잘림 방지(overflow hidden) */
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
@@ -731,18 +811,25 @@
 /* 카드 순차 등장 — 섹션 리빌에 이어 카드·스탯·후기가 시차로 떠오름 */
 #ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__card,
 #ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__stat,
-#ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__review {
+#ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__review,
+#ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__pd-card {
   opacity: 0; transform: translateY(12px);
   transition: opacity .45s ease, transform .45s ease;
 }
 #ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in .ajg-bs__card,
 #ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in .ajg-bs__stat,
-#ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in .ajg-bs__review {
+#ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in .ajg-bs__review,
+#ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in .ajg-bs__pd-card {
   opacity: 1; transform: none;
 }
 #ajgBrandStory [data-rv] .ajg-bs__grid > :nth-child(2) { transition-delay: .08s; }
 #ajgBrandStory [data-rv] .ajg-bs__grid > :nth-child(3) { transition-delay: .16s; }
 #ajgBrandStory [data-rv] .ajg-bs__grid > :nth-child(4) { transition-delay: .24s; }
+#ajgBrandStory [data-rv] .ajg-bs__price-demo > :nth-child(2) { transition-delay: .08s; }
+#ajgBrandStory [data-rv] .ajg-bs__price-demo > :nth-child(3) { transition-delay: .16s; }
+/* 바라던할인 카드는 리빌 후 6px 떠서 자리 잡음 (JS 없을 땐 아래 정적 규칙으로도 떠 있음) */
+#ajgBrandStory .ajg-bs__pd-card--us { transform: translateY(-6px); }
+#ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in .ajg-bs__pd-card--us { transform: translateY(-6px); }
 
 /* 유통 다이어그램 단계 순차 등장 — 섹션 페이드(0.6s)가 끝날 무렵 시작,
    바라던할인 구조(0.5s~)가 먼저 차례로 뜨고, 일반 구조(1.2s~)가 이어서 뜸 */
@@ -801,7 +888,8 @@
   #ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__stat,
   #ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__review,
   #ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__flow-steps > *,
-  #ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__stars i {
+  #ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__stars i,
+  #ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__pd-card {
     opacity: 1; transform: none; transition: none;
   }
   #ajgBrandStory.ajg-bs--js [data-rv] .ajg-bs__mq-item { opacity: 1; animation: none; }
