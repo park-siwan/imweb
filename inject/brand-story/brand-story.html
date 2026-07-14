@@ -27,8 +27,7 @@
         좋은 상품을 더 합리적인 가격에 전하기 위해 시작했어요.
     </p>
     <!-- <a class="ajg-bs__btn" href="/home">바라던할인 상품 둘러보기</a> -->
-    <!-- 히어로 이미지 — 아임웹에 업로드한 이미지 주소로 아래 HERO_IMG_URL 교체 (원본: hero.png) -->
-    <img class="ajg-bs__hero-img" src="./hero.png" alt="바라던할인이 소개하는 식품·건강기능식품·주방용품·생활가전" loading="eager">
+    <img class="ajg-bs__hero-img" src="https://cdn.imweb.me/thumbnail/20260715/05d9bace88a11.png" alt="바라던할인이 소개하는 식품·건강기능식품·주방용품·생활가전" loading="eager">
   </header>
 
   <!-- ═══════════ 01 시작 (브랜드 네이밍 스토리) ═══════════ -->
@@ -127,11 +126,6 @@
     공급 경로와 상품 정보를 확인한 뒤 판매해요.
   </p>
     </div>
-    <!-- [사진 대기] 검수·포장 실사 1장 — 아임웹 업로드 주소로 TRUST_IMAGE_URL 교체 (교체 전엔 통째로 숨김) -->
-    <figure class="ajg-bs__trust-media">
-      <!-- <img src="./물류창고.png" alt="판매 전 상품 상태와 포장을 확인하는 과정" loading="lazy"> -->
-      <figcaption>상품의 공급 경로와 상태를 확인한 뒤 판매해요.</figcaption>
-    </figure>
     <div class="ajg-bs__promise">
       <span class="ajg-bs__promise-ic" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.4c0 4.5-3 8.2-7 9.6-4-1.4-7-5.1-7-9.6V6l7-3z"/><path d="M9 12l2 2 4-4.5"/></svg>
@@ -271,7 +265,7 @@
     <div class="ajg-bs__grid ajg-bs__grid--reviews">
       <figure class="ajg-bs__review">
         <div class="ajg-bs__review-head">
-          <img class="ajg-bs__review-thumb" src="./리뷰1.jpeg" alt="" loading="lazy">
+          <img class="ajg-bs__review-thumb" src="https://cdn.imweb.me/thumbnail/20260715/982059c85337c.jpeg" alt="" loading="lazy">
           <p class="ajg-bs__review-meta">
             <span class="ajg-bs__review-stars" aria-label="별점 5점"><span aria-hidden="true">★★★★★</span></span>
             <span class="ajg-bs__review-tag">#빠른배송</span>
@@ -282,7 +276,7 @@
       </figure>
       <figure class="ajg-bs__review">
         <div class="ajg-bs__review-head">
-          <img class="ajg-bs__review-thumb" src="./리뷰2.jpeg" alt="" loading="lazy">
+          <img class="ajg-bs__review-thumb" src="https://cdn.imweb.me/thumbnail/20260715/c7b5a7a6ed83e.jpeg" alt="" loading="lazy">
           <p class="ajg-bs__review-meta">
             <span class="ajg-bs__review-stars" aria-label="별점 5점"><span aria-hidden="true">★★★★★</span></span>
             <span class="ajg-bs__review-tag">#효과만족</span>
@@ -293,7 +287,7 @@
       </figure>
       <figure class="ajg-bs__review">
         <div class="ajg-bs__review-head">
-          <img class="ajg-bs__review-thumb" src="./리뷰3.jpg" alt="" loading="lazy">
+          <img class="ajg-bs__review-thumb" src="https://cdn.imweb.me/thumbnail/20260715/75b4a1ffe4fd4.jpg" alt="" loading="lazy">
           <p class="ajg-bs__review-meta">
             <span class="ajg-bs__review-stars" aria-label="별점 5점"><span aria-hidden="true">★★★★★</span></span>
             <span class="ajg-bs__review-tag">#가격만족</span>
@@ -885,14 +879,6 @@
     transform: rotate(90deg);
   }
 }
-/* ── 03 검수·포장 실사 (사진 확보 시 TRUST_IMAGE_URL만 교체) ── */
-#ajgBrandStory .ajg-bs__trust-media { max-width: 680px; margin: 32px auto 0; }
-#ajgBrandStory .ajg-bs__trust-media img {
-  display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 18px;
-}
-#ajgBrandStory .ajg-bs__trust-media figcaption { margin-top: 10px; font-size: 13px; color: #6B7280; text-align: center; }
-#ajgBrandStory .ajg-bs__trust-media:has(img[src="TRUST_IMAGE_URL"]) { display: none; } /* 주소 교체 전엔 캡션째 숨김 */
-
 /* ── 스크롤 리빌 (JS 있을 때만 활성 — 없으면 항상 보임) ── */
 #ajgBrandStory.ajg-bs--js [data-rv] { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
 #ajgBrandStory.ajg-bs--js [data-rv].ajg-bs--in { opacity: 1; transform: none; }
