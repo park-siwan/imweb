@@ -168,6 +168,26 @@ const setCounter = (index) => {
 
 // imweb 자동 lazy-load 우회: 화면 밖 슬라이드 이미지가 안 불러와지는 문제 →
 // 진짜 주소(data-* 보관)를 src 에 강제 주입 + eager 로딩.
+// cdn-optimized 우회: 아임웹 플랫폼 JS가 img src를 cdn-optimized.imweb.me로 교체(Core Web Vitals 개선 목적) →
+// MutationObserver로 src 변경을 영구 감시해 원본 도메인(cdn.imweb.me)으로 즉시 되돌림.
+const unoptimize = (url) =>
+  typeof url === 'string' ? url.replace('cdn-optimized.imweb.me', 'cdn.imweb.me') : url;
+
+const watchUnoptimize = () => {
+  if (typeof MutationObserver === 'undefined') return;
+  const imgs = document.querySelectorAll('.iw-slide-bg-img');
+  if (!imgs.length) return;
+  const mo = new MutationObserver((mutations) => {
+    for (let i = 0; i < mutations.length; i++) {
+      const img = mutations[i].target;
+      const cur = img.getAttribute('src');
+      const fixed = unoptimize(cur);
+      if (fixed !== cur) img.setAttribute('src', fixed);
+    }
+  });
+  imgs.forEach((img) => mo.observe(img, { attributes: true, attributeFilter: ['src'] }));
+};
+
 const LAZY_ATTRS = ['data-original', 'data-src', 'data-lazy', 'data-lazy-src', 'data-echo'];
 const forceLoadImages = () => {
   const imgs = document.querySelectorAll('.iw-slide-bg-img');
@@ -176,10 +196,12 @@ const forceLoadImages = () => {
     for (let j = 0; j < LAZY_ATTRS.length; j++) {
       const real = img.getAttribute(LAZY_ATTRS[j]);
       if (real && img.getAttribute('src') !== real) {
-        img.setAttribute('src', real);
+        img.setAttribute('src', unoptimize(real));
         break;
       }
     }
+    const cur = img.getAttribute('src');
+    if (cur) img.setAttribute('src', unoptimize(cur));
     img.setAttribute('loading', 'eager');
   }
 };
@@ -400,6 +422,7 @@ const normalizeSlideLinks = () => {
 // 초기 위치·스케일은 트랜지션 없이 즉시(새로고침 시 왼쪽→중앙 미끄러짐 방지).
 if (root) root.setAttribute('data-init', '');
 renderSlide();
+watchUnoptimize();
 if (root) { void root.offsetWidth; root.removeAttribute('data-init'); }
 startAuto();
 applyAnimTiming();
