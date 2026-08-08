@@ -42,7 +42,19 @@
   --fw-card-w: calc(var(--fw-card-h) * 350 / 136);
   --fw-card-r: calc(var(--fw-card-h) * 16 / 136);
   --fw-card-gap: 8px;
-  --fw-card-pad: 7px 12px; /* 카드 안쪽 로고 여백 */
+
+  /* ---- 로고 크기 통일 ----
+     3사 로고는 이미지 안에서 "pay" 글자가 차지하는 비율이 서로 다르다.
+     (실측 글자높이/이미지높이 — 네이버 0.513 · 카카오 0.560 · 토스 0.714)
+     그래서 contain 으로 높이만 맞추면 글자는 네이버가 가장 작고 토스가 가장 크게 보인다.
+     각 로고를 그 비율의 역수만큼 키워 글자 높이를 --fw-ink 로 통일한다.
+     네이버만 실측 0.513 대신 0.43 을 쓴다 — N 아이콘이 글자보다 위아래로 튀어나와
+     글자 높이를 맞추면 덩어리가 커 보여서, 눈으로 맞춘 광학 보정값이다.
+     → 로고를 교체하면 그 로고의 비율을 다시 재서 아래 나눗셈 값을 갱신할 것. */
+  --fw-ink: 0.36; /* 카드 높이 대비 "pay" 글자 높이 */
+  --fw-h-naver: calc(var(--fw-card-h) * var(--fw-ink) / 0.43);
+  --fw-h-kakao: calc(var(--fw-card-h) * var(--fw-ink) / 0.56);
+  --fw-h-toss: calc(var(--fw-card-h) * var(--fw-ink) / 0.714);
 
   /* 로고 3장. 아임웹에 업로드한 뒤 이 3줄의 url() 만 갈아끼우면 된다. */
   --fw-pay-naver: url('https://cdn.imweb.me/upload/S202310167035b854dd5cb/66aae3863030a.png');
@@ -202,27 +214,28 @@
   width: var(--fw-card-w);
   height: var(--fw-card-h);
   box-sizing: border-box;
-  padding: var(--fw-card-pad);
   border-radius: var(--fw-card-r);
   background-color: #fff;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
-  background-origin: content-box; /* padding 을 로고 여백으로 쓴다 */
 }
 
+/* 크기는 로고마다 다르게 (위 --fw-h-* 주석 참고). 가로는 auto 로 비율 유지 */
 #doz_footer .footer-section .custom-text::after {
   grid-row: 2;
   grid-column: 1;
   background-image: var(--fw-pay-naver);
+  background-size: auto var(--fw-h-naver);
 }
 
 #doz_footer .footer-section .custom-text .custom-text-info::before {
   background-image: var(--fw-pay-kakao);
+  background-size: auto var(--fw-h-kakao);
 }
 
 #doz_footer .footer-section .custom-text .custom-text-info::after {
   background-image: var(--fw-pay-toss);
+  background-size: auto var(--fw-h-toss);
 }
 
 /* ---------- ③ 법정 사업자 정보 ---------- */
@@ -280,8 +293,7 @@
 @media (max-width: 768px) {
   #doz_footer_wrap {
     --fw-sep: 16px;
-    --fw-card-h: 38px;
-    --fw-card-pad: 6px 10px;
+    --fw-card-h: 38px; /* 로고 크기는 --fw-h-* 가 card-h 에 비례해 따라온다 */
   }
 
   /* padding-top 은 0 유지 — 밴드가 굵은 상단선에 딱 붙어야 한다 */
