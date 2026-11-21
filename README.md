@@ -3,7 +3,7 @@
 > 실제 운영 중인 아임웹 쇼핑몰 <b>바라&#42;&#42;&#42;&#42;</b>를 혼자 맡아 리디자인부터 A/B 테스트, GEO 대응까지 진행한 작업입니다.
 > 웹빌더의 기본 기능에서 막히는 부분은 HTML, CSS, JavaScript로 직접 위젯과 주입 코드를 만들어 해결했습니다.
 
-- **기간** 2026.06 – 현재 (커밋 90+개)
+- **기간** 개발 2주 (2026.06.25 – 07.15 중 작업일 14일, 커밋 85개), 이후 유지보수와 운영 대응
 - **역할** 기획, 디자인, 퍼블리싱, 개발, 운영 대응 (1인)
 - **스택** HTML / CSS / JavaScript (Vanilla), Handlebars, 아임웹 Widget Studio, Claude Code / Codex
 
@@ -137,6 +137,37 @@
 - **문제** "쇼핑몰 이름으로 검색하면 노출이 됐다 안 됐다 한다"는 문의를 받았습니다.
 - **원인** 사이트 설정을 하나씩 확인해 보니 아임웹 쪽 SEO 설정에는 문제가 없었고, **네이버 서치어드바이저에 사이트가 등록되어 있지 않은 것**이 원인이었습니다. 대표님께 등록 위치와 방법을 안내해 해결했습니다.
 - **추가 보완** 네이버에서 여러 검색어로 노출을 다시 확인했고, 생성형 AI 검색에도 잘 잡히도록 **GEO(생성형 검색엔진 최적화)** 차원에서 `llms.txt`에 사이트 안내를 넣었습니다.
+
+#### GEO: `llms.txt` 작성, 배포, 검증
+
+> 🔗 **실제 배포 파일:** [baradondeal.com/llms.txt](https://www.baradondeal.com/llms.txt)
+
+ChatGPT, Perplexity 같은 생성형 AI가 사이트를 읽을 때 브랜드와 주요 페이지를 바로 이해할 수 있도록, 웹 루트에 `llms.txt`를 작성해 배포했습니다.
+
+| 담은 내용 | 목적 |
+| --- | --- |
+| 브랜드 정의 (식품, 건강기능식품, 화장품, 생활용품을 다루는 국내 온라인 쇼핑몰) | AI가 쇼핑몰을 어떤 곳으로 소개할지 기준 제공 |
+| 유통 경쟁력 (본사, 정식 유통사 공급, 유통 단계 축소) | 가격 신뢰도의 근거를 AI 답변에 포함 |
+| 주요 페이지 링크 (`/brand-story`, `/best`, `/`, `/faq`, `/review`) | 브랜드, 쇼핑, 고객지원, 후기를 AI가 참고할 경로로 연결 |
+
+파일을 올리는 데서 끝내지 않고, 실제 URL이 **HTTP 200, `text/plain`** 으로 정상 응답하는지와 본문 내용까지 검증했습니다.
+
+<table>
+  <tr>
+    <td width="50%" valign="top"><img src="img/geo대응1.png" alt="AI 검색 최적화 검증 리포트: llms.txt HTTP 200 OK, text/plain, 브랜드 소개, 상품 카테고리, 주요 콘텐츠 링크 확인" width="100%"></td>
+    <td width="50%" valign="top"><img src="img/geo대응2.png" alt="실제 문서 내용 검증: 브랜드 정보, 유통 경쟁력, 주요 페이지 연결 확인" width="100%"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>③ 배포 상태 검증: HTTP 200, text/plain</sub></td>
+    <td align="center"><sub>④ 문서 본문 검증: 브랜드, 유통, 페이지 링크</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="img/geo대응3.png" alt="적용 성과와 최종 검증 의견: llms.txt 작성 및 배포, HTTP 정상 응답, 정보 구조화, AI 참고 경로 연결" width="100%"></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><sub>⑤ 적용 성과 정리</sub></td>
+  </tr>
+</table>
 
 <br>
 
